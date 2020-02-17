@@ -34,7 +34,7 @@ namespace JsonValidator
         {
             for (int i = 1; i < toCheck.Length - 1; i++)
             {
-                if (toCheck[i] == '\\' && toCheck[i - 1] != '\\' || toCheck[i + 1] != '\\')
+                if (toCheck[i] == '\\' && toCheck[i - 1] != '\\' || toCheck[i + 1] != '\\' || toCheck[i + 1] != 'n')
                 {
                     return true;
                 }
