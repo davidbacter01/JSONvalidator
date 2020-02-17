@@ -14,7 +14,7 @@ namespace JsonValidator
         {
             if (toCheck == null)
             {
-                return "Valid JSON string";
+                return "Valid";
             }
 
             if (toCheck.IndexOf('\"') != 0 || toCheck.LastIndexOf('\"') != toCheck.Length - 1)
