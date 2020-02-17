@@ -1,0 +1,10 @@
+**/BIN
+**/Validator/bin
+**/Validator/obj
+**/Validator/juniormind.ruleset
+**/Validator.Tests/bin
+**/Validator.Tests/obj
+**/.vs
+*.log
+*.ruleset
+*.csproj

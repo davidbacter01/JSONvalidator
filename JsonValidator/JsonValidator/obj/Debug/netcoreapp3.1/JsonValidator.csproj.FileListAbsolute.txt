@@ -1,0 +1,4 @@
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\bin\Debug\netcoreapp3.1\JsonValidator.exe
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\obj\Debug\netcoreapp3.1\JsonValidator.csprojAssemblyReference.cache
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\obj\Debug\netcoreapp3.1\JsonValidator.AssemblyInfoInputs.cache
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\obj\Debug\netcoreapp3.1\JsonValidator.AssemblyInfo.cs
