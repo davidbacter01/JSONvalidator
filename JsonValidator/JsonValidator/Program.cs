@@ -12,7 +12,17 @@ namespace JsonValidator
 
         public static string CheckJSONValidity(string toCheck)
         {
-            throw new NotImplementedException();
+            if (toCheck == null)
+            {
+                return "Valid JSON string";
+            }
+
+            if (toCheck.IndexOf('\"') != 0 && toCheck.LastIndexOf('\"') != toCheck.Length - 1)
+            {
+                return "Invalid JSON string!";
+            }
+
+            return "Valid JSON string";
         }
     }
 }

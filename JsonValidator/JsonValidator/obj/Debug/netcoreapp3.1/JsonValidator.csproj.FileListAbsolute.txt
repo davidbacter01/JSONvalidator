@@ -2,3 +2,10 @@ C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\bin\Debug\
 C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\obj\Debug\netcoreapp3.1\JsonValidator.csprojAssemblyReference.cache
 C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\obj\Debug\netcoreapp3.1\JsonValidator.AssemblyInfoInputs.cache
 C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\obj\Debug\netcoreapp3.1\JsonValidator.AssemblyInfo.cs
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\bin\Debug\netcoreapp3.1\JsonValidator.deps.json
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\bin\Debug\netcoreapp3.1\JsonValidator.runtimeconfig.json
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\bin\Debug\netcoreapp3.1\JsonValidator.runtimeconfig.dev.json
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\bin\Debug\netcoreapp3.1\JsonValidator.dll
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\bin\Debug\netcoreapp3.1\JsonValidator.pdb
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\obj\Debug\netcoreapp3.1\JsonValidator.dll
+C:\Users\David\Desktop\json\JsonValidator\JsonValidator\JsonValidator\obj\Debug\netcoreapp3.1\JsonValidator.pdb
