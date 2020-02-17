@@ -36,7 +36,7 @@ namespace JsonValidator.Tests
         [Fact]
         public void InValidJSONStringContainingBackslashShouldReturnInvalid()
         {
-            string test = "\"\Test\"";
+            string test = "\"\\Test\"";
             Assert.Equal("Invalid", Program.CheckJSONValidity(test));
         }
     }

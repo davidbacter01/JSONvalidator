@@ -19,10 +19,18 @@ namespace JsonValidator
 
             if (toCheck.IndexOf('\"') != 0 || toCheck.LastIndexOf('\"') != toCheck.Length - 1)
             {
-                return "Invalid JSON string!";
+                return "Invalid";
             }
 
-            return "Valid JSON string";
+            for (int i = 1; i < toCheck.Length - 1; i++)
+            {
+                if (toCheck[i] == '\\' && toCheck[i - 1] != '\\' || toCheck[i + 1] != '\\')
+                {
+                    return "Invalid";
+                }
+            }
+
+            return "Valid";
         }
     }
 }
