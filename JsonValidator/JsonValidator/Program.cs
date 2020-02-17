@@ -22,15 +22,25 @@ namespace JsonValidator
                 return "Invalid";
             }
 
+            if (ContainsBackslash(toCheck))
+            {
+                return "Invalid";
+            }
+
+            return "Valid";
+        }
+
+        private static bool ContainsBackslash(string toCheck)
+        {
             for (int i = 1; i < toCheck.Length - 1; i++)
             {
                 if (toCheck[i] == '\\' && toCheck[i - 1] != '\\' || toCheck[i + 1] != '\\')
                 {
-                    return "Invalid";
+                    return true;
                 }
             }
 
-            return "Valid";
+            return false;
         }
     }
 }
