@@ -39,5 +39,12 @@ namespace JsonValidator.Tests
             string test = "\"\\Test\"";
             Assert.Equal("Invalid", Program.CheckJSONValidity(test));
         }
+
+        [Fact]
+        public void InValidJSONStringContainingQuotationInsidehShouldReturnInvalid()
+        {
+            string test = "\"Te\"st\"";
+            Assert.Equal("Invalid", Program.CheckJSONValidity(test));
+        }
     }
 }
