@@ -20,9 +20,16 @@ namespace JsonValidator.Tests
         }
 
         [Fact]
-        public void InValidJSONStringWithQuotationMissingAtStarShouldReturnInvalid()
+        public void InValidJSONStringWithQuotationMissingAtStartShouldReturnInvalid()
         {
             string test = "Test\"";
+            Assert.Equal("Invalid JSON string!", Program.CheckJSONValidity(test));
+        }
+
+        [Fact]
+        public void InValidJSONStringWithQuotationMissingAtEndShouldReturnInvalid()
+        {
+            string test = "\"Test";
             Assert.Equal("Invalid JSON string!", Program.CheckJSONValidity(test));
         }
     }
