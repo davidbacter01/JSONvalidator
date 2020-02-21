@@ -4,6 +4,8 @@ namespace JsonValidator
 {
     public class Program
     {
+        const int ControlChar = 32;
+
         public static void Main()
         {
             string toCheck = Console.ReadLine();
@@ -27,13 +29,46 @@ namespace JsonValidator
                 return "Invalid";
             }
 
+            if (HasCharsThatShouldHaveBackslashBefore(toCheck))
+            {
+                return "Invalid";
+            }
+
             return "Valid";
+        }
+
+        private static bool HasCharsThatShouldHaveBackslashBefore(string toCheck)
+        {
+            for (int i = 2; i < toCheck.Length; i++)
+            {
+                if (toCheck[i] == '\\' && toCheck[i - 1] != '\\')
+                {
+                    return true;
+                }
+
+                if (toCheck[i] == '"' && toCheck[i - 1] != '\\')
+                {
+                    return true;
+                }
+
+                if (toCheck[i] == '/' && toCheck[i - 1] != '\\')
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool CheckForSpecialCharacters(string toCheck)
         {
             for (int i = 1; i < toCheck.Length - 1; i++)
             {
+                if (toCheck[i] < ControlChar)
+                {
+                    return false;
+                }
+
                 if (toCheck[i] == '\\' && !IsValidChar(toCheck[i + 1]))
                 {
                     return false;
