@@ -22,7 +22,7 @@ namespace JsonValidator
                 return "Invalid";
             }
 
-            if (ContainsBackslash(toCheck))
+            if (!CheckForSpecialCharacters(toCheck))
             {
                 return "Invalid";
             }
@@ -30,17 +30,36 @@ namespace JsonValidator
             return "Valid";
         }
 
-        private static bool ContainsBackslash(string toCheck)
+        private static bool CheckForSpecialCharacters(string toCheck)
         {
             for (int i = 1; i < toCheck.Length - 1; i++)
             {
-                if (toCheck[i] == '\\' && toCheck[i - 1] != '\\' || toCheck[i + 1] != '\\' || toCheck[i + 1] != 'n')
+                if (toCheck[i] == '\\' && !IsValidChar(toCheck[i + 1]))
                 {
-                    return true;
+                    return false;
                 }
             }
 
-            return false;
+            return true;
+        }
+
+        private static bool IsValidChar(char c)
+        {
+            switch (c)
+            {
+                case '\\':
+                case '"':
+                case '/':
+                case 'b':
+                case 'f':
+                case 'n':
+                case 'r':
+                case 't':
+                case 'u':
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }
