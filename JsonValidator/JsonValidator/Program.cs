@@ -4,15 +4,13 @@ namespace JsonValidator
 {
     public class Program
     {
-        const int ControlChar = 32;
-
         public static void Main()
         {
             string toCheck = Console.ReadLine();
-            Console.WriteLine(CheckJSONValidity(toCheck));
+            Console.WriteLine(GetJSONValidity(toCheck));
         }
 
-        public static string CheckJSONValidity(string toCheck)
+        public static string GetJSONValidity(string toCheck)
         {
             if (toCheck == null)
             {
@@ -24,12 +22,7 @@ namespace JsonValidator
                 return "Invalid";
             }
 
-            if (!CheckForSpecialCharacters(toCheck))
-            {
-                return "Invalid";
-            }
-
-            if (HasCharsThatShouldHaveBackslashBefore(toCheck))
+            if (!IsCorrectFormatForEscapedChars(toCheck))
             {
                 return "Invalid";
             }
@@ -37,39 +30,20 @@ namespace JsonValidator
             return "Valid";
         }
 
-        private static bool HasCharsThatShouldHaveBackslashBefore(string toCheck)
-        {
-            for (int i = 2; i < toCheck.Length; i++)
-            {
-                if (toCheck[i] == '\\' && toCheck[i - 1] != '\\')
-                {
-                    return true;
-                }
-
-                if (toCheck[i] == '"' && toCheck[i - 1] != '\\')
-                {
-                    return true;
-                }
-
-                if (toCheck[i] == '/' && toCheck[i - 1] != '\\')
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool CheckForSpecialCharacters(string toCheck)
+        private static bool IsCorrectFormatForEscapedChars(string toCheck)
         {
             for (int i = 1; i < toCheck.Length - 1; i++)
             {
-                if (toCheck[i] < ControlChar)
+                if (toCheck[i] == '\\' && !IsEscapedChar(toCheck[i + 1]))
+                {
+                    return false;
+                }
+                if (toCheck[i] == '"' && toCheck[i - 1] != '\\')
                 {
                     return false;
                 }
 
-                if (toCheck[i] == '\\' && !IsValidChar(toCheck[i + 1]))
+                if (toCheck[i] == '/' && toCheck[i - 1] != '\\')
                 {
                     return false;
                 }
@@ -78,23 +52,18 @@ namespace JsonValidator
             return true;
         }
 
-        private static bool IsValidChar(char c)
+        private static bool IsEscapedChar(char c)
         {
-            switch (c)
+            char[] escapedChars = { '\\', '"', '/', 'b', 'f', 'n', 'r', 't', 'u' };
+            for (int i = 0; i < escapedChars.Length; i++)
             {
-                case '\\':
-                case '"':
-                case '/':
-                case 'b':
-                case 'f':
-                case 'n':
-                case 'r':
-                case 't':
-                case 'u':
+                if (c == escapedChars[i])
+                {
                     return true;
-                default:
-                    return false;
+                }
             }
+
+            return false;
         }
     }
 }
