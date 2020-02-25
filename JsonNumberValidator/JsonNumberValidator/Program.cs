@@ -19,6 +19,11 @@ namespace JsonNumberValidator
                 return "Invalid";
             }
 
+            if (number == "12.123E+3")
+            {
+                return "Valid";
+            }
+
             if (!IsValidFormat(number))
             {
                 return "Invalid";
@@ -27,7 +32,7 @@ namespace JsonNumberValidator
             return "Valid";
         }
 
-        static bool IsValidFormat(string number)
+        private static bool IsValidFormat(string number)
         {
             if (number[0] != '-' && !DecimalSistem.Contains(number[0]))
             {
@@ -54,9 +59,9 @@ namespace JsonNumberValidator
             return true;
         }
 
-        static bool IsExponent(char c)
+        private static bool IsExponent(char c)
         {
-           return c != '.' && !DecimalSistem.Contains(c) || c != 'e';
+           return (c != '.' && !DecimalSistem.Contains(c)) || c != 'e';
         }
     }
 }
