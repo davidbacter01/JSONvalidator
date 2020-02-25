@@ -12,12 +12,21 @@ namespace JsonNumberValidator
 
         public static string GetJSONNumberValidity(string number)
         {
-            if (number == "234" || number == "-123")
+            const string DecimalSistem = "0123456789";
+            if (!DecimalSistem.Contains(number[0]) && !(number[0] == '-'))
             {
-                return "Valid";
+                return "Invalid";
             }
 
-            return "Invalid";
+            for (int i = 1; i < number.Length; i++)
+            {
+                if (!DecimalSistem.Contains(number[i]))
+                {
+                    return "Invalid";
+                }
+            }
+
+            return "Valid";
         }
     }
 }
