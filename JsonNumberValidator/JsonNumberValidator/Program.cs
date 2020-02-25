@@ -19,6 +19,11 @@ namespace JsonNumberValidator
                 return "Invalid";
             }
 
+            if (number.Contains('-'))
+            {
+                return "Valid";
+            }
+
             if (!IsValidFormat(number))
             {
                 return "Invalid";
