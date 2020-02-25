@@ -32,9 +32,10 @@ namespace JsonValidator
 
         private static bool IsCorrectFormatForEscapedChars(string toCheck)
         {
+            const string EscapedChars = "\\\"/bfnrtu";
             for (int i = 1; i < toCheck.Length - 1; i++)
             {
-                if (toCheck[i] == '\\' && !IsEscapedChar(toCheck[i + 1]))
+                if (toCheck[i] == '\\' && !EscapedChars.Contains(toCheck[i + 1]))
                 {
                     return false;
                 }
@@ -50,20 +51,6 @@ namespace JsonValidator
             }
 
             return true;
-        }
-
-        private static bool IsEscapedChar(char c)
-        {
-            char[] escapedChars = { '\\', '"', '/', 'b', 'f', 'n', 'r', 't', 'u' };
-            for (int i = 0; i < escapedChars.Length; i++)
-            {
-                if (c == escapedChars[i])
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }
