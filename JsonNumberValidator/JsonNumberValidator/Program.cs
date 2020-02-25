@@ -19,11 +19,6 @@ namespace JsonNumberValidator
                 return "Invalid";
             }
 
-            if (number.Contains('-'))
-            {
-                return "Valid";
-            }
-
             if (!IsValidFormat(number))
             {
                 return "Invalid";
@@ -84,11 +79,11 @@ namespace JsonNumberValidator
         {
             for (int i = 0; i < number.Length; i++)
             {
-                if (!DecimalSistem.Contains(number[i]) && number[i] != '+')
+                if (!DecimalSistem.Contains(number[i]) && number[i] != '+' && number[i] != '-')
                 {
                     return false;
                 }
-                else if (number[i] == '+' && i != number.Length - 1)
+                else if ((number[i] == '+'|| number[i] == '-') && i != number.Length - 1)
                 {
                     return DecimalSistem.Contains(number[i + 1]);
                 }
