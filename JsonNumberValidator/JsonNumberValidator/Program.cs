@@ -19,11 +19,6 @@ namespace JsonNumberValidator
                 return "Invalid";
             }
 
-            if (number == "12.123E+3")
-            {
-                return "Valid";
-            }
-
             if (!IsValidFormat(number))
             {
                 return "Invalid";
@@ -39,18 +34,39 @@ namespace JsonNumberValidator
                 return false;
             }
 
-            bool hasFloatingPoint = false;
-            for (int i = 1; i < number.Length; i++)
+            return IsValidInt(number.Substring(1));
+        }
+
+        private static bool IsValidInt(string number)
+        {
+            for (int i = 0; i < number.Length; i++)
             {
-                if (number[i] == '.' && hasFloatingPoint)
+                if (!DecimalSistem.Contains(number[i]) && number[i] != '.')
                 {
                     return false;
                 }
-                else if (number[i] == '.' && !hasFloatingPoint)
+                else if (number[i] == '.')
                 {
-                    hasFloatingPoint = true;
+                    return IsValidFloat(number.Substring(i + 1));
                 }
-                else if (!IsExponent(number[i]))
+            }
+
+            return true;
+        }
+
+        private static bool IsValidFloat(string number)
+        {
+            for (int i = 0; i < number.Length; i++)
+            {
+                if (!DecimalSistem.Contains(number[i]) && number[i] != 'e' && number[i] != 'E')
+                {
+                    return false;
+                }
+                else if ((number[i] == 'e' || number[i] == 'E') && i != number.Length - 1)
+                {
+                    return IsValidExponential(number.Substring(i + 1));
+                }
+                else if ((number[i] == 'e' || number[i] == 'E') && i == number.Length - 1)
                 {
                     return false;
                 }
@@ -59,9 +75,21 @@ namespace JsonNumberValidator
             return true;
         }
 
-        private static bool IsExponent(char c)
+        private static bool IsValidExponential(string number)
         {
-           return (c != '.' && !DecimalSistem.Contains(c)) || c != 'e';
+            for (int i = 0; i < number.Length; i++)
+            {
+                if (!DecimalSistem.Contains(number[i]) && number[i] != '+')
+                {
+                    return false;
+                }
+                else if (number[i] == '+' && i != number.Length - 1)
+                {
+                    return DecimalSistem.Contains(number[i + 1]);
+                }
+            }
+
+            return true;
         }
     }
 }
