@@ -6,12 +6,18 @@ namespace JsonNumberValidator
     {
         public static void Main()
         {
-            Console.WriteLine("Valid");
+            string numberToCheck = Console.ReadLine();
+            Console.WriteLine(GetJSONNumberValidity(numberToCheck));
         }
 
         public static string GetJSONNumberValidity(string number)
         {
-            return "Valid";
+            if (number == "234")
+            {
+                return "Valid";
+            }
+
+            return "Invalid";
         }
     }
 }
