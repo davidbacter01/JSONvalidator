@@ -11,5 +11,12 @@ namespace JsonNumberValidator.Tests
             string test = "234";
             Assert.Equal("Valid", Program.GetJSONNumberValidity(test));
         }
+
+        [Fact]
+        public void NegativeIntNumberShouldReturnValid()
+        {
+            string test = "-123";
+            Assert.Equal("Valid", Program.GetJSONNumberValidity(test));
+        }
     }
 }

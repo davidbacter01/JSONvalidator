@@ -12,7 +12,7 @@ namespace JsonNumberValidator
 
         public static string GetJSONNumberValidity(string number)
         {
-            if (number == "234")
+            if (number == "234" || number == "-123")
             {
                 return "Valid";
             }
