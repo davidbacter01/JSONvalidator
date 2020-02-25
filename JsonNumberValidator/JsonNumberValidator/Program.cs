@@ -14,7 +14,17 @@ namespace JsonNumberValidator
 
         public static string GetJSONNumberValidity(string number)
         {
+            if (number.Length == 0)
+            {
+                return "Invalid";
+            }
+
             if (number == null)
+            {
+                return "Invalid";
+            }
+
+            if (number[0] == '0')
             {
                 return "Invalid";
             }
@@ -62,11 +72,13 @@ namespace JsonNumberValidator
                 {
                     return false;
                 }
-                else if ((number[i] == 'e' || number[i] == 'E') && i != number.Length - 1)
+
+                if ((number[i] == 'e' || number[i] == 'E') && i != number.Length - 1)
                 {
                     return IsValidExponential(number.Substring(i + 1));
                 }
-                else if ((number[i] == 'e' || number[i] == 'E') && i == number.Length - 1)
+                
+                if ((number[i] == 'e' || number[i] == 'E') && i == number.Length - 1)
                 {
                     return false;
                 }

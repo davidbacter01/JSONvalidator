@@ -46,5 +46,12 @@ namespace JsonNumberValidator.Tests
             string test = "12.123E-2";
             Assert.Equal("Valid", Program.GetJSONNumberValidity(test));
         }
+
+        [Fact]
+        public void InttNumberStartingWithZeroShouldReturnInvalid()
+        {
+            string test = "012";
+            Assert.Equal("Invalid", Program.GetJSONNumberValidity(test));
+        }
     }
 }
