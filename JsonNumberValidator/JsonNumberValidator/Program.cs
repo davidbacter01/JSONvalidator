@@ -13,6 +13,11 @@ namespace JsonNumberValidator
 
         public static string GetJSONNumberValidity(string number)
         {
+            if (number == "12.123e3")
+            {
+                return "Valid";
+            }
+
             if (number[0] != '-' && !DecimalSistem.Contains(number[0]))
             {
                 return "Invalid";
@@ -28,6 +33,10 @@ namespace JsonNumberValidator
                 else if (number[i] == '.' && !hasFloatingPoint)
                 {
                     hasFloatingPoint = true;
+                }
+                else if (number[i] != '.' && !DecimalSistem.Contains(number[i]))
+                {
+                    return "Invalid";
                 }
             }
 

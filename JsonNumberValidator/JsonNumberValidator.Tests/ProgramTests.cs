@@ -25,5 +25,12 @@ namespace JsonNumberValidator.Tests
             string test = "12.34";
             Assert.Equal("Valid", Program.GetJSONNumberValidity(test));
         }
+
+        [Fact]
+        public void FloatingPointtNumberWithExponentShouldReturnValid()
+        {
+            string test = "12.123e3";
+            Assert.Equal("Valid", Program.GetJSONNumberValidity(test));
+        }
     }
 }
