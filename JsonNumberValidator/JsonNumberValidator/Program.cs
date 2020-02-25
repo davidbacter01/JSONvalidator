@@ -5,6 +5,7 @@ namespace JsonNumberValidator
     public class Program
     {
         public const string DecimalSistem = "0123456789";
+
         public static void Main()
         {
             string numberToCheck = Console.ReadLine();
@@ -13,14 +14,24 @@ namespace JsonNumberValidator
 
         public static string GetJSONNumberValidity(string number)
         {
-            if (number == "12.123e3")
-            {
-                return "Valid";
-            }
-
-            if (number[0] != '-' && !DecimalSistem.Contains(number[0]))
+            if (number == null)
             {
                 return "Invalid";
+            }
+
+            if (!IsValidFormat(number))
+            {
+                return "Invalid";
+            }
+
+            return "Valid";
+        }
+
+        static bool IsValidFormat(string number)
+        {
+            if (number[0] != '-' && !DecimalSistem.Contains(number[0]))
+            {
+                return false;
             }
 
             bool hasFloatingPoint = false;
@@ -28,19 +39,24 @@ namespace JsonNumberValidator
             {
                 if (number[i] == '.' && hasFloatingPoint)
                 {
-                    return "Invalid";
+                    return false;
                 }
                 else if (number[i] == '.' && !hasFloatingPoint)
                 {
                     hasFloatingPoint = true;
                 }
-                else if (number[i] != '.' && !DecimalSistem.Contains(number[i]))
+                else if (!IsExponent(number[i]))
                 {
-                    return "Invalid";
+                    return false;
                 }
             }
 
-            return "Valid";
+            return true;
+        }
+
+        static bool IsExponent(char c)
+        {
+           return c != '.' && !DecimalSistem.Contains(c) || c != 'e';
         }
     }
 }
