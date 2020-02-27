@@ -29,7 +29,7 @@ namespace JsonNumberValidator
                 return "Invalid";
             }
 
-            if (!IsValidFormat(number))
+            if (!IsValidJsonFormat(number))
             {
                 return "Invalid";
             }
@@ -37,9 +37,14 @@ namespace JsonNumberValidator
             return "Valid";
         }
 
-        private static bool IsValidFormat(string number)
+        private static bool IsValidJsonFormat(string number)
         {
             if (number[0] != '-' && !DecimalSistem.Contains(number[0]))
+            {
+                return false;
+            }
+
+            if (!DecimalSistem.Contains(number[number.Length - 1]))
             {
                 return false;
             }
@@ -55,32 +60,33 @@ namespace JsonNumberValidator
                 {
                     return false;
                 }
-                else if (number[i] == '.')
+ 
+                if (number[i] == '.')
                 {
-                    return IsValidFloat(number.Substring(i + 1));
+                    return IsValidFraction(number.Substring(i + 1));
                 }
             }
 
             return true;
         }
 
-        private static bool IsValidFloat(string number)
+        private static bool IsValidFraction(string number)
         {
-            for (int i = 0; i < number.Length; i++)
+            if (!DecimalSistem.Contains(number[0]))
+            {
+                return false;
+            }
+
+            for (int i = 1; i < number.Length; i++)
             {
                 if (!DecimalSistem.Contains(number[i]) && number[i] != 'e' && number[i] != 'E')
                 {
                     return false;
                 }
 
-                if ((number[i] == 'e' || number[i] == 'E') && i != number.Length - 1)
+                if (number[i] == 'e' || number[i] == 'E')
                 {
                     return IsValidExponential(number.Substring(i + 1));
-                }
-                
-                if ((number[i] == 'e' || number[i] == 'E') && i == number.Length - 1)
-                {
-                    return false;
                 }
             }
 
@@ -89,15 +95,21 @@ namespace JsonNumberValidator
 
         private static bool IsValidExponential(string number)
         {
-            for (int i = 0; i < number.Length; i++)
+            if (number.Length < 1)
             {
-                if (!DecimalSistem.Contains(number[i]) && number[i] != '+' && number[i] != '-')
+                return false;
+            }
+
+            if (!DecimalSistem.Contains(number[0]) && number[0] != '+' && number[0] != '-')
+            {
+                return false;
+            }
+
+            for (int i = 1; i < number.Length; i++)
+            {
+                if (!DecimalSistem.Contains(number[i]))
                 {
                     return false;
-                }
-                else if ((number[i] == '+'|| number[i] == '-') && i != number.Length - 1)
-                {
-                    return DecimalSistem.Contains(number[i + 1]);
                 }
             }
 
