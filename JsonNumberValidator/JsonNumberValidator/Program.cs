@@ -14,12 +14,7 @@ namespace JsonNumberValidator
 
         public static string GetJSONNumberValidity(string number)
         {
-            if (number.Length == 0)
-            {
-                return "Invalid";
-            }
-
-            if (number == null)
+            if (string.IsNullOrEmpty(number))
             {
                 return "Invalid";
             }
