@@ -19,7 +19,7 @@ namespace JsonNumberValidator
                 return "Invalid";
             }
 
-            if (number[0] == '0')
+            if (number[0] == '0' && number[1] != '.')
             {
                 return "Invalid";
             }
