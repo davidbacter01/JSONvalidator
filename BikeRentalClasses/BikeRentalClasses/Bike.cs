@@ -6,29 +6,36 @@ namespace BikeRentalClasses
     {
         private string type;
         private double pricePerDay;
+        private double pricePerWeek;
         public Bike(string type)
         {
             this.type = type;
-            this.pricePerDay = 17.00;
+            switch (type)
+            {
+                case "Sport":
+                    pricePerDay = 17.00;
+                    pricePerWeek = 105.00;
+                    break;
+                case "City":
+                    pricePerDay = 7.00;
+                    pricePerWeek = 42.00;
+                    break;
+                default:
+                    pricePerDay = 0.00;
+                    pricePerWeek = 0.00;
+                    break;
+            }
+            
         }
 
         public double GetPriceForDays(double days)
         {
-            if (type == "Sport")
+            if (days == 7)
             {
-                if (days == 7)
-                {
-                    return 105.00;
-                }
-
-                return pricePerDay * days;
-            }
-            else if (type == "City")
-            {
-                return 7.00;
+                return pricePerWeek;
             }
 
-            return 0.00;
+            return pricePerDay * days;
         }
     }
 }
