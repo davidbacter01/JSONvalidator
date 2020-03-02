@@ -34,9 +34,9 @@ namespace BikeRentalClasses
 
         public double GetPriceForDays(double days)
         {
-            if (days == 7)
+            if (days >= 7)
             {
-                return pricePerWeek;
+                return pricePerWeek+(days-7)*pricePerDay;
             }
 
             return pricePerDay * days;

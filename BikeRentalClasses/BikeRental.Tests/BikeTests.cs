@@ -33,5 +33,12 @@ namespace BikeRentelClasses.Tests
             Bike cityBike = new Bike("Junior");
             Assert.Equal(6.00, cityBike.GetPriceForDays(1));
         }
+
+        [Fact]
+        public void CheckingPriceForMoreThanAWeekForJuniorBikeShouldReturnExpected()
+        {
+            Bike cityBike = new Bike("Junior");
+            Assert.Equal(41.00, cityBike.GetPriceForDays(8));
+        }
     }
 }
