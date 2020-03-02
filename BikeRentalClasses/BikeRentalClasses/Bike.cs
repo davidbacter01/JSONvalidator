@@ -30,6 +30,11 @@ namespace BikeRentalClasses
 
         public double GetPriceForDays(double days)
         {
+            if (type == "Junior")
+            {
+                return 6.00;
+            }
+
             if (days == 7)
             {
                 return pricePerWeek;
