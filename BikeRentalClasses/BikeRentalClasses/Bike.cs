@@ -36,7 +36,7 @@ namespace BikeRentalClasses
         {
             if (days >= 7)
             {
-                return pricePerWeek+(days-7)*pricePerDay;
+                return pricePerWeek * ((int)days / 7) + (pricePerDay * (days % 7));
             }
 
             return pricePerDay * days;
