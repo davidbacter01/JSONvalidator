@@ -6,9 +6,9 @@ namespace BikeRentalClasses
     {
         private string type;
         private double pricePerDay;
-        public Bike()
+        public Bike(string type)
         {
-            this.type = "Sport";
+            this.type = type;
             this.pricePerDay = 17.00;
         }
 
@@ -22,6 +22,10 @@ namespace BikeRentalClasses
                 }
 
                 return pricePerDay * days;
+            }
+            else if (type == "City")
+            {
+                return 7.00;
             }
 
             return 0.00;

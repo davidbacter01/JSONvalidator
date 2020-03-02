@@ -9,15 +9,22 @@ namespace BikeRentelClasses.Tests
         [Fact]
         public void CheckingPriceForSportBikeForADayShouldReturnExpectedValue()
         {
-            Bike sportBike = new Bike();
+            Bike sportBike = new Bike("Sport");
             Assert.Equal(17.00, sportBike.GetPriceForDays(1));
         }
 
         [Fact]
         public void CheckingPriceForSportBikeForAWeekShouldReturnExpectedValue()
         {
-            Bike sportBike = new Bike();
+            Bike sportBike = new Bike("Sport");
             Assert.Equal(105.00, sportBike.GetPriceForDays(7));
+        }
+
+        [Fact]
+        public void CheckingPricePerDayForCityBikeShouldReturnExpected()
+        {
+            Bike cityBike = new Bike("City");
+            Assert.Equal(7.00, cityBike.GetPriceForDays(1));
         }
     }
 }
