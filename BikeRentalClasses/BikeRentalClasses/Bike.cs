@@ -16,6 +16,11 @@ namespace BikeRentalClasses
         {
             if (type == "Sport")
             {
+                if (days == 7)
+                {
+                    return 105.00;
+                }
+
                 return pricePerDay * days;
             }
 
