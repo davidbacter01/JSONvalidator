@@ -20,6 +20,10 @@ namespace BikeRentalClasses
                     pricePerDay = 7.00;
                     pricePerWeek = 42.00;
                     break;
+                case "Junior":
+                    pricePerDay = 6.00;
+                    pricePerWeek = 35.00;
+                    break;
                 default:
                     pricePerDay = 0.00;
                     pricePerWeek = 0.00;
@@ -30,11 +34,6 @@ namespace BikeRentalClasses
 
         public double GetPriceForDays(double days)
         {
-            if (type == "Junior")
-            {
-                return 6.00;
-            }
-
             if (days == 7)
             {
                 return pricePerWeek;
