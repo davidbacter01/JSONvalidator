@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace RangeClass.Tests
+namespace Classes.Tests
 {
     public class RangeTests
     {

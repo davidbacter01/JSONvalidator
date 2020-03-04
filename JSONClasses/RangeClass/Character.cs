@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Classes
 {
-    public class Character
+    public class Character : IPattern
     {
         readonly char pattern;
 
@@ -15,10 +15,7 @@ namespace Classes
 
         public bool Match(string text)
         {
-            if (string.IsNullOrEmpty(text))
-                return false;
-
-            return text[0] == pattern;
+            return (string.IsNullOrEmpty(text)) ? false : text[0] == pattern;
         }
     }
 }
