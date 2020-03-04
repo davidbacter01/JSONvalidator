@@ -13,6 +13,11 @@ namespace RangeClass
         }
         public bool Match(string text)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                return false;
+            }
+
             foreach (char c in text)
             {
                 if (!(c >= start) || !(c <= end))
