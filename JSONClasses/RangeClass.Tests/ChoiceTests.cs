@@ -8,7 +8,7 @@ namespace Classes.Tests
     public class ChoiceTests
     {
         [Fact]
-        public void ChoiceWithRangeAndCharacterMatchingShuldReturnFalse()
+        public void ChoiceWithRangeAndCharacterMatchingShuldReturnTrue()
         {
             var digit = new Choice(new Character('0'), new Range('1', '9'));
             bool expected = true;

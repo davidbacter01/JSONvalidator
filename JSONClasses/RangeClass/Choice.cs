@@ -20,6 +20,10 @@ namespace Classes
                 {
                     return false;
                 }
+                else
+                {
+                    text = text.Substring(1);
+                }
             }
 
             return true;
