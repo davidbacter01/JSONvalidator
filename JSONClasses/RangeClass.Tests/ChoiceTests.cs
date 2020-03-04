@@ -32,5 +32,32 @@ namespace Classes.Tests
             Assert.Equal(expected, hex.Match("012"));
         }
 
+        [Fact]
+        public void ValidHexPatternStartingWithLowercaseCharShouldReturnTrue()
+        {
+            var digit = new Choice(new Character('0'), new Range('1', '9'));
+            var hex = new Choice(digit, new Range('a', 'f'), new Range('A', 'F'));
+            bool expected = true;
+            Assert.Equal(expected, hex.Match("f8"));
+        }
+
+        [Fact]
+        public void ValidHexPatternStartingWithUppercaseCharShouldReturnTrue()
+        {
+            var digit = new Choice(new Character('0'), new Range('1', '9'));
+            var hex = new Choice(digit, new Range('a', 'f'), new Range('A', 'F'));
+            bool expected = true;
+            Assert.Equal(expected, hex.Match("A8"));
+        }
+
+        [Fact]
+        public void InValidHexPatternrShouldReturnFalse()
+        {
+            var digit = new Choice(new Character('0'), new Range('1', '9'));
+            var hex = new Choice(digit, new Range('a', 'f'), new Range('A', 'F'));
+            bool expected = false;
+            Assert.Equal(expected, hex.Match("g8"));
+        }
+
     }
 }
