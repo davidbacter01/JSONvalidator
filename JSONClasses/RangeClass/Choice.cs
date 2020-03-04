@@ -21,17 +21,13 @@ namespace Classes
 
             foreach (IPattern pattern in patterns)
             {
-                if (!pattern.Match(text))
+                if (pattern.Match(text))
                 {
-                    return false;
-                }
-                else
-                {
-                    text = text.Substring(1);
+                    return true;
                 }
             }
 
-            return true;
+            return false;
         }
     }
 }
