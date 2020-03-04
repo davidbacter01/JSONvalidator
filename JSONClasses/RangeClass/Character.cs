@@ -6,7 +6,7 @@ namespace Classes
 {
     public class Character : IPattern
     {
-        readonly char pattern;
+        private readonly char pattern;
 
         public Character(char pattern)
         {

@@ -13,12 +13,7 @@ namespace Classes
         }
         public bool Match(string text)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                return false;
-            }
-
-            return start <= text[0] && text[0] <= end;
+            return string.IsNullOrEmpty(text) ? false : start <= text[0] && text[0] <= end;
         }
     }
 }

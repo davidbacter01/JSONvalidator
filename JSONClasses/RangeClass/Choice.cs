@@ -6,7 +6,7 @@ namespace Classes
 {
     public class Choice : IPattern
     {
-        private IPattern[] patterns;
+        private readonly IPattern[] patterns;
         public Choice(params IPattern[] patterns)
         {
             this.patterns = patterns;
