@@ -28,5 +28,13 @@ namespace RangeClass.Tests
             bool expected = false;
             Assert.Equal(expected, digit.Match(""));
         }
+
+        [Fact]
+        public void NullShouldReturnFalse()
+        {
+            var digit = new Range('a', 'f');
+            bool expected = false;
+            Assert.Equal(expected, digit.Match(null));
+        }
     }
 }
