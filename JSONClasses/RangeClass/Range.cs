@@ -13,6 +13,14 @@ namespace RangeClass
         }
         public bool Match(string text)
         {
+            foreach (char c in text)
+            {
+                if (!(c >= start) || !(c <= end))
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
     }
