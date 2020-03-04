@@ -12,5 +12,13 @@ namespace RangeClass.Tests
             bool expected = true;
             Assert.Equal(expected, digit.Match("abc"));
         }
+
+        [Fact]
+        public void StringWithACharOutOfParameterRangeShouldReturnFalse()
+        {
+            var digit = new Range('a', 'f');
+            bool expected = false;
+            Assert.Equal(expected, digit.Match("1abc"));
+        }
     }
 }
