@@ -22,6 +22,15 @@ namespace Classes.Tests
             bool expected = false;
             Assert.Equal(expected, digit.Match(null));
         }
-        
+
+        [Fact]
+        public void ValidHexPatternShouldTrue()
+        {
+            var digit = new Choice(new Character('0'), new Range('1', '9'));
+            var hex = new Choice(digit, new Range('a', 'f'), new Range('A', 'F'));
+            bool expected = true;
+            Assert.Equal(expected, digit.Match("012"));
+        }
+
     }
 }

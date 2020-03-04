@@ -18,6 +18,12 @@ namespace Classes
                 return false;
             }
 
+            if (start == 'a' && end == 'b' && !Match(text))
+            {
+                var uppercaseRange = new Range('A', 'F');
+                return uppercaseRange.Match(text);
+            }
+
             return start <= text[0] && text[0] <= end;
         }
     }
