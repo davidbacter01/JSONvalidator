@@ -18,15 +18,7 @@ namespace Classes
                 return false;
             }
 
-            foreach (char c in text)
-            {
-                if (!(c >= start) || !(c <= end))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return start <= text[0] && text[0] <= end;
         }
     }
 }
