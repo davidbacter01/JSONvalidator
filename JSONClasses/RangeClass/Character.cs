@@ -16,8 +16,8 @@ namespace Classes
         public IMatch Match(string text)
         {
 
-            return !string.IsNullOrEmpty(text) && text[0] == pattern 
-                ? new SuccesMatch(text[1..^0])
+            return !string.IsNullOrEmpty(text) && text[0] == pattern
+                ? new SuccesMatch(text[1..^0]) as IMatch
                 : new FailMatch(text);
         }
     }
