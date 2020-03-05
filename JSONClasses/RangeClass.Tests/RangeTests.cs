@@ -6,35 +6,31 @@ namespace Classes.Tests
     public class RangeTests
     {
         [Fact]
-        public void StringWithAllCharsInParameterRangeShouldReturnTrue()
+        public void StringWithAllCharsInParameterRangeShouldReturnRemainingTxt()
         {
             var digit = new Range('a', 'f');
-            bool expected = true;
-            Assert.Equal(expected, digit.Match("abc"));
+            Assert.Equal("bc", digit.Match("abc").RemainingText());
         }
 
         [Fact]
-        public void StringWithACharOutOfParameterRangeShouldReturnFalse()
+        public void StringWithACharOutOfParameterRangeShouldReturnInitialText()
         {
             var digit = new Range('a', 'f');
-            bool expected = false;
-            Assert.Equal(expected, digit.Match("1abc"));
+            Assert.Equal("1abc", digit.Match("1abc").RemainingText());
         }
 
         [Fact]
-        public void EmptyStringShouldReturnFalse()
+        public void EmptyStringShouldReturnEmptyString()
         {
             var digit = new Range('a', 'f');
-            bool expected = false;
-            Assert.Equal(expected, digit.Match(""));
+            Assert.Equal("", digit.Match("").RemainingText());
         }
 
         [Fact]
-        public void NullShouldReturnFalse()
+        public void NullShouldReturnNull()
         {
             var digit = new Range('a', 'f');
-            bool expected = false;
-            Assert.Equal(expected, digit.Match(null));
+            Assert.Null(digit.Match(null).RemainingText());
         }
     }
 }

@@ -7,28 +7,23 @@ namespace Classes.Tests
 {
     public class CharacterTests
     {
+        private readonly Character x= new Character('x');
         [Fact]
-        public void ValidCharacterMatchShouldReturnTrue()
-        {
-            Character x = new Character('x');
-            bool expected = true;
-            Assert.Equal(expected, x.Match("xilo"));
+        public void ValidCharacterMatchShouldReturnRemainingText()
+        { 
+            Assert.Equal("ilo", x.Match("xilo").RemainingText());
         }
 
         [Fact]
-        public void InvalidCharacterMatchShouldReturnFalse()
+        public void InvalidCharacterMatchShouldReturnOriginalText()
         {
-            Character x = new Character('x');
-            bool expected = false;
-            Assert.Equal(expected, x.Match("filo"));
+            Assert.Equal("filo", x.Match("filo").RemainingText());
         }
 
         [Fact]
-        public void CharacterMatchWithNullShouldReturnFalse()
+        public void CharacterMatchWithNullShouldReturnNull()
         {
-            Character x = new Character('x');
-            bool expected = false;
-            Assert.Equal(expected, x.Match(null));
+            Assert.Null(x.Match(null).RemainingText());
         }
     }
 }

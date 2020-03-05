@@ -11,9 +11,15 @@ namespace Classes
             this.start = start;
             this.end = end;
         }
-        public bool Match(string text)
+
+        public IMatch Match(string text)
         {
-            return string.IsNullOrEmpty(text) ? false : start <= text[0] && text[0] <= end;
+            if (string.IsNullOrEmpty(text))
+            {
+                return new Match(text, false);
+            }
+
+            return start <= text[0] && text[0] <= end ? new Match(text[1..^0], true) : new Match(text, false);
         }
     }
 }

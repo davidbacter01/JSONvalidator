@@ -13,9 +13,14 @@ namespace Classes
             this.pattern = pattern;
         }
 
-        public bool Match(string text)
+        public IMatch Match(string text)
         {
-            return (string.IsNullOrEmpty(text)) ? false : text[0] == pattern;
+            if (string.IsNullOrEmpty(text))
+            {
+                return new Match(text, false);
+            }
+
+            return text[0] == pattern ? new Match(text[1..^0], true) : new Match(text, false);
         }
     }
 }

@@ -8,55 +8,49 @@ namespace Classes.Tests
     public class ChoiceTests
     {
         [Fact]
-        public void ChoiceWithRangeAndCharacterMatchingShuldReturnTrue()
+        public void ChoiceWithRangeAndCharacterMatchingShuldReturnRemainingText()
         {
             var digit = new Choice(new Character('0'), new Range('1', '9'));
-            bool expected = true;
-            Assert.Equal(expected, digit.Match("012"));
+            Assert.Equal("12", digit.Match("012").RemainingText());
         }
 
         [Fact]
-        public void NullOrEmptyStringShouldReturnFalse()
+        public void NullOrEmptyStringShouldReturnInitialText()
         {
             var digit = new Choice(new Character('0'), new Range('1', '9'));
-            bool expected = false;
-            Assert.Equal(expected, digit.Match(null));
+            Assert.Null(digit.Match(null).RemainingText());
         }
 
         [Fact]
-        public void ValidHexPatternShouldTrue()
+        public void ValidHexPatternShoulReturnRemainingText()
         {
             var digit = new Choice(new Character('0'), new Range('1', '9'));
             var hex = new Choice(digit, new Range('a', 'f'), new Range('A', 'F'));
-            bool expected = true;
-            Assert.Equal(expected, hex.Match("012"));
+            Assert.Equal("12", hex.Match("012").RemainingText());
         }
 
         [Fact]
-        public void ValidHexPatternStartingWithLowercaseCharShouldReturnTrue()
+        public void ValidHexPatternStartingWithLowercaseCharShouldReturnRemainingText()
         {
             var digit = new Choice(new Character('0'), new Range('1', '9'));
             var hex = new Choice(digit, new Range('a', 'f'), new Range('A', 'F'));
-            bool expected = true;
-            Assert.Equal(expected, hex.Match("f8"));
+            Assert.Equal("8", hex.Match("f8").RemainingText());
         }
 
         [Fact]
-        public void ValidHexPatternStartingWithUppercaseCharShouldReturnTrue()
+        public void ValidHexPatternStartingWithUppercaseCharShouldReturnRemainingText()
         {
             var digit = new Choice(new Character('0'), new Range('1', '9'));
             var hex = new Choice(digit, new Range('a', 'f'), new Range('A', 'F'));
-            bool expected = true;
-            Assert.Equal(expected, hex.Match("A8"));
+            Assert.Equal("8", hex.Match("A8").RemainingText());
         }
 
         [Fact]
-        public void InValidHexPatternrShouldReturnFalse()
+        public void InValidHexPatternrShouldReturnOriginalText()
         {
             var digit = new Choice(new Character('0'), new Range('1', '9'));
             var hex = new Choice(digit, new Range('a', 'f'), new Range('A', 'F'));
-            bool expected = false;
-            Assert.Equal(expected, hex.Match("g8"));
+            Assert.Equal("g8", hex.Match("g8").RemainingText());
         }
 
     }
