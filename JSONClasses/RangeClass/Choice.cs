@@ -16,20 +16,19 @@ namespace Classes
         {
             if (string.IsNullOrEmpty(text))
             {
-                return new Match(text, false);
+                return new FailMatch(text);
             }
 
-            IMatch match = new Match(text, true);
             foreach (IPattern pattern in patterns)
             {
-                match = pattern.Match(text);
+                var match = pattern.Match(text);
                 if (match.Success())
                 {
                     return match;
                 }
             }
 
-            return match;
+            return new FailMatch(text);
         }
     }
 }

@@ -15,12 +15,10 @@ namespace Classes
 
         public IMatch Match(string text)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                return new Match(text, false);
-            }
 
-            return text[0] == pattern ? new Match(text[1..^0], true) : new Match(text, false);
+            return !string.IsNullOrEmpty(text) && text[0] == pattern 
+                ? new SuccesMatch(text[1..^0])
+                : new FailMatch(text);
         }
     }
 }

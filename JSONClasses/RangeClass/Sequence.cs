@@ -14,17 +14,14 @@ namespace Classes
 
         public IMatch Match(string text)
         {
-            string initialText = text;
-            IMatch match = new Match(text, true);
+            IMatch match = new SuccesMatch(text);
             foreach(var pattern in patterns)
             {
-                match = pattern.Match(text);
+                match = pattern.Match(match.RemainingText());
                 if (!match.Success())
                 {
-                    return new Match(initialText, false);
+                    return new FailMatch(text);
                 }
-
-                text = match.RemainingText();
             }
 
             return match;
