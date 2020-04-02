@@ -9,12 +9,7 @@ namespace Classes
         private readonly IPattern pattern;
         public Number()
         {
-            var sign = new Any("+-");
-            var digits = new Many(new Range('0', '9'));
-            var e = new Any("eE");
-            var dot = new Character('.');
-            var zero = new Character('0');
-            this.pattern = pattern;
+            this.pattern = new Range('1', '9');
         }
 
         public IMatch Match(string text)
