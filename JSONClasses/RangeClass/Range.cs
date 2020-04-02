@@ -16,10 +16,10 @@ namespace Classes
         {
             if (string.IsNullOrEmpty(text))
             {
-                return new Match(text, false);
+                return new FailMatch(text);
             }
 
-            return start <= text[0] && text[0] <= end ? new Match(text[1..^0], true) : new Match(text, false);
+            return start <= text[0] && text[0] <= end ? new SuccesMatch(text[1..^0]) as IMatch : new FailMatch(text);
         }
     }
 }
