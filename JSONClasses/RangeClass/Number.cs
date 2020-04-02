@@ -13,8 +13,10 @@ namespace Classes
             var zero = new Character('0');
             var onenine = new Range('1', '9');
             var digit = new Choice(zero, onenine);
-            var fraction = new Optional(new Text("0."));
-            this.pattern = new Sequence(sign, fraction, new Many(digit));
+            var digits = new OneOrMore(digit);
+            var integer = new Sequence(onenine, new Optional(digits));
+            var fraction = new Optional(new Sequence(new Character('.'), digits));
+            this.pattern = new Sequence(sign, new Choice(zero, integer), fraction);
         }
 
         public IMatch Match(string text)
