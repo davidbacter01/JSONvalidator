@@ -14,5 +14,13 @@ namespace Classes.Tests
             Assert.True(number.Match("1").Success());
             Assert.Equal("", number.Match("1").RemainingText());
         }
+
+        [Fact]
+        public void SimpleNumberFromMultipleDigitsShouldReturnTrueAndEmptyString()
+        {
+            var number = new Number();
+            Assert.True(number.Match("1235425").Success());
+            Assert.Equal("", number.Match("1235425").RemainingText());
+        }
     }
 }

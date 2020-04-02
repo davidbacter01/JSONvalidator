@@ -9,7 +9,7 @@ namespace Classes
         private readonly IPattern pattern;
         public Number()
         {
-            this.pattern = new Range('1', '9');
+            this.pattern = new Many(new Range('1', '9'));
         }
 
         public IMatch Match(string text)
