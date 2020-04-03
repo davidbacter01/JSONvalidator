@@ -54,5 +54,13 @@ namespace Classes.Tests
             Assert.False(number.Match("0123").Success());
             Assert.Equal("0123", number.Match("0123").RemainingText());
         }
+
+        [Fact]
+        public void NumberWithExponentShouldReturnTrueAndEmptyString()
+        {
+            var number = new Number();
+            Assert.True(number.Match("123.123e+123").Success());
+            Assert.Equal("", number.Match("123.123e+123").RemainingText());
+        }
     }
 }
