@@ -16,7 +16,7 @@ namespace Classes
             var digits = new OneOrMore(digit);
             var integer = new Sequence(onenine, new Optional(digits));
             var fraction = new Optional(new Sequence(new Character('.'), digits));
-            this.pattern = new Sequence(sign, new Choice(zero, integer), fraction);
+            pattern = new Sequence(sign, new Choice(integer, zero),fraction);
         }
 
         public IMatch Match(string text)
