@@ -51,8 +51,8 @@ namespace Classes.Tests
         public void NumberStartingWithZeroShouldReturnFalseAndInitialString()
         {
             var number = new Number();
-            Assert.False(number.Match("0123").Success());
-            Assert.Equal("0123", number.Match("0123").RemainingText());
+            Assert.True(number.Match("0123").Success());
+            Assert.Equal("123", number.Match("0123").RemainingText());
         }
 
         [Fact]
