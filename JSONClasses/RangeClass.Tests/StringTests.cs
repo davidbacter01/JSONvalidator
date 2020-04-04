@@ -48,13 +48,14 @@ namespace Classes.Tests
         public void StringWithInvalidCharactersAndComplexFormShouldReturnFalseAndInitialString()
         {
             Assert.False(text.Match("\"as321\\#';!qwe AR\"").Success());
-            Assert.Equal("\"as321\\#';/!qwe AR\"", text.Match("\"as321\\#';!qwe AR\"").RemainingText());
+            Assert.Equal("\"as321\\#';/!qwe AR\"", text.Match("\"as321\\#';/!qwe AR\"").RemainingText());
         }
 
         [Fact]
         public void StringWithEscapedCharactersShouldReturnTrueAndEmptyString()
         {
-            Assert.True(text.Match("\"Hex\u0ADa\"").Success());
+            Assert.True(text.Match("\"Hex\\u0ADa\"").Success());
+            Assert.Equal("", text.Match("\"Hex\\u0ADa\"").RemainingText());
         }
     }
 }
