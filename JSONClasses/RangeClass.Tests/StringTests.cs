@@ -57,5 +57,11 @@ namespace Classes.Tests
             Assert.True(text.Match("\"Hex\\u0ADa\"").Success());
             Assert.Equal("", text.Match("\"Hex\\u0ADa\"").RemainingText());
         }
+
+        [Fact]
+        public void StringNotStartingWithQuotesShouldReturnFalse()
+        {
+            Assert.False(text.Match("{ }").Success());
+        }
     }
 }

@@ -7,6 +7,13 @@ namespace Classes.Tests
 {
     public class ListTests
     {
+        [Fact]
+        public void MatchingSimpleSequenceNumberSeparatorShouldReturnTrueAndNoRemainingText()
+        {
+            var a = new List(new Range('0', '9'), new Character(','));
+            Assert.Equal("", a.Match("1,2").RemainingText());
+            Assert.True(a.Match("1,").Success());
+        }
 
         [Fact]
         public void MatchingSequenceNumberSeparatorShouldReturnTrueAndNoRemainingText()
