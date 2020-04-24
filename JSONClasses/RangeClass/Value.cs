@@ -23,11 +23,11 @@ namespace Classes
             var whitespace = new Many(new Any(" \r\n\t"));
             var element = new Sequence(whitespace, value, whitespace);
             var separator = new Character(',');
-            var elements = new Choice(element, new List(element, separator));
+            var elements = new List(element, separator);
 
             var array = new Sequence(
                 new Character('['),
-                new Choice(whitespace, elements),
+                new Choice(elements, element, whitespace),
                 new Character(']')
                 );
 
@@ -39,14 +39,11 @@ namespace Classes
                 element
                 );
 
-            var members = new Choice(
-                member,
-                new List(member, separator)
-                );
+            var members = new List(member, separator);
 
             var jobject = new Sequence(
                 new Character('{'),
-                new Choice(whitespace, members),
+                new Choice(members, member, whitespace),
                 new Character('}')
                 );
 
