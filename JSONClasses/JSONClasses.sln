@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Classes", "RangeClass\Class
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Classes.Tests", "RangeClass.Tests\Classes.Tests.csproj", "{8076574B-5B71-4DC2-A5F7-7E083826B7F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonValidatorConsoleApp", "JsonValidatorConsoleApp\JsonValidatorConsoleApp.csproj", "{82AEF3D2-590C-4695-82C8-0A361861E95B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8076574B-5B71-4DC2-A5F7-7E083826B7F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8076574B-5B71-4DC2-A5F7-7E083826B7F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8076574B-5B71-4DC2-A5F7-7E083826B7F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82AEF3D2-590C-4695-82C8-0A361861E95B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82AEF3D2-590C-4695-82C8-0A361861E95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82AEF3D2-590C-4695-82C8-0A361861E95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82AEF3D2-590C-4695-82C8-0A361861E95B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
