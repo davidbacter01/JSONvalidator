@@ -19,16 +19,23 @@ namespace Classes
                 return new FailMatch(text);
             }
 
+            string remaining = text;
             foreach (IPattern pattern in patterns)
             {
                 var match = pattern.Match(text);
+
+                if (match.RemainingText().Length < remaining.Length)
+                {
+                    remaining = match.RemainingText();
+                }
+
                 if (match.Success())
                 {
                     return match;
                 }
             }
 
-            return new FailMatch(text);
+            return new FailMatch(remaining);
         }
 
         public void Add(IPattern pattern)

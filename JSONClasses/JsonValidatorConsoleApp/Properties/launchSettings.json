@@ -2,7 +2,7 @@
   "profiles": {
     "JsonValidatorConsoleApp": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\David\\Desktop\\json\\JsonValidator\\json.txt C:\\Users\\David\\Desktop\\json\\JsonValidator\\json2.txt C:\\Users\\David\\Desktop\\json\\JsonValidator\\json3.txt"
+      "commandLineArgs": "C:\\Users\\David\\Desktop\\json\\JsonValidator\\json.txt"
     }
   }
 }

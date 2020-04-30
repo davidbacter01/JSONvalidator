@@ -15,12 +15,12 @@ namespace Classes
         public IMatch Match(string text)
         {
             IMatch match = new SuccesMatch(text);
-            foreach(var pattern in patterns)
+            foreach (var pattern in patterns)
             {
                 match = pattern.Match(match.RemainingText());
                 if (!match.Success())
                 {
-                    return new FailMatch(text);
+                    return new FailMatch(match.RemainingText());
                 }
             }
 
