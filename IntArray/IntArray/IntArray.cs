@@ -4,7 +4,7 @@ namespace IntArray
 {
     public class IntArray
     {
-        private readonly int[] array;
+        private int[] array;
 
         public IntArray()
         {
@@ -14,6 +14,19 @@ namespace IntArray
 		public void Add(int element)
 		{
 			// adaugă un nou element la sfârșitul șirului 
+			if (array[array.Length - 1] == 0)
+			{
+				Array.Resize(ref array, array.Length + 4);
+			}
+
+			for (int i = array.Length - 1; i >= 0; i--)
+			{
+				if (array[i - 1] != 0)
+				{
+					array[i] = element;
+					break;
+				}
+			}
 		}
 
 		public int Count()
@@ -55,7 +68,17 @@ namespace IntArray
 
 		public void Insert(int index, int element)
 		{
-			// adaugă un nou element pe poziția dată
+			if (array[array.Length - 1] == 0)
+			{
+				Array.Resize(ref array, array.Length + 4);
+			}
+
+			for (int i = array.Length - 1; i > index; i--)
+			{
+				array[i] = array[i - 1];
+			}
+
+			array[index] = element;
 		}
 
 		public void Clear()
