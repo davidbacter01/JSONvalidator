@@ -19,30 +19,38 @@ namespace IntArray
 				Array.Resize(ref array, array.Length + 4);
 			}
 
-			for (int i = array.Length - 1; i >= 0; i--)
+			for (int i = array.Length - 1; i > 0; i--)
 			{
 				if (array[i - 1] != 0)
 				{
 					array[i] = element;
 					break;
 				}
+
+				if (i == 1)
+					array[0] = element;
 			}
 		}
 
 		public int Count()
 		{
-			return array.Length;
+			bool notEmpty = false;
+			int count = 0;
+			for (int i = array.Length - 1; i >= 0; i--)
+			{
+				if (array[i] != 0)
+					notEmpty = true;
+
+				if (notEmpty)
+					count++;
+			}
+
+			return count;
 		}
 
-		public int Element(int index)
-		{
-			return array[index];
-		}
+		public int Element(int index) => array[index];
 
-		public void SetElement(int index, int element)
-		{
-			array[index] = element;
-		}
+		public void SetElement(int index, int element) => array[index] = element;
 
 		public bool Contains(int element)
 		{
@@ -81,15 +89,10 @@ namespace IntArray
 			array[index] = element;
 		}
 
-		public void Clear()
-		{
-			// șterge toate elementele din șir
-			Array.Clear(array, 0, array.Length);
-		}
-
+		public void Clear() => Array.Clear(array, 0, array.Length);
+		
 		public void Remove(int element)
 		{
-			// șterge prima apariție a elementului din șir
 			for (int i = 0; i < array.Length; i++)
 			{
 				if (array[i] == element)
@@ -97,16 +100,10 @@ namespace IntArray
 					Array.Clear(array, i, 1);
 					break;
 				}
-
 			}
 		}
 
-		public void RemoveAt(int index)
-		{
-			// șterge elementul de pe poziția dată
-			Array.Clear(array, index, 1);
-		}
-
+		public void RemoveAt(int index) => Array.Clear(array, index, 1);
 	}
 }
 
