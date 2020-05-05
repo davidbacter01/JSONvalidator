@@ -1,17 +1,14 @@
-using System;
 using Xunit;
 
 namespace IntArray.Tests
 {
     public class IntArrayTests
     {
-        
         [Fact]
         public void AddsAnElementAtTheBegginingOfEmptyArray()
         {
             IntArray arr = new IntArray();
             arr.Add(7);
-
             Assert.Equal(7, arr.Element(0));
         }
 
@@ -21,7 +18,6 @@ namespace IntArray.Tests
             IntArray arr = new IntArray();
             arr.Add(7);
             arr.Add(1);
-
             Assert.Equal(1, arr.Element(1));
         }
 
@@ -54,7 +50,6 @@ namespace IntArray.Tests
             arr.Add(5);
             arr.Add(6);
             arr.Add(20);
-
             Assert.Equal(5, arr.Count());
         }
 
@@ -66,7 +61,6 @@ namespace IntArray.Tests
             arr.Add(1);
             arr.Add(5);
             arr.Add(6);
-
             Assert.True(arr.Contains(5));
             Assert.False(arr.Contains(2));
         }
@@ -79,7 +73,6 @@ namespace IntArray.Tests
             arr.Add(1);
             arr.Add(5);
             arr.Add(6);
-
             Assert.Equal(0, arr.IndexOf(7));
             Assert.Equal(-1, arr.IndexOf(2));
         }
@@ -106,9 +99,7 @@ namespace IntArray.Tests
             arr.Add(5);
             arr.Add(6);
             arr.Insert(2, 10);
-
             arr.Clear();
-
             Assert.Equal(0, arr.Element(2));
             Assert.Equal(0, arr.Element(3));
         }
@@ -122,10 +113,8 @@ namespace IntArray.Tests
             arr.Add(5);
             arr.Add(6);
             arr.Insert(2, 10);
-
             arr.RemoveAt(0);
             arr.RemoveAt(2);
-
             Assert.Equal(0, arr.Element(0));
             Assert.Equal(0, arr.Element(2));
             Assert.Equal(1, arr.Element(1));
