@@ -1,6 +1,7 @@
+using System;
 using Xunit;
 
-namespace IntArray.Tests
+namespace intArrayClasses.tests
 {
     public class IntArrayTests
     {
@@ -112,12 +113,12 @@ namespace IntArray.Tests
             arr.Add(1);
             arr.Add(5);
             arr.Add(6);
-            arr.Insert(2, 10);
             arr.RemoveAt(0);
-            arr.RemoveAt(2);
-            Assert.Equal(0, arr.Element(0));
+            arr.RemoveAt(1);
+            Assert.Equal(1, arr.Element(0));
+            Assert.Equal(6, arr.Element(1));
             Assert.Equal(0, arr.Element(2));
-            Assert.Equal(1, arr.Element(1));
+            Assert.Equal(0, arr.Element(3));
         }
     }
 }
