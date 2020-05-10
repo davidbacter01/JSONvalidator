@@ -120,5 +120,19 @@ namespace intArrayClasses.tests
             Assert.Equal(0, arr.Element(2));
             Assert.Equal(0, arr.Element(3));
         }
+
+        [Fact]
+        public void ZeroIsValidElementInArray()
+        {
+            IntArray arr = new IntArray();
+            arr.Add(1);
+            arr.Add(0);
+            arr.Add(0);
+            arr.Add(2);
+            Assert.Equal(1, arr.Element(0));
+            Assert.Equal(0, arr.Element(1));
+            Assert.Equal(0, arr.Element(2));
+            Assert.Equal(2, arr.Element(3));
+        }
     }
 }

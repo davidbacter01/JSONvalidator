@@ -5,6 +5,7 @@ namespace intArrayClasses
     public class IntArray
     {
         private int[] arr;
+        private int zerosCount = 0;
         private const int StandardLength = 4;
         private readonly string Left = "left";
         private readonly string Right = "right";
@@ -15,12 +16,21 @@ namespace intArrayClasses
 
         public void Add(int element)
         {
+            if (element == 0)
+            {
+                zerosCount++;
+            }
+            else
+            {
+                zerosCount = 0;
+            }
+
             ExpandIfNeeded();
             for (int i = arr.Length - 1; i >= 0; i--)
             {
                 if (arr[i] != 0)
                 {
-                    arr[i + 1] = element;
+                    arr[i + 1 + zerosCount] = element;
                     break;
                 }
 
@@ -48,7 +58,7 @@ namespace intArrayClasses
                 }
             }
 
-            return counter;
+            return counter + zerosCount;
         }
         
         public int Element(int index) => arr[index];
@@ -56,6 +66,7 @@ namespace intArrayClasses
         public void SetElement(int index, int element) => arr[index] = element;
 
         public bool Contains(int element) => Array.IndexOf(arr, element) != -1;
+ 
 
         public int IndexOf(int element) => Array.IndexOf(arr, element);
 
@@ -104,7 +115,7 @@ namespace intArrayClasses
 
         private void ExpandIfNeeded()
         {
-            if (arr[arr.Length - 1] != 0)
+            if (arr[Count() - 1] != 0 || zerosCount > 0)
             {
                 Array.Resize(ref arr, arr.Length + StandardLength);
             }
