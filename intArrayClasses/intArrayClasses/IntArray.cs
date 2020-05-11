@@ -7,8 +7,6 @@ namespace intArrayClasses
         private int[] arr;
         private int count = 0;
         private const int StandardLength = 4;
-        private readonly string Left = "left";
-        private readonly string Right = "right";
         public IntArray()
         {
             arr = new int[StandardLength];
@@ -27,10 +25,28 @@ namespace intArrayClasses
 
         public void SetElement(int index, int element) => arr[index] = element;
 
-        public bool Contains(int element) => Array.IndexOf(GetActualArray(), element) != -1;
- 
+        public bool Contains(int element)
+        {
+            if (IndexOf(element) > -1)
+            {
+                return true;
+            }
 
-        public int IndexOf(int element) => Array.IndexOf(GetActualArray(), element);
+            return false;
+        } 
+
+        public int IndexOf(int element)
+        {
+            for(int i = 0; i < count; i++)
+            {
+                if (arr[i] == element)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
 
         public void Insert(int index, int element)
         {
@@ -48,9 +64,7 @@ namespace intArrayClasses
 
         public void Remove(int element)
         {
-            int index = Array.IndexOf(GetActualArray(), element);
-            RemoveAt(index);
-
+            RemoveAt(IndexOf(element));
             count--;
         }
 
@@ -84,17 +98,6 @@ namespace intArrayClasses
             {
                 Array.Resize(ref arr, arr.Length * 2);
             }
-        }
-
-        private int[] GetActualArray()
-        {
-            int[] actualArray = new int[count];
-            for(int i = 0; i < count; i++)
-            {
-                actualArray[i] = arr[i];
-            }
-
-            return actualArray;
         }
     }
 }
