@@ -25,15 +25,7 @@ namespace intArrayClasses
 
         public void SetElement(int index, int element) => arr[index] = element;
 
-        public bool Contains(int element)
-        {
-            if (IndexOf(element) > -1)
-            {
-                return true;
-            }
-
-            return false;
-        } 
+        public bool Contains(int element) => IndexOf(element) > -1;
 
         public int IndexOf(int element)
         {
@@ -62,12 +54,8 @@ namespace intArrayClasses
             count = 0;
         }
 
-        public void Remove(int element)
-        {
-            RemoveAt(IndexOf(element));
-            count--;
-        }
-
+        public void Remove(int element) => RemoveAt(IndexOf(element));   
+        
         public void RemoveAt(int index)
         {
             ShiftLeft(index);
