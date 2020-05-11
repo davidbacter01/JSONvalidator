@@ -35,8 +35,9 @@ namespace intArrayClasses
         public void Insert(int index, int element)
         {
             ExpandIfNeeded();
-            Shift(Right, index);
+            ShiftRight(index);
             arr[index] = element;
+            count++;
         }
 
         public void Clear() 
@@ -55,27 +56,25 @@ namespace intArrayClasses
 
         public void RemoveAt(int index)
         {
-            Shift(Left, index);
+            ShiftLeft(index);
             count--;
         }
 
-        private void Shift(string direction, int index)
+        private void ShiftLeft(int index)
         {
-            if (direction == Left)
+            for (int i = index; i < count - 1; i++)
             {
-                for (int i = index; i < count - 1; i++)
-                {
-                    arr[i] = arr[i + 1];
-                }
-
-                arr[count - 1] = 0;
+                arr[i] = arr[i + 1];
             }
-            else
+
+            arr[count - 1] = 0;
+        }
+
+        private void ShiftRight(int index)
+        {
+            for (int i = count; i >= index; i--)
             {
-                for (int i = arr.Length - 1; i >= index; i--)
-                {
-                    arr[i] = arr[i - 1];
-                }
+                arr[i] = arr[i - 1];
             }
         }
 
