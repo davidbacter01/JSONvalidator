@@ -5,7 +5,7 @@ namespace intArrayClasses
     public class IntArray
     {
         private int[] arr;
-        private int zerosCount = 0;
+        private int count = 0;
         private const int StandardLength = 4;
         private readonly string Left = "left";
         private readonly string Right = "right";
@@ -16,59 +16,21 @@ namespace intArrayClasses
 
         public void Add(int element)
         {
-            if (element == 0)
-            {
-                zerosCount++;
-            }
-            else
-            {
-                zerosCount = 0;
-            }
-
+            count++;
             ExpandIfNeeded();
-            for (int i = arr.Length - 1; i >= 0; i--)
-            {
-                if (arr[i] != 0)
-                {
-                    arr[i + 1 + zerosCount] = element;
-                    break;
-                }
-
-                if (i == 0)
-                {
-                    arr[0] = element;
-                }
-            }
+            arr[count - 1] = element;
         }
 
-        public int Count()
-        {
-            int counter = 0;
-            bool onEmptyPosition = true; 
-            for (int i = arr.Length - 1; i >= 0; i--)
-            {
-                if (arr[i] != 0)
-                {
-                    onEmptyPosition = false;
-                }
-
-                if (!onEmptyPosition)
-                {
-                    counter++;
-                }
-            }
-
-            return counter + zerosCount;
-        }
+        public int Count() => count;
         
         public int Element(int index) => arr[index];
 
         public void SetElement(int index, int element) => arr[index] = element;
 
-        public bool Contains(int element) => Array.IndexOf(arr, element) != -1;
+        public bool Contains(int element) => Array.IndexOf(GetActualArray(), element) != -1;
  
 
-        public int IndexOf(int element) => Array.IndexOf(arr, element);
+        public int IndexOf(int element) => Array.IndexOf(GetActualArray(), element);
 
         public void Insert(int index, int element)
         {
@@ -77,11 +39,15 @@ namespace intArrayClasses
             arr[index] = element;
         }
 
-        public void Clear() => Array.Clear(arr, 0, arr.Length);
+        public void Clear() 
+        {
+            Array.Clear(arr, 0, arr.Length);
+            count = 0;
+        }
 
         public void Remove(int element)
         {
-            for(int i = 0; i < arr.Length; i++)
+            for(int i = 0; i < count; i++)
             {
                 if (arr[i] == element)
                 {
@@ -89,9 +55,15 @@ namespace intArrayClasses
                     break;
                 }
             }
+
+            count--;
         }
 
-        public void RemoveAt(int index) => Shift(Left, index);
+        public void RemoveAt(int index)
+        {
+            Shift(Left, index);
+            count--;
+        }
 
         private void Shift(string direction, int index)
         {
@@ -102,7 +74,7 @@ namespace intArrayClasses
                     arr[i] = arr[i + 1];
                 }
 
-                arr[arr.Length - 1] = 0;
+                arr[count - 1] = 0;
             }
             else
             {
@@ -115,10 +87,21 @@ namespace intArrayClasses
 
         private void ExpandIfNeeded()
         {
-            if (arr[Count() - 1] != 0 || zerosCount > 0)
+            if (arr.Length == count)
             {
-                Array.Resize(ref arr, arr.Length + StandardLength);
+                Array.Resize(ref arr, arr.Length * 2);
             }
+        }
+
+        private int[] GetActualArray()
+        {
+            int[] actualArray = new int[count];
+            for(int i = 0; i < count; i++)
+            {
+                actualArray[i] = arr[i];
+            }
+
+            return actualArray;
         }
     }
 }
