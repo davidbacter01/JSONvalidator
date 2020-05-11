@@ -47,14 +47,8 @@ namespace intArrayClasses
 
         public void Remove(int element)
         {
-            for(int i = 0; i < count; i++)
-            {
-                if (arr[i] == element)
-                {
-                    Shift(Left, i);
-                    break;
-                }
-            }
+            int index = Array.IndexOf(GetActualArray(), element);
+            RemoveAt(index);
 
             count--;
         }
@@ -69,7 +63,7 @@ namespace intArrayClasses
         {
             if (direction == Left)
             {
-                for (int i = index; i < arr.Length - 1; i++)
+                for (int i = index; i < count - 1; i++)
                 {
                     arr[i] = arr[i + 1];
                 }
