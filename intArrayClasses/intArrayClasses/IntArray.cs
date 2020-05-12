@@ -20,9 +20,11 @@ namespace intArrayClasses
 
         public int Count { get; private set; } = 0;
 
-        public int Element(int index) => arr[index];
-
-        public void SetElement(int index, int element) => arr[index] = element;
+        public int this[int index]
+        {
+            get => arr[index];
+            set => arr[index] = value;
+        }
 
         public bool Contains(int element) => IndexOf(element) > -1;
 
