@@ -5,7 +5,6 @@ namespace intArrayClasses
     public class IntArray
     {
         private int[] arr;
-        private int count = 0;
         private const int StandardLength = 4;
         public IntArray()
         {
@@ -14,13 +13,13 @@ namespace intArrayClasses
 
         public void Add(int element)
         {
-            count++;
+            Count++;
             ExpandIfNeeded();
-            arr[count - 1] = element;
+            arr[Count - 1] = element;
         }
 
-        public int Count() => count;
-        
+        public int Count { get; private set; } = 0;
+
         public int Element(int index) => arr[index];
 
         public void SetElement(int index, int element) => arr[index] = element;
@@ -29,7 +28,7 @@ namespace intArrayClasses
 
         public int IndexOf(int element)
         {
-            for(int i = 0; i < count; i++)
+            for(int i = 0; i < Count; i++)
             {
                 if (arr[i] == element)
                 {
@@ -45,13 +44,13 @@ namespace intArrayClasses
             ExpandIfNeeded();
             ShiftRight(index);
             arr[index] = element;
-            count++;
+            Count++;
         }
 
         public void Clear() 
         {
             Array.Clear(arr, 0, arr.Length);
-            count = 0;
+            Count = 0;
         }
 
         public void Remove(int element) => RemoveAt(IndexOf(element));   
@@ -59,22 +58,22 @@ namespace intArrayClasses
         public void RemoveAt(int index)
         {
             ShiftLeft(index);
-            count--;
+            Count--;
         }
 
         private void ShiftLeft(int index)
         {
-            for (int i = index; i < count - 1; i++)
+            for (int i = index; i < Count - 1; i++)
             {
                 arr[i] = arr[i + 1];
             }
 
-            arr[count - 1] = 0;
+            arr[Count - 1] = 0;
         }
 
         private void ShiftRight(int index)
         {
-            for (int i = count; i >= index; i--)
+            for (int i = Count; i >= index; i--)
             {
                 arr[i] = arr[i - 1];
             }
@@ -82,7 +81,7 @@ namespace intArrayClasses
 
         private void ExpandIfNeeded()
         {
-            if (arr.Length == count)
+            if (arr.Length == Count)
             {
                 Array.Resize(ref arr, arr.Length * 2);
             }

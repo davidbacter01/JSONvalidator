@@ -39,7 +39,7 @@ namespace intArrayClasses.tests
         public void ReturnsZeroWhenNoElementsWereAdded()
         {
             IntArray arr = new IntArray();
-            Assert.Equal(0, arr.Count());
+            Assert.Equal(0, arr.Count);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace intArrayClasses.tests
             arr.Add(5);
             arr.Add(6);
             arr.Add(20);
-            Assert.Equal(5, arr.Count());
+            Assert.Equal(5, arr.Count);
         }
 
         [Fact]
