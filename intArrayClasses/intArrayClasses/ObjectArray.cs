@@ -1,11 +1,14 @@
 ﻿namespace intArrayClasses
 {
-    class ObjectArray : IntArray
+    class ObjectArray
     {
         object[] array;
-        public ObjectArray() : base()
+        private const int Size = 4;
+        public ObjectArray()
         {
-            
+            array = new object[Size];
         }
+
+        public int Count { get; private set; } = 0;
     }
 }

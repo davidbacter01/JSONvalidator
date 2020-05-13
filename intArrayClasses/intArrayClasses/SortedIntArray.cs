@@ -16,11 +16,7 @@ namespace intArrayClasses
 
         public override void Insert(int index, int element)
         {
-            if (base[index - 1] <= element && base[index] >= element)
-            {
-                base.Insert(index, element);
-            }
-            else if (index == 0 && base[0] >= element)
+            if (CanBeInsertedAt(index, element, 0))
             {
                 base.Insert(index, element);
             }
@@ -31,27 +27,24 @@ namespace intArrayClasses
             get => base[index];
             set 
             {
-                if (CanBeInsertedAt(index, value))
+                if (CanBeInsertedAt(index, value, 1))
                 {
                     base[index] = value;
                 }
             }    
         }
 
-        private bool CanBeInsertedAt(int index, int value)
+        private bool CanBeInsertedAt(int index, int value, int i)
         {
-            if (index == Count - 1 && base[index - 1] <= value)
+            if (base[index - 1] <= value && value <= base[index + i])
             {
                 return true;
             }
-            else if (index == 0 && base[1] >= value)
+            else if (index == 0 && base[i] >= value)
             {
                 return true;
             }
-            else if (index > 0 && 
-                index < Count - 1 &&
-                value >= base[index - 1] &&
-                value <= base[index + 1])
+            else if (index == Count - 1 && value >= base[index - 1])
             {
                 return true;
             }
