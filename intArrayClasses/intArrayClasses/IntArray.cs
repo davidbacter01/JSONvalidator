@@ -4,14 +4,14 @@ namespace intArrayClasses
 {
     public class IntArray
     {
-        private int[] arr;
+        protected int[] arr;
         private const int StandardLength = 4;
         public IntArray()
         {
             arr = new int[StandardLength];
         }
 
-        public void Add(int element)
+        public virtual void Add(int element)
         {
             Count++;
             ExpandIfNeeded();
@@ -20,7 +20,7 @@ namespace intArrayClasses
 
         public int Count { get; private set; } = 0;
 
-        public int this[int index]
+        public virtual int this[int index]
         {
             get => arr[index];
             set => arr[index] = value;
@@ -41,7 +41,7 @@ namespace intArrayClasses
             return -1;
         }
 
-        public void Insert(int index, int element)
+        public virtual void Insert(int index, int element)
         {
             ExpandIfNeeded();
             ShiftRight(index);
