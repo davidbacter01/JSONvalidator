@@ -4,7 +4,7 @@ namespace intArrayClasses
 {
     public class IntArray
     {
-        protected int[] arr;
+        private int[] arr;
         private const int StandardLength = 4;
         public IntArray()
         {
