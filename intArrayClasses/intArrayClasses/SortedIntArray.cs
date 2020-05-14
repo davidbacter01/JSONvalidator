@@ -45,11 +45,13 @@ namespace intArrayClasses
             {
                 return true;
             }
-            else if (index == Count - 1 && value >= base[index - 1])
+            
+            if (index == Count - 1 && value >= base[index - 1])
             {
                 return true;
             }
-            else if(base[index - 1] <= value && value <= base[index + i])
+            
+            if(base[index - 1] <= value && value <= base[index + i])
             {
                 return true;
             }
