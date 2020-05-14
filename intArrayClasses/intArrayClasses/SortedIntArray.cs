@@ -36,15 +36,20 @@ namespace intArrayClasses
 
         private bool CanBeInsertedAt(int index, int value, int i)
         {
-            if (base[index - 1] <= value && value <= base[index + i])
+            if (index > Count || index < 0)
             {
-                return true;
+                return false;
             }
-            else if (index == 0 && base[i] >= value)
+
+            if (index == 0 && base[i] >= value)
             {
                 return true;
             }
             else if (index == Count - 1 && value >= base[index - 1])
+            {
+                return true;
+            }
+            else if(base[index - 1] <= value && value <= base[index + i])
             {
                 return true;
             }
