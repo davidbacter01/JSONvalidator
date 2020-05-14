@@ -36,7 +36,7 @@ namespace intArrayClasses
 
         private bool CanBeInsertedAt(int index, int value, int i)
         {
-            if (index > Count || index < 0)
+            if (index >= Count || index < 0)
             {
                 return false;
             }
