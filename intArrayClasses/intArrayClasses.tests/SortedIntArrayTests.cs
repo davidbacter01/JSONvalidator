@@ -55,5 +55,20 @@ namespace intArrayClasses.tests
             Assert.Equal(2, arr[2]);
             Assert.Equal(4, arr[3]);
         }
+
+        [Fact]
+        public void InsertingAtEndOperationIsAllowedOnlyIfItDoesntBreakSorting()
+        {
+            SortedIntArray arr = new SortedIntArray();
+            arr.Add(5);
+            arr.Add(3);
+            arr.Add(4);
+            arr.Add(1);
+            arr.Add(2);
+            arr.Insert(5, 6);
+            arr[6] = 7;
+            Assert.Equal(6, arr[5]);
+            Assert.Equal(7, arr[6]);
+        }
     }
 }

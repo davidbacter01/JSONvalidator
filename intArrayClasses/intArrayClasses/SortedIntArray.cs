@@ -41,6 +41,11 @@ namespace intArrayClasses
                 return false;
             }
 
+            if (index == Count && value >= base[Count - 1])
+            {
+                return true;
+            }
+
             if (index == 0 && base[i] >= value)
             {
                 return true;
