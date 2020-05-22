@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
 
 namespace intArrayClasses
 {
-    class ObjectArray
+    public class ObjectArray : IEnumerable
     {
         private object[] array;
         private const int Size = 4;
@@ -61,6 +62,11 @@ namespace intArrayClasses
         {
             ShiftLeft(index);
             Count--;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return new ObjEnumerator(this) as IEnumerator;
         }
 
         private void ShiftLeft(int index)

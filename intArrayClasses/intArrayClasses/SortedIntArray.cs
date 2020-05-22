@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace intArrayClasses
+﻿namespace intArrayClasses
 {
     public class SortedIntArray : IntArray
     {
