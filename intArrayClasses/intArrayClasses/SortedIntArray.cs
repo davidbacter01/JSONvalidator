@@ -34,27 +34,14 @@
 
         private bool CanBeInsertedAt(int index, int value, int i)
         {
-            if (index > Count || index < 0)
-            {
-                return false;
-            }
-
-            if (index == Count && value >= base[Count - 1])
+            if ((index == Count && value >= base[Count - 1]) ||
+                (index == 0 && base[i] >= value))
             {
                 return true;
             }
 
-            if (index == 0 && base[i] >= value)
-            {
-                return true;
-            }
-            
-            if (index == Count - 1 && value >= base[index - 1])
-            {
-                return true;
-            }
-            
-            if(base[index - 1] <= value && value <= base[index + i])
+            if ((index == Count - 1 && value >= base[index - 1]) ||
+                (base[index - 1] <= value && value <= base[index + i]))
             {
                 return true;
             }

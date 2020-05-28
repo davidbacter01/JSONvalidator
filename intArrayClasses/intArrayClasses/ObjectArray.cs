@@ -33,7 +33,7 @@ namespace intArrayClasses
         {
             for (int i = 0; i < Count; i++)
             {
-                if (array[i] == element)
+                if (array[i].Equals(element))
                 {
                     return i;
                 }
@@ -66,7 +66,7 @@ namespace intArrayClasses
 
         public IEnumerator GetEnumerator()
         {
-            return new ObjEnumerator(this) as IEnumerator;
+            return new ObjEnumerator(this);
         }
 
         private void ShiftLeft(int index)
