@@ -13,12 +13,8 @@ namespace intArrayClasses.tests
                 true,
                 "great"
             };
-            string concat = "";
-            foreach(var value in test)
-            {
-                concat += value.ToString();
-            }
 
+            string concat = test[0].ToString() + test[1].ToString() + test[2].ToString();
             Assert.Equal("1Truegreat", concat);
         }
     }
