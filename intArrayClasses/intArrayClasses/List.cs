@@ -3,33 +3,33 @@ using System.Collections;
 
 namespace intArrayClasses
 {
-    public class ObjectArray : IEnumerable
+    public class List<T> : IEnumerable
     {
-        private object[] array;
+        private T[] array;
         private const int Size = 4;
-        public ObjectArray()
+        public List()
         {
-            array = new object[Size];
+            array = new T[Size];
         }
 
         public int Count { get; private set; } = 0;
 
-        public virtual object this[int index]
+        public virtual T this[int index]
         {
             get => array[index];
             set => array[index] = value;
         }
 
-        public void Add(object element)
+        public void Add(T element)
         {
             ResizeIfNeeded();
             Count++;
             array[Count - 1] = element;
         }
 
-        public bool Contains(object element) => IndexOf(element) > -1;
+        public bool Contains(T element) => IndexOf(element) > -1;
 
-        public int IndexOf(object element)
+        public int IndexOf(T element)
         {
             for (int i = 0; i < Count; i++)
             {
@@ -42,7 +42,7 @@ namespace intArrayClasses
             return -1;
         }
 
-        public void Insert(int index, object element)
+        public void Insert(int index, T element)
         {
             ResizeIfNeeded();
             ShiftRight(index);
@@ -56,7 +56,7 @@ namespace intArrayClasses
             Count = 0;
         }
 
-        public void Remove(object element) => RemoveAt(IndexOf(element));
+        public void Remove(T element) => RemoveAt(IndexOf(element));
 
         public void RemoveAt(int index)
         {
@@ -66,7 +66,7 @@ namespace intArrayClasses
 
         public IEnumerator GetEnumerator()
         {
-            for(int i=0;i<array.Length;i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 yield return array[i];
             }
@@ -79,7 +79,7 @@ namespace intArrayClasses
                 array[i] = array[i + 1];
             }
 
-            array[Count - 1] = 0;
+            Array.Clear(array, Count - 1, 1);
         }
 
         private void ShiftRight(int index)

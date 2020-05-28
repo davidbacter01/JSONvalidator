@@ -3,12 +3,12 @@ using System.Collections;
 
 namespace intArrayClasses
 {
-    public class ObjEnumerator : IEnumerator
+    public class ObjEnumerator<T> : IEnumerator
     {
-        private readonly ObjectArray objectArray;
+        private readonly List<T> objectArray;
         private int position = -1;
 
-        public ObjEnumerator(ObjectArray list)
+        public ObjEnumerator(List<T> list)
         {
             objectArray = list;
         }
