@@ -66,7 +66,16 @@ namespace intArrayClasses
 
         public IEnumerator GetEnumerator()
         {
-            return new ObjEnumerator(this);
+            int position = 0;
+            foreach(var element in array)
+            {
+                yield return array[position];
+                position++;
+                if (position == Count)
+                {
+                    yield break;
+                }
+            }
         }
 
         private void ShiftLeft(int index)
