@@ -40,7 +40,7 @@ namespace intArrayClasses.tests
         }
 
         [Fact]
-        public void InsertingAtIndexOperationIsAllowedOnlyIfItDoesntBreakSorting()
+        public void SetingAtIndexOperationIsAllowedOnlyIfItDoesntBreakSorting()
         {
             SortedIntArray arr = new SortedIntArray();
             arr.Add(5);
@@ -66,9 +66,20 @@ namespace intArrayClasses.tests
             arr.Add(1);
             arr.Add(2);
             arr.Insert(5, 6);
-            arr[6] = 7;
             Assert.Equal(6, arr[5]);
-            Assert.Equal(7, arr[6]);
+        }
+
+        [Fact]
+        public void SettingAtCountOperationIsNotAllowed()
+        {
+            SortedIntArray arr = new SortedIntArray();
+            arr.Add(5);
+            arr.Add(3);
+            arr.Add(4);
+            arr.Add(1);
+            arr.Add(2);
+            arr[5] = 9;
+            Assert.False(arr[5] == 9);    
         }
     }
 }
