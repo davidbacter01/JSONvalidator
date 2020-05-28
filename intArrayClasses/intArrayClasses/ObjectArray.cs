@@ -66,15 +66,9 @@ namespace intArrayClasses
 
         public IEnumerator GetEnumerator()
         {
-            int position = 0;
-            foreach(var element in array)
+            for(int i=0;i<array.Length;i++)
             {
-                yield return array[position];
-                position++;
-                if (position == Count)
-                {
-                    yield break;
-                }
+                yield return array[i];
             }
         }
 
