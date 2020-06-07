@@ -20,7 +20,7 @@ namespace intArrayClasses
             set => array[index] = value;
         }
 
-        public void Add(T element)
+        public virtual void Add(T element)
         {
             ResizeIfNeeded();
             Count++;
@@ -42,7 +42,7 @@ namespace intArrayClasses
             return -1;
         }
 
-        public void Insert(int index, T element)
+        public virtual void Insert(int index, T element)
         {
             ResizeIfNeeded();
             ShiftRight(index);

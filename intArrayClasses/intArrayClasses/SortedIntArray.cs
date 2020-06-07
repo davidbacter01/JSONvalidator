@@ -2,7 +2,7 @@
 {
     public class SortedIntArray : IntArray
     {
-        public SortedIntArray():base()
+        public SortedIntArray() : base()
         {
         }
 
@@ -20,16 +20,16 @@
             }
         }
 
-        public override int this[int index] 
+        public override int this[int index]
         {
             get => base[index];
-            set 
+            set
             {
                 if (CanBeInsertedAt(index, value, 1))
                 {
                     base[index] = value;
                 }
-            }    
+            }
         }
 
         private bool CanBeInsertedAt(int index, int value, int i)
@@ -71,7 +71,7 @@
                         swaped = true;
                     }
                 }
-            }                      
+            }
         }
     }
 }
