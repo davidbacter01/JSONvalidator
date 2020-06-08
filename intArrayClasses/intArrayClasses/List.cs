@@ -1,30 +1,33 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace intArrayClasses
 {
-    public class List<T> : IEnumerable
+    public class List<T> : IList<T>
     {
-        private T[] array;
+        private T[] list;
         private const int Size = 4;
         public List()
         {
-            array = new T[Size];
+            list = new T[Size];
         }
 
         public int Count { get; private set; } = 0;
 
-        public virtual T this[int index]
+        public bool IsReadOnly => throw new NotImplementedException();
+
+        public T this[int index]
         {
-            get => array[index];
-            set => array[index] = value;
+            get => list[index];
+            set => list[index] = value;
         }
 
-        public virtual void Add(T element)
+        public void Add(T element)
         {
             ResizeIfNeeded();
             Count++;
-            array[Count - 1] = element;
+            list[Count - 1] = element;
         }
 
         public bool Contains(T element) => IndexOf(element) > -1;
@@ -33,7 +36,7 @@ namespace intArrayClasses
         {
             for (int i = 0; i < Count; i++)
             {
-                if (array[i].Equals(element))
+                if (list[i].Equals(element))
                 {
                     return i;
                 }
@@ -42,21 +45,21 @@ namespace intArrayClasses
             return -1;
         }
 
-        public virtual void Insert(int index, T element)
+        public void Insert(int index, T element)
         {
             ResizeIfNeeded();
-            ShiftRight(index);
-            array[index] = element;
+            ShiftRight(index, list);
+            list[index] = element;
             Count++;
         }
 
         public void Clear()
         {
-            Array.Clear(array, 0, array.Length);
+            Array.Clear(list, 0, list.Length);
             Count = 0;
         }
 
-        public void Remove(T element) => RemoveAt(IndexOf(element));
+        // public void Remove(T element) => RemoveAt(IndexOf(element));
 
         public void RemoveAt(int index)
         {
@@ -66,9 +69,44 @@ namespace intArrayClasses
 
         public IEnumerator GetEnumerator()
         {
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 0; i < list.Length; i++)
             {
-                yield return array[i];
+                yield return list[i];
+            }
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            int newArrayLength = array.Length + Count;
+            Array.Resize(ref array, newArrayLength);
+            int index = arrayIndex;
+            foreach (T element in list)
+            {
+                ShiftRight(index, array);
+                array[index] = element;
+                index++;
+            }
+        }
+
+        bool ICollection<T>.Remove(T item)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (list[i].Equals(item))
+                {
+                    RemoveAt(i);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                yield return list[i];
             }
         }
 
@@ -76,15 +114,15 @@ namespace intArrayClasses
         {
             for (int i = index; i < Count - 1; i++)
             {
-                array[i] = array[i + 1];
+                list[i] = list[i + 1];
             }
 
-            Array.Clear(array, Count - 1, 1);
+            Array.Clear(list, Count - 1, 1);
         }
 
-        private void ShiftRight(int index)
+        private void ShiftRight(int index, T[] array)
         {
-            for (int i = Count; i >= index; i--)
+            for (int i = array.Length - 1; i >= index; i--)
             {
                 array[i] = array[i - 1];
             }
@@ -92,9 +130,9 @@ namespace intArrayClasses
 
         private void ResizeIfNeeded()
         {
-            if (array.Length == Count)
+            if (list.Length == Count)
             {
-                Array.Resize(ref array, Count * 2);
+                Array.Resize(ref list, Count * 2);
             }
         }
     }
