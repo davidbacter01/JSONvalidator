@@ -19,13 +19,8 @@ namespace intArrayClasses
         {
             set
             {
-                if (index < 0 || index > Count - 1)
-                {
-                    return;
-                }
-
-                if (CanInsertElementAtIndex(index - 1, value) ||
-                    CanInsertElementAtIndex(index + 1, value))
+                if (ElementAt(index - 1, value, index < 0 || index > Count - 1) ||
+                    ElementAt(index + 1, value, index < 0 || index > Count - 1))
                 {
                     base[index] = value;
                 }
@@ -34,19 +29,17 @@ namespace intArrayClasses
 
         public override void Insert(int index, T element)
         {
-            if (index < 0 || index > Count)
-            {
-                return;
-            }
-
-            if (CanInsertElementAtIndex(index, element))
+            if (ElementAt(index, element, index < 0 || index > Count))
             {
                 base.Insert(index, element);
             }
         }
 
-        private bool CanInsertElementAtIndex(int index, T element)
+        private bool ElementAt(int index, T element, bool inBounds)
         {
+            if (!inBounds)
+                return false;
+
             if (index < 0)//code reaches this point only in set case and only for list[0] = value
             {
                 return element.CompareTo(base[0]) <= 0;
