@@ -77,9 +77,9 @@ namespace intArrayClasses.tests
             string appended = ints[0].ToString() +
                 ints[1].ToString() +
                 ints[2].ToString() +
-                ints[3].ToString() +
-                ints[4].ToString();
-            Assert.Equal("12340", appended);
+                ints[3].ToString();
+                //ints[4] throws index out of range error
+            Assert.Equal("1234", appended);
         }
 
         [Fact]

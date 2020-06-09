@@ -17,13 +17,13 @@ namespace intArrayClasses
 
         public bool IsReadOnly => throw new NotImplementedException();
 
-        public T this[int index]
+        public virtual T this[int index]
         {
             get => list[index];
             set => list[index] = value;
         }
 
-        public void Add(T element)
+        public virtual void Add(T element)
         {
             ResizeIfNeeded();
             Count++;
@@ -45,7 +45,7 @@ namespace intArrayClasses
             return -1;
         }
 
-        public void Insert(int index, T element)
+        public virtual void Insert(int index, T element)
         {
             ResizeIfNeeded();
             ShiftRight(index, list);
@@ -118,7 +118,7 @@ namespace intArrayClasses
 
         private void ShiftRight(int index, T[] array)
         {
-            for (int i = array.Length - 1; i >= index; i--)
+            for (int i = array.Length - 1; i > index; i--)
             {
                 array[i] = array[i - 1];
             }
