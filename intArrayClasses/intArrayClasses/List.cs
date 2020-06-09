@@ -59,7 +59,20 @@ namespace intArrayClasses
             Count = 0;
         }
 
-        // public void Remove(T element) => RemoveAt(IndexOf(element));
+
+        public bool Remove(T item)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (list[i].Equals(item))
+                {
+                    RemoveAt(i);
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         public void RemoveAt(int index)
         {
@@ -86,20 +99,6 @@ namespace intArrayClasses
                 array[index] = element;
                 index++;
             }
-        }
-
-        bool ICollection<T>.Remove(T item)
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                if (list[i].Equals(item))
-                {
-                    RemoveAt(i);
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
