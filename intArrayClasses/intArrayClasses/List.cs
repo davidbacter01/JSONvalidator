@@ -62,13 +62,10 @@ namespace intArrayClasses
 
         public bool Remove(T item)
         {
-            for (int i = 0; i < Count; i++)
+            if (IndexOf(item) > -1)
             {
-                if (list[i].Equals(item))
-                {
-                    RemoveAt(i);
-                    return true;
-                }
+                RemoveAt(IndexOf(item));
+                return true;
             }
 
             return false;
