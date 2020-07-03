@@ -6,7 +6,7 @@ namespace intArrayClasses
 {
     public class List<T> : IList<T>
     {
-        private T[] list;
+        protected internal T[] list;
         private const int Size = 4;
         public List()
         {
