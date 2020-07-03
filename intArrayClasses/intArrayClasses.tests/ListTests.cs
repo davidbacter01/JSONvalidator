@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace intArrayClasses.tests
 {
@@ -18,6 +19,14 @@ namespace intArrayClasses.tests
             List<string> test = new List<string>() { "one", "two", "three" };
             string sum = test[0] + test[1] + test[2];
             Assert.Equal("onetwothree", sum);
+        }
+
+        [Fact]
+        public void ThrowsExceptionForCopyTo()
+        {
+            List<string> test = new List<string>() { "one", "two", "three" };
+            string[] target = { "ten", "eleven" };
+            Assert.Throws<ArgumentOutOfRangeException>(() => test.CopyTo(target, -1));
         }
     }
 }

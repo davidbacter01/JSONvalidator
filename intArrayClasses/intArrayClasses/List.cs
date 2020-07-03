@@ -47,6 +47,11 @@ namespace intArrayClasses
 
         public virtual void Insert(int index, T element)
         {
+            if (index < 0 || index > Count)
+            {
+                throw new ArgumentOutOfRangeException("index is not a valid index in the IList<T>!");
+            }
+
             ResizeIfNeeded();
             ShiftRight(index, list);
             list[index] = element;
@@ -73,6 +78,11 @@ namespace intArrayClasses
 
         public void RemoveAt(int index)
         {
+            if (index < 0 || index >= Count)
+            {
+                throw new ArgumentOutOfRangeException("index is not a valid index in the IList<T>!");
+            }
+
             ShiftLeft(index);
             Count--;
         }
@@ -87,6 +97,16 @@ namespace intArrayClasses
 
         public void CopyTo(T[] array, int arrayIndex)
         {
+            if (array == null)
+            {
+                throw new ArgumentNullException("Target array must not be null!");
+            }
+
+            if (arrayIndex < 0 || arrayIndex > Count)
+            {
+                throw new ArgumentOutOfRangeException("arrayIndex parameter is out of range!");
+            }
+
             int newArrayLength = array.Length + Count;
             Array.Resize(ref array, newArrayLength);
             int index = arrayIndex;
