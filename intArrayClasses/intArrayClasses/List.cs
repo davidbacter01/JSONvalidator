@@ -15,7 +15,7 @@ namespace intArrayClasses
 
         public int Count { get; private set; } = 0;
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public virtual bool IsReadOnly => throw new NotImplementedException();
 
         public virtual T this[int index]
         {
@@ -58,14 +58,14 @@ namespace intArrayClasses
             Count++;
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             Array.Clear(list, 0, list.Length);
             Count = 0;
         }
 
 
-        public bool Remove(T item)
+        public virtual bool Remove(T item)
         {
             if (IndexOf(item) > -1)
             {
@@ -76,7 +76,7 @@ namespace intArrayClasses
             return false;
         }
 
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
         {
             if (index < 0 || index >= Count)
             {
@@ -107,14 +107,17 @@ namespace intArrayClasses
                 throw new ArgumentOutOfRangeException("arrayIndex parameter is out of range!");
             }
 
-            int newArrayLength = array.Length + Count;
-            Array.Resize(ref array, newArrayLength);
-            int index = arrayIndex;
-            foreach (T element in list)
+            if (array.Length - arrayIndex - 1 < Count)
             {
-                ShiftRight(index, array);
-                array[index] = element;
-                index++;
+                throw new ArgumentException("Not enough space in target array!");
+            }
+
+            int listIndex = 0;
+
+            for (int i = arrayIndex; i < array.Length; i++)
+            {
+                array[i] = list[listIndex];
+                listIndex++;
             }
         }
 
