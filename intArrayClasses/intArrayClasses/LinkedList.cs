@@ -126,16 +126,16 @@ namespace intArrayClasses
                 throw new ArgumentOutOfRangeException("arrayIndex out of range");
             }
 
-            if (array.Length - arrayIndex - 1 < Count)
+            if (array.Length - arrayIndex < Count)
             {
                 throw new ArgumentException("Not enough space in target array!");
             }
 
-            var current = sentinel.Next;
-            for (int i = arrayIndex; i < Count; i++)
+            int index = arrayIndex;
+            foreach (var value in this)
             {
-                array[i] = current.Value;
-                current = current.Next;
+                array[index] = value;
+                index++;
             }
         }
 

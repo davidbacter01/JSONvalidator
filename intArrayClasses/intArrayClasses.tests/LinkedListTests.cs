@@ -115,5 +115,15 @@ namespace intArrayClasses.tests
             var expected = new LinkedList<int> { 1, 3, 2, 3 };
             Assert.Equal(expected, list);
         }
+
+        [Fact]
+        public void CopiesInAnArrayAtSpecifiedIndex()
+        {
+            var list = new LinkedList<int> { 1, 2, 3 };
+            int[] arr = { 3, 2, 1 };
+            list.CopyTo(arr, 0);
+            int[] expected = { 1, 2, 3};
+            Assert.Equal(expected, arr);
+        }
     }
 }
