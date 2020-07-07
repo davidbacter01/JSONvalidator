@@ -24,26 +24,7 @@ namespace intArrayClasses
 
         public void Add(T item)
         {
-            var newNode = new LinkedListNode<T>
-            {
-                Value = item,
-                Next = sentinel
-            };
-
-            var current = sentinel;
-            while (true)
-            {
-                current = current.Next;
-                if (current.Next == sentinel)
-                {
-                    sentinel.Previous = newNode;
-                    current.Next = newNode;
-                    newNode.Previous = current;
-                    break;
-                }
-            }
-
-            Count++;
+            AddAfter(Last, item);
         }
 
         public void AddLast(T item)
@@ -51,42 +32,14 @@ namespace intArrayClasses
             Add(item);
         }
 
-        public LinkedListNode<T> AddFirst(T item)
+        public void AddFirst(T item)
         {
-            var newNode = new LinkedListNode<T>() 
-            { 
-                Value = item,
-                Next = sentinel.Next,
-                Previous = sentinel 
-            };
-            First.Previous = newNode;
-            sentinel.Next = newNode;
-            Count++;
-
-            return newNode;
+            AddAfter(sentinel, item);
         }
 
         public void AddBefore(LinkedListNode<T> listNode, T value)
         {
-            if(listNode == null)
-            {
-                throw new ArgumentNullException("linkedListNode can't be null!");
-            }
-
-            if (Find(listNode.Value) == null)
-            {
-                throw new InvalidOperationException("node is not in the current linked list!");
-            }
-
-            var newNode = new LinkedListNode<T>
-            {
-                Value = value,
-                Next = listNode,
-                Previous = listNode.Previous
-            };
-            var current = listNode.Previous;
-            current.Next = newNode;
-            listNode.Previous = newNode;
+            AddAfter(listNode.Previous, value);
         }
 
         public void AddAfter(LinkedListNode<T> listNode, T value)
@@ -96,9 +49,12 @@ namespace intArrayClasses
                 throw new ArgumentNullException("linkedListNode can't be null!");
             }
 
-            if (Find(listNode.Value) == null)
+            if (listNode != sentinel)
             {
-                throw new InvalidOperationException("node is not in the current linked list!");
+                if (Find(listNode.Value) == null)
+                {
+                    throw new InvalidOperationException("node is not in the current linked list!");
+                }
             }
 
             var newNode = new LinkedListNode<T>
@@ -110,6 +66,7 @@ namespace intArrayClasses
             var current = listNode.Next;
             current.Previous = newNode;
             listNode.Next = newNode;
+            Count++;
         }
 
         public void Clear()
@@ -185,7 +142,7 @@ namespace intArrayClasses
         public IEnumerator<T> GetEnumerator()
         {
             var current = First;
-            while (current != sentinel)
+            for (int i = 0; i < Count; i++)
             {
                 yield return current.Value;
                 current = current.Next;
