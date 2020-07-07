@@ -12,6 +12,7 @@ namespace intArrayClasses
             sentinel = new LinkedListNode<T>();
             sentinel.Next = sentinel;
             sentinel.Previous = sentinel;
+            sentinel.ParentList = this;
         }
 
         public int Count { get; private set; } = 0;
@@ -49,19 +50,18 @@ namespace intArrayClasses
                 throw new ArgumentNullException("linkedListNode can't be null!");
             }
 
-            if (listNode != sentinel)
+            if (listNode.ParentList != this)
             {
-                if (Find(listNode.Value) == null)
-                {
-                    throw new InvalidOperationException("node is not in the current linked list!");
-                }
+                throw new InvalidOperationException("node is not in the current linked list!");
             }
+
 
             var newNode = new LinkedListNode<T>
             {
                 Value = value,
                 Next = listNode.Next,
-                Previous = listNode
+                Previous = listNode,
+                ParentList = this
             };
             var current = listNode.Next;
             current.Previous = newNode;
@@ -79,18 +79,17 @@ namespace intArrayClasses
         public LinkedListNode<T> Find(T item)
         {
             var current = First;
-
-            while (!current.Value.Equals(item))
+            for (int i = 0; i < Count; i++)
             {
-                if (current.Next == sentinel)
+                if (current.Value.Equals(item))
                 {
-                    return null;
+                    return current;
                 }
 
                 current = current.Next;
             }
 
-            return current;
+            return null;
         }
 
         public LinkedListNode<T> FindLast(T item)
@@ -169,6 +168,11 @@ namespace intArrayClasses
             return false;
         }
 
+        public void Remove(LinkedListNode<T> node)
+        {
+            Remove(node.Value);
+        }
+
         public void RemoveFirst()
         {
             if (sentinel.Next == sentinel.Previous)
@@ -190,14 +194,8 @@ namespace intArrayClasses
         }
 
         IEnumerator IEnumerable.GetEnumerator()
-
         {
-            var current = First;
-            while (current != sentinel)
-            {
-                yield return current.Value;
-                current = current.Next;
-            }
+            return GetEnumerator();
         }
     }
 }
