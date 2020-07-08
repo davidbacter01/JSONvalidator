@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace intArrayClasses
 {
@@ -28,9 +29,64 @@ namespace intArrayClasses
             AddAfter(Last, item);
         }
 
+        public void Add(LinkedListNode<T> node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException("node is null");
+            }
+
+            if (node.ParentList != this)
+            {
+                throw new InvalidOperationException("node belongs to a different list or it's ParentList is not set");
+            }
+
+            Add(node.Value);
+        }
+
         public void AddLast(T item)
         {
             Add(item);
+        }
+
+        public void AddLast(LinkedListNode<T> node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException("node is null");
+            }
+
+            if (node.ParentList != this)
+            {
+                throw new InvalidOperationException("node belongs to a different list or it's ParentList is not set");
+            }
+
+            Add(node);
+        }
+
+        public void AddFirst(LinkedListNode<T> node)
+        {
+            AddAfter(sentinel, node);
+        }
+
+        public void AddAfter(LinkedListNode<T> target, LinkedListNode<T> toAdd)
+        {
+            if (toAdd == null)
+            {
+                throw new ArgumentNullException("node is null");
+            }
+
+            if (toAdd.ParentList != this)
+            {
+                throw new InvalidOperationException("node belongs to a different list or it's ParentList is not set");
+            }
+
+            AddAfter(target, toAdd.Value);
+        }
+
+        public void AddBefore(LinkedListNode<T> target, LinkedListNode<T> toAdd)
+        {
+            AddAfter(target.Previous, toAdd);
         }
 
         public void AddFirst(T item)
@@ -78,15 +134,12 @@ namespace intArrayClasses
 
         public LinkedListNode<T> Find(T item)
         {
-            var current = First;
-            for (int i = 0; i < Count; i++)
+            for (var current = First; current != sentinel; current = current.Next)
             {
                 if (current.Value.Equals(item))
                 {
                     return current;
                 }
-
-                current = current.Next;
             }
 
             return null;
@@ -94,15 +147,15 @@ namespace intArrayClasses
 
         public LinkedListNode<T> FindLast(T item)
         {
-            var current = Last;
-            while (!current.Value.Equals(item))
+            LinkedListNode<T> current;
+            for (current=Last;
+                current.Value.Equals(item);
+                current=current.Previous)
             {
                 if (current.Previous == sentinel)
                 {
                     return null;
-                }
-
-                current = current.Previous;
+                } 
             }
 
             return current;
@@ -150,8 +203,8 @@ namespace intArrayClasses
 
         public bool Remove(T item)
         {
-            var current = First;
-            for (int i = 0; i < Count; i++)
+            LinkedListNode<T> current;
+            for (current = First; current != sentinel; current = current.Next)
             {
                 if (current.Value.Equals(item))
                 {
@@ -161,8 +214,6 @@ namespace intArrayClasses
                     Count--;
                     return true;
                 }
-
-                current = current.Next;
             }
 
             return false;
@@ -170,6 +221,16 @@ namespace intArrayClasses
 
         public void Remove(LinkedListNode<T> node)
         {
+            if (node == null)
+            {
+                throw new ArgumentNullException("node is null");
+            }
+
+            if (node.ParentList != this)
+            {
+                throw new InvalidOperationException("node is not in this list");
+            }
+
             Remove(node.Value);
         }
 
@@ -180,7 +241,7 @@ namespace intArrayClasses
                 throw new InvalidOperationException("linked list is empty");
             }
 
-            Remove(First.Value);
+            Remove(First);
         }
 
         public void RemoveLast()
@@ -190,7 +251,7 @@ namespace intArrayClasses
                 throw new InvalidOperationException("linked list is empty");
             }
 
-            Remove(Last.Value);
+            Remove(Last);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
