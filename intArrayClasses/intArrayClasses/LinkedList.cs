@@ -41,7 +41,7 @@ namespace intArrayClasses
                 throw new InvalidOperationException("node belongs to a different list or it's ParentList is not set");
             }
 
-            Add(node.Value);
+            Add(node);
         }
 
         public void AddLast(T item)
@@ -81,7 +81,11 @@ namespace intArrayClasses
                 throw new InvalidOperationException("node belongs to a different list or it's ParentList is not set");
             }
 
-            AddAfter(target, toAdd.Value);
+            toAdd.Next = target.Next;
+            toAdd.Previous = target;
+            target.Next.Previous = toAdd;
+            target.Next = toAdd;
+            Count++;
         }
 
         public void AddBefore(LinkedListNode<T> target, LinkedListNode<T> toAdd)
@@ -231,7 +235,16 @@ namespace intArrayClasses
                 throw new InvalidOperationException("node is not in this list");
             }
 
-            Remove(node.Value);
+            for (var current = First; current != sentinel; current = current.Next)
+            {
+                if (current.Equals(node))
+                {
+                    current = current.Previous;
+                    current.Next = current.Next.Next;
+                    current.Next.Previous = current;
+                    Count--;
+                }
+            }
         }
 
         public void RemoveFirst()
