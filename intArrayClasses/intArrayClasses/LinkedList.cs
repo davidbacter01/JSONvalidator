@@ -41,7 +41,7 @@ namespace intArrayClasses
                 throw new InvalidOperationException("node belongs to a different list or it's ParentList is not set");
             }
 
-            Add(node);
+            AddAfter(Last, node);
         }
 
         public void AddLast(T item)
