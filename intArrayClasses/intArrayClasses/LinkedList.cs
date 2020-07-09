@@ -207,20 +207,14 @@ namespace intArrayClasses
 
         public bool Remove(T item)
         {
-            LinkedListNode<T> current;
-            for (current = First; current != sentinel; current = current.Next)
+            var toRemove = Find(item);
+            if (toRemove == null)
             {
-                if (current.Value.Equals(item))
-                {
-                    current = current.Previous;
-                    current.Next = current.Next.Next;
-                    current.Next.Previous = current;
-                    Count--;
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            Remove(toRemove);
+            return true;
         }
 
         public void Remove(LinkedListNode<T> node)
