@@ -8,7 +8,7 @@ namespace intArrayClasses
     {
         private readonly int[] buckets;
         private Element<TKey, TValue>[] elements;
-        private readonly Stack<int> freeIndex;
+        private int freeIndex;
 
         public Dictionary(int capacity = 5)
         {
@@ -19,36 +19,42 @@ namespace intArrayClasses
             }
 
             elements = new Element<TKey, TValue>[capacity];
-            freeIndex = new Stack<int>();
+            freeIndex = -1;
         }
 
         public TValue this[TKey key]
         {
             get
             {
-                for (int i = buckets[GetBucketPosition(key)]; i != -1; i = elements[i].Next)
+                if (key == null)
                 {
-                    if (elements[i].Key.Equals(key))
-                    {
-                        return elements[i].Value;
-                    }
+                    throw new ArgumentNullException("key is null");
                 }
 
-                throw new KeyNotFoundException("key doesn't exist");
+                int index = GetKeyPosition(key);
+                if (index < 0)
+                {
+                    throw new KeyNotFoundException("key is not in this dictionary");
+                }
+
+                return elements[index].Value;
             }
 
             set
             {
-                for (int i = buckets[GetBucketPosition(key)]; i != -1; i = elements[i].Next)
+                if (key == null)
                 {
-                    if (elements[i].Key.Equals(key))
-                    {
-                        elements[i].Value = value;
-                        return;
-                    }
+                    throw new ArgumentNullException("key is null");
                 }
 
-                Add(key, value);
+                int index = GetKeyPosition(key);
+                if (index < 0)
+                {
+                    Add(key, value);
+                    return;
+                }
+
+                elements[index].Value = value; 
             }
         }
 
@@ -103,21 +109,36 @@ namespace intArrayClasses
 
             var element = new Element<TKey, TValue> { Key = key, Value = value };
             var bucketIndex = GetBucketPosition(key);
-            if (!(buckets[bucketIndex] == -1))
+            if (buckets[bucketIndex] == -1)
             {
-                element.Next = buckets[bucketIndex];
+                if (freeIndex > -1)
+                {
+                    buckets[bucketIndex] = freeIndex;
+                    int temp = elements[freeIndex].Next;
+                    elements[freeIndex] = element;
+                    freeIndex = temp;
+                    Count++;
+                    return;
+                }
+
+                elements[Count] = element;
+                buckets[bucketIndex] = Count;
+                Count++;
+                return;
             }
 
-            if (freeIndex.Count == 0)
+            if (freeIndex == -1)
             {
                 elements[Count] = element;
+                element.Next = buckets[bucketIndex];
                 buckets[bucketIndex] = Count;
             }
             else
             {
-                int newIndex = freeIndex.Pop();
-                elements[newIndex] = element;
-                buckets[bucketIndex] = newIndex;
+                element.Next = buckets[bucketIndex];
+                elements[freeIndex] = element;
+                buckets[bucketIndex] = freeIndex;
+                freeIndex = elements[freeIndex].Next;
             }
 
             Count++;
@@ -131,7 +152,7 @@ namespace intArrayClasses
         public void Clear()
         {
             Array.Clear(elements, 0, elements.Length);
-            freeIndex.Clear();
+            freeIndex = -1;
             for (int i = 0; i < buckets.Length; i++)
             {
                 buckets[i] = -1;
@@ -185,9 +206,9 @@ namespace intArrayClasses
                 throw new ArgumentOutOfRangeException("index is less than zero");
             }
 
-            for (int i = 0; i < Count; i++)
+            foreach (KeyValuePair<TKey,TValue> pair in this)
             {
-                array[arrayIndex] = new KeyValuePair<TKey, TValue>(elements[i].Key, elements[i].Value);
+                array[arrayIndex] = pair;
                 arrayIndex++;
             }
         }
@@ -210,30 +231,34 @@ namespace intArrayClasses
                 throw new ArgumentNullException("key is null");
             }
 
-            if (GetKeyPosition(key) == -1)
+            int index = GetKeyPosition(key);
+            if (index == -1)
             {
                 return false;
             }
 
             int bucketIndex = GetBucketPosition(key);
-            int elementIndex = buckets[bucketIndex];
-            if (elements[elementIndex].Key.Equals(key))
+            if (elements[buckets[bucketIndex]].Key.Equals(key))
             {
-                freeIndex.Push(elementIndex);
-                buckets[bucketIndex] = elements[elementIndex].Next;
+                freeIndex = buckets[bucketIndex];
+                buckets[bucketIndex] = -1;
+                elements[freeIndex].Next = -1;
+                Count--;
                 return true;
             }
 
-            for (int i = elements[elementIndex].Next; i != -1; i = elements[i].Next)
+            for (int i = elements[index].Next; i != -1; i = elements[i].Next)
             {
                 if (elements[i].Key.Equals(key))
                 {
-                    elements[elementIndex].Next = elements[i].Next;
-                    freeIndex.Push(i);
+                    elements[index].Next = elements[i].Next;
+                    freeIndex = i;
+                    elements[i].Next = -1;
+                    Count--;
                     return true;
                 }
 
-                elementIndex = elements[elementIndex].Next;
+                index = elements[index].Next;
             }
 
             return false;
@@ -241,12 +266,20 @@ namespace intArrayClasses
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            foreach (KeyValuePair<TKey,TValue> pair in this)
+            if (item.Key == null)
             {
-                if (pair.Equals(item))
-                {
-                    return Remove(item.Key);
-                }
+                throw new ArgumentNullException("key is null");
+            }
+
+            int index = GetKeyPosition(item.Key);
+            if (index < 0)
+            {
+                throw new ArgumentException("item is not in this dictionary");
+            }
+
+            if (elements[index].Value.Equals(item.Value))
+            {
+                return Remove(item.Key);
             }
 
             return false;
@@ -259,17 +292,15 @@ namespace intArrayClasses
                 throw new ArgumentNullException("key is null");
             }
 
-            foreach (var pair in this)
+            int index = GetKeyPosition(key);
+            if (index < 0)
             {
-                if (pair.Key.Equals(key))
-                {
-                    value = pair.Value;
-                    return true;
-                }
+                value = default;
+                return false;
             }
 
-            value = default;
-            return false;
+            value = elements[index].Value;
+            return true;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http.Headers;
 using Xunit;
 
 namespace intArrayClasses.tests
@@ -94,6 +94,41 @@ namespace intArrayClasses.tests
             Assert.False(dict.ContainsKey("apa"));
             Assert.False(dict.ContainsKey("lapte"));
             Assert.DoesNotContain(lapte, dict);
+        }
+
+        [Fact]
+        public void CopiesKeyValuePairsToArray()
+        {
+            KeyValuePair<string, string>[] ar =
+            {
+                new KeyValuePair<string, string>("a", "a"),
+                new KeyValuePair<string, string>("b", "b"),
+                new KeyValuePair<string, string>("c","c")
+            };
+            var dict = new Dictionary<string, string>
+            {
+                { "lapte", "120l" },
+                { "apa", "200l" },
+                { "paa", "conflict" }
+            };
+            dict.CopyTo(ar, 0);
+            Assert.Contains(new KeyValuePair<string,string>("lapte","120l"),ar);
+            Assert.Contains(new KeyValuePair<string,string>("apa","200l"),ar);
+            Assert.Contains(new KeyValuePair<string,string>("paa","conflict"),ar);
+        }
+
+        [Fact]
+        public void TriesToGetValueFromDictionary()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "lapte", "120l" },
+                { "apa", "200l" },
+                { "paa", "conflict" }
+            };
+
+            Assert.True(dict.TryGetValue("lapte", out string value));
+            Assert.False(dict.TryGetValue("mar", out string mar));
         }
     }
 }
