@@ -1,34 +1,36 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 
 namespace intArrayClasses
 {
     public class Dictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private readonly int[] buckets = { -1, -1, -1, -1, -1 };
-        private readonly List<Element<TKey, TValue>> elements;
+        private readonly int[] buckets;
+        private Element<TKey, TValue>[] elements;
         private readonly Stack<int> freeIndex;
 
-        public Dictionary()
+        public Dictionary(int capacity = 5)
         {
-            elements = new List<Element<TKey, TValue>>();
+            buckets = new int[capacity];
+            for (int i = 0; i < capacity; i++)
+            {
+                buckets[i] = -1;
+            }
+
+            elements = new Element<TKey, TValue>[capacity];
             freeIndex = new Stack<int>();
         }
 
-        public TValue this[TKey key] 
-        { 
+        public TValue this[TKey key]
+        {
             get
             {
-                int index = GetHashPosition(key);
-                for (int elementIndex = buckets[index];
-                    elementIndex == -1; 
-                    elementIndex = elements[elementIndex].next)
+                for (int i = buckets[GetBucketPosition(key)]; i != -1; i = elements[i].Next)
                 {
-                    if (elements[elementIndex].key.Equals(key))
+                    if (elements[i].Key.Equals(key))
                     {
-                        return elements[elementIndex].value;
+                        return elements[i].Value;
                     }
                 }
 
@@ -37,20 +39,46 @@ namespace intArrayClasses
 
             set
             {
-                try
+                for (int i = buckets[GetBucketPosition(key)]; i != -1; i = elements[i].Next)
                 {
-                    this[key] = value;
+                    if (elements[i].Key.Equals(key))
+                    {
+                        elements[i].Value = value;
+                        return;
+                    }
                 }
-                catch (KeyNotFoundException)
-                {
-                    Add(key, value);
-                }
+
+                Add(key, value);
             }
         }
 
-        public ICollection<TKey> Keys { get; } = new List<TKey>();
+        public ICollection<TKey> Keys 
+        { 
+            get 
+            {
+                List<TKey> keys = new List<TKey>();
+                foreach (var element in this)
+                {
+                    keys.Add(element.Key);
+                }
 
-        public ICollection<TValue> Values { get; } = new List<TValue>();
+                return keys;
+            } 
+        }
+
+        public ICollection<TValue> Values 
+        { 
+            get
+            {
+                List<TValue> values = new List<TValue>();
+                foreach (var element in elements)
+                {
+                    values.Add(element.Value);
+                }
+
+                return values;
+            } 
+        }
 
         public int Count { get; private set; } = 0;
 
@@ -63,26 +91,35 @@ namespace intArrayClasses
                 throw new ArgumentNullException("key is null");
             }
 
-            if (Keys.Contains(key))
+            if (GetKeyPosition(key) > -1)
             {
                 throw new ArgumentException("An element with the same key already exists in the Dictionary<TKey,TValue>.");
             }
 
-            var element = new Element<TKey, TValue>(key, value);
-            var index = GetHashPosition(key);
+            if (elements.Length == Count)
+            {
+                Array.Resize(ref elements, elements.Length * 2);
+            }
+
+            var element = new Element<TKey, TValue> { Key = key, Value = value };
+            var bucketIndex = GetBucketPosition(key);
+            if (!(buckets[bucketIndex] == -1))
+            {
+                element.Next = buckets[bucketIndex];
+            }
+
             if (freeIndex.Count == 0)
             {
-                elements.Add(element);
+                elements[Count] = element;
+                buckets[bucketIndex] = Count;
             }
             else
             {
-                elements[freeIndex.Pop()] = element;
+                int newIndex = freeIndex.Pop();
+                elements[newIndex] = element;
+                buckets[bucketIndex] = newIndex;
             }
 
-            element.next = elements.IndexOf(elements[buckets[index]]);
-            buckets[index] = elements.IndexOf(element);
-            Keys.Add(key);
-            Values.Add(value);
             Count++;
         }
 
@@ -93,9 +130,14 @@ namespace intArrayClasses
 
         public void Clear()
         {
-            elements.Clear();
+            Array.Clear(elements, 0, elements.Length);
             freeIndex.Clear();
-            Array.Clear(buckets, 0, buckets.Length);
+            for (int i = 0; i < buckets.Length; i++)
+            {
+                buckets[i] = -1;
+            }
+
+            Count = 0;
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
@@ -105,9 +147,9 @@ namespace intArrayClasses
                 throw new ArgumentNullException("Key is null");
             }
 
-            foreach (Element<TKey,TValue> element in elements)
+            foreach (KeyValuePair<TKey,TValue> pair in this)
             {
-                if (element.key.Equals(item.Key) && element.value.Equals(item.Value))
+                if (pair.Equals(item))
                 {
                     return true;
                 }
@@ -123,7 +165,7 @@ namespace intArrayClasses
                 throw new ArgumentNullException("key is null");
             }
 
-            return Keys.Contains(key);
+            return GetKeyPosition(key) > -1;
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -142,13 +184,22 @@ namespace intArrayClasses
             {
                 throw new ArgumentOutOfRangeException("index is less than zero");
             }
+
+            for (int i = 0; i < Count; i++)
+            {
+                array[arrayIndex] = new KeyValuePair<TKey, TValue>(elements[i].Key, elements[i].Value);
+                arrayIndex++;
+            }
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            foreach(Element<TKey,TValue> element in elements)
+            for (int i = 0; i < buckets.Length; i++)
             {
-                yield return new KeyValuePair<TKey, TValue>(element.key, element.value);
+                for (int j = buckets[i]; j != -1; j = elements[j].Next)
+                {
+                    yield return new KeyValuePair<TKey, TValue>(elements[j].Key, elements[j].Value);
+                }
             }
         }
 
@@ -159,30 +210,40 @@ namespace intArrayClasses
                 throw new ArgumentNullException("key is null");
             }
 
-            if (!Keys.Contains(key))
+            if (GetKeyPosition(key) == -1)
             {
                 return false;
             }
 
-            int bucketIndex = GetHashPosition(key);
+            int bucketIndex = GetBucketPosition(key);
             int elementIndex = buckets[bucketIndex];
-            if (elements[elementIndex].next < 0)
+            if (elements[elementIndex].Key.Equals(key))
             {
-                buckets[bucketIndex] = -1;
                 freeIndex.Push(elementIndex);
+                buckets[bucketIndex] = elements[elementIndex].Next;
                 return true;
             }
 
-            buckets[bucketIndex] = elements[elementIndex].next;
-            freeIndex.Push(elementIndex);
-            return true;
+            for (int i = elements[elementIndex].Next; i != -1; i = elements[i].Next)
+            {
+                if (elements[i].Key.Equals(key))
+                {
+                    elements[elementIndex].Next = elements[i].Next;
+                    freeIndex.Push(i);
+                    return true;
+                }
+
+                elementIndex = elements[elementIndex].Next;
+            }
+
+            return false;
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            foreach (Element<TKey, TValue> element in elements)
+            foreach (KeyValuePair<TKey,TValue> pair in this)
             {
-                if (element.key.Equals(item.Key) && element.value.Equals(item.Value))
+                if (pair.Equals(item))
                 {
                     return Remove(item.Key);
                 }
@@ -216,6 +277,20 @@ namespace intArrayClasses
             return GetEnumerator();
         }
 
-        private int GetHashPosition(TKey key) => Math.Abs(key.GetHashCode()) % buckets.Length;
+        private int GetBucketPosition(TKey key) => Math.Abs(key.GetHashCode()) % buckets.Length;
+
+        private int GetKeyPosition(TKey key)
+        {
+            int index = GetBucketPosition(key);
+            for (int i = buckets[index]; i != -1; i = elements[i].Next)
+            {
+                if (elements[i].Key.Equals(key))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
     }
 }
