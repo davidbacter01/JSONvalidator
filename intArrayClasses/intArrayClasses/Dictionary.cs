@@ -105,15 +105,14 @@ namespace intArrayClasses
 
             var element = new Element<TKey, TValue> { Key = key, Value = value };
             int bucketIndex = GetBucketPosition(key);
+            element.Next = buckets[bucketIndex];
             if (freeIndex < 0)
             {
-                element.Next = buckets[bucketIndex];
                 buckets[bucketIndex] = Count;
                 elements[Count] = element;
             }
             else
             {
-                element.Next = buckets[bucketIndex];
                 buckets[bucketIndex] = freeIndex;
                 elements[freeIndex] = element;
                 freeIndex = elements[freeIndex].Next;
