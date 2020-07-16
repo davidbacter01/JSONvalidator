@@ -161,6 +161,11 @@ namespace intArrayClasses
             }
 
             int index = GetKeyPosition(item.Key);
+            if (index < 0)
+            {
+                return false;
+            }
+
             if (elements[index].Value.Equals(item.Value))
             {
                 return true;
@@ -227,31 +232,24 @@ namespace intArrayClasses
                 return false;
             }
 
-            int bucketIndex = GetBucketPosition(key);
-            if (elements[buckets[bucketIndex]].Key.Equals(key))
+            int bucket = GetBucketPosition(key);
+            if (index == buckets[bucket])
             {
-                freeIndex = buckets[bucketIndex];
-                buckets[bucketIndex] = -1;
-                elements[freeIndex].Next = -1;
-                Count--;
-                return true;
+                return RemoveFirst(index, bucket);
             }
 
-            for (int i = elements[index].Next; i != -1; i = elements[i].Next)
+            int previous = buckets[bucket];
+            while (elements[previous].Next != index)
             {
-                if (elements[i].Key.Equals(key))
-                {
-                    elements[index].Next = elements[i].Next;
-                    freeIndex = i;
-                    elements[i].Next = -1;
-                    Count--;
-                    return true;
-                }
-
-                index = elements[index].Next;
+                previous = elements[previous].Next;
             }
 
-            return false;
+            int temp = freeIndex;
+            freeIndex = index;
+            elements[previous].Next = elements[index].Next;
+            elements[freeIndex].Next = temp;
+
+            return true;
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
@@ -312,6 +310,15 @@ namespace intArrayClasses
             }
 
             return -1;
+        }
+
+        private bool RemoveFirst(int index,int bucket)
+        {
+            int temp = freeIndex;
+            freeIndex = index;
+            buckets[bucket] = elements[index].Next;
+            elements[freeIndex].Next = temp;
+            return true;
         }
     }
 }

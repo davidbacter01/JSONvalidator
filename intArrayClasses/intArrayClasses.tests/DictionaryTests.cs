@@ -130,5 +130,30 @@ namespace intArrayClasses.tests
             Assert.True(dict.TryGetValue("lapte", out string value));
             Assert.False(dict.TryGetValue("mar", out string mar));
         }
+
+        [Fact]
+        public void WorksForMultipleDeletes()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "lapte", "120l" },
+                { "apa", "200l" },
+                { "paa", "conflict" },
+                {"ab","b" },
+                {"ba","d" },
+                {"e","f" }
+            };
+
+            dict.Remove("lapte");
+            dict.Remove("paa");
+            dict.Remove("apa");
+            dict.Remove(new KeyValuePair<string, string>("ab", "b"));
+            dict.Remove(new KeyValuePair<string, string>("ba", "d"));
+            Assert.False(dict.ContainsKey("lapte"));
+            Assert.False(dict.ContainsKey("apa"));
+            Assert.False(dict.ContainsKey("paa"));
+            Assert.False(dict.ContainsKey("ab"));
+            Assert.False(dict.ContainsKey("ba"));
+        }
     }
 }
