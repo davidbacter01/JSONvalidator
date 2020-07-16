@@ -50,13 +50,13 @@ namespace intArrayClasses
                     return;
                 }
 
-                elements[index].Value = value; 
+                elements[index].Value = value;
             }
         }
 
-        public ICollection<TKey> Keys 
-        { 
-            get 
+        public ICollection<TKey> Keys
+        {
+            get
             {
                 List<TKey> keys = new List<TKey>();
                 foreach (var element in this)
@@ -65,11 +65,11 @@ namespace intArrayClasses
                 }
 
                 return keys;
-            } 
+            }
         }
 
-        public ICollection<TValue> Values 
-        { 
+        public ICollection<TValue> Values
+        {
             get
             {
                 List<TValue> values = new List<TValue>();
@@ -79,7 +79,7 @@ namespace intArrayClasses
                 }
 
                 return values;
-            } 
+            }
         }
 
         public int Count { get; private set; } = 0;
@@ -104,39 +104,16 @@ namespace intArrayClasses
             }
 
             var element = new Element<TKey, TValue> { Key = key, Value = value };
-            var bucketIndex = GetBucketPosition(key);
-            if (buckets[bucketIndex] == -1)
+            int bucketIndex = GetBucketPosition(key);
+            if (freeIndex < 0)
             {
-                if (freeIndex > -1)
-                {
-                    buckets[bucketIndex] = freeIndex;
-                    int temp = elements[freeIndex].Next;
-                    elements[freeIndex] = element;
-                    freeIndex = temp;
-                    Count++;
-                    return;
-                }
-
-                elements[Count] = element;
-                buckets[bucketIndex] = Count;
-                Count++;
-                return;
+                freeIndex = Count;
             }
 
-            if (freeIndex == -1)
-            {
-                elements[Count] = element;
-                element.Next = buckets[bucketIndex];
-                buckets[bucketIndex] = Count;
-            }
-            else
-            {
-                element.Next = buckets[bucketIndex];
-                elements[freeIndex] = element;
-                buckets[bucketIndex] = freeIndex;
-                freeIndex = elements[freeIndex].Next;
-            }
-
+            element.Next = buckets[bucketIndex];
+            buckets[bucketIndex] = freeIndex;
+            elements[freeIndex] = element;
+            freeIndex = elements[freeIndex] == null ? -1 : elements[freeIndex].Next;
             Count++;
         }
 
@@ -201,7 +178,7 @@ namespace intArrayClasses
                 throw new ArgumentOutOfRangeException("index is less than zero");
             }
 
-            foreach (KeyValuePair<TKey,TValue> pair in this)
+            foreach (KeyValuePair<TKey, TValue> pair in this)
             {
                 array[arrayIndex] = pair;
                 arrayIndex++;
@@ -312,7 +289,7 @@ namespace intArrayClasses
             return -1;
         }
 
-        private bool RemoveFirst(int index,int bucket)
+        private bool RemoveFirst(int index, int bucket)
         {
             int temp = freeIndex;
             freeIndex = index;
