@@ -160,12 +160,10 @@ namespace intArrayClasses
                 throw new ArgumentNullException("Key is null");
             }
 
-            foreach (KeyValuePair<TKey,TValue> pair in this)
+            int index = GetKeyPosition(item.Key);
+            if (elements[index].Value.Equals(item.Value))
             {
-                if (pair.Equals(item))
-                {
-                    return true;
-                }
+                return true;
             }
 
             return false;
