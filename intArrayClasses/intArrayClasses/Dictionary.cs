@@ -107,13 +107,18 @@ namespace intArrayClasses
             int bucketIndex = GetBucketPosition(key);
             if (freeIndex < 0)
             {
-                freeIndex = Count;
+                element.Next = buckets[bucketIndex];
+                buckets[bucketIndex] = Count;
+                elements[Count] = element;
+            }
+            else
+            {
+                element.Next = buckets[bucketIndex];
+                buckets[bucketIndex] = freeIndex;
+                elements[freeIndex] = element;
+                freeIndex = elements[freeIndex].Next;
             }
 
-            element.Next = buckets[bucketIndex];
-            buckets[bucketIndex] = freeIndex;
-            elements[freeIndex] = element;
-            freeIndex = elements[freeIndex] == null ? -1 : elements[freeIndex].Next;
             Count++;
         }
 
