@@ -13,11 +13,7 @@ namespace intArrayClasses
         public Dictionary(int capacity = 5)
         {
             buckets = new int[capacity];
-            for (int i = 0; i < capacity; i++)
-            {
-                buckets[i] = -1;
-            }
-
+            Array.Fill(buckets, -1);
             elements = new Element<TKey, TValue>[capacity];
             freeIndex = -1;
         }
@@ -151,13 +147,9 @@ namespace intArrayClasses
 
         public void Clear()
         {
-            Array.Clear(elements, 0, elements.Length);
+            Array.Fill(elements, default);
             freeIndex = -1;
-            for (int i = 0; i < buckets.Length; i++)
-            {
-                buckets[i] = -1;
-            }
-
+            Array.Fill(buckets, -1);
             Count = 0;
         }
 
