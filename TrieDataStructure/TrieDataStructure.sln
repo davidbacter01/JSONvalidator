@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrieDataStructure", "TrieDataStructure.csproj", "{59515F1C-A40C-4B20-842A-0230E939CB63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrieDataStructureTests", "..\TrieDataStructureTests\TrieDataStructureTests.csproj", "{1EB778E2-BE47-4023-B061-B97ADF381275}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59515F1C-A40C-4B20-842A-0230E939CB63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59515F1C-A40C-4B20-842A-0230E939CB63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59515F1C-A40C-4B20-842A-0230E939CB63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59515F1C-A40C-4B20-842A-0230E939CB63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EB778E2-BE47-4023-B061-B97ADF381275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EB778E2-BE47-4023-B061-B97ADF381275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EB778E2-BE47-4023-B061-B97ADF381275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EB778E2-BE47-4023-B061-B97ADF381275}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BB91C62C-20A6-445A-A57C-646908F3515D}
+	EndGlobalSection
+EndGlobal
