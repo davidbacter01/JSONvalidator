@@ -43,23 +43,12 @@ namespace TrieDataStructure
                 throw new ArgumentNullException();
             }
 
-            var current = root;
-            foreach (char letter in word)
+            if (!TryGetValueNode(word, out var node))
             {
-                if (!current.children.ContainsKey(letter))
-                {
-                    return false;
-                }
-
-                current = current.children[letter];
+                return false;
             }
 
-            if (current.Value == word)
-            {
-                return true;
-            }
-
-            return false;
+            return node.Value == word;
         }
 
         public IEnumerable<string> Autocomplete(string word)
@@ -70,12 +59,11 @@ namespace TrieDataStructure
             }
 
             var words = new List<string>();
-            if (!Contains(word))
+            if (!TryGetValueNode(word, out var node))
             {
                 return words;
             }
 
-            var node = GetValueNode(word);
             GetAllChildren(node, words);
             return words;
         }
@@ -87,7 +75,10 @@ namespace TrieDataStructure
                 throw new ArgumentNullException();
             }
 
-            GetValueNode(word).Value = null;
+            if (TryGetValueNode(word, out var node))
+            {
+                node.Value = null;
+            }
         }
 
         public void Clear()
@@ -108,15 +99,20 @@ namespace TrieDataStructure
             }
         }
 
-        private TrieNode GetValueNode(string word)
+        private bool TryGetValueNode(string word, out TrieNode node)
         {
-            var node = root;
+            node = root;
             foreach (char character in word)
             {
+                if (!node.children.ContainsKey(character))
+                {
+                    return false;
+                }
+
                 node = node.children[character];
             }
 
-            return node;
+            return true;
         }
     }
 }
