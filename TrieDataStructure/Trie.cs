@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace TrieDataStructure
@@ -7,12 +6,10 @@ namespace TrieDataStructure
     public class Trie
     {
         private TrieNode root;
-        private readonly List<string> autocompletes;
 
         public Trie()
         {
             root = new TrieNode();
-            autocompletes = new List<string>();
         }
 
         public void AddWord(string word)
@@ -31,11 +28,11 @@ namespace TrieDataStructure
                 }
 
                 node = node.children[letter];
+            }
 
-                if (letter == word[^1])
-                {
-                    node.Value = word;
-                }
+            if (node.Value == null)
+            {
+                node.Value = word;
             }
         }
 
@@ -47,45 +44,40 @@ namespace TrieDataStructure
             }
 
             var current = root;
-            foreach(char letter in word)
+            foreach (char letter in word)
             {
-                if (letter == word[^1])
+                if (!current.children.ContainsKey(letter))
                 {
-                    return current.Value == word;
+                    return false;
                 }
 
                 current = current.children[letter];
             }
 
+            if (current.Value == word)
+            {
+                return true;
+            }
+
             return false;
         }
 
-        public ICollection Autocomplete(string word)
+        public IEnumerable<string> Autocomplete(string word)
         {
             if (String.IsNullOrEmpty(word))
             {
                 throw new ArgumentNullException();
             }
 
-            autocompletes.Clear();
-            var node = root;
-            foreach (char letter in word)
+            var words = new List<string>();
+            if (!Contains(word))
             {
-                if (!node.children.ContainsKey(letter))
-                {
-                    return autocompletes;
-                }
-
-                if (node.Value == word)
-                {
-                    autocompletes.Add(word);
-                }
-
-                node = node.children[letter];
+                return words;
             }
 
-            GetAllChildren(node);
-            return autocompletes;
+            var node = GetValueNode(word);
+            GetAllChildren(node, words);
+            return words;
         }
 
         public void Delete(string word)
@@ -95,15 +87,7 @@ namespace TrieDataStructure
                 throw new ArgumentNullException();
             }
 
-            var node = root;
-            foreach(var letter in word)
-            {
-                node = node.children[letter];
-                if (letter == word[^1] && node.Value == word)
-                {
-                    node.Value = null;
-                }
-            }
+            GetValueNode(word).Value = null;
         }
 
         public void Clear()
@@ -111,17 +95,28 @@ namespace TrieDataStructure
             this.root = new TrieNode();
         }
 
-        private void GetAllChildren(TrieNode node)
+        private void GetAllChildren(TrieNode node, List<string> words)
         {
             if (node.Value != null)
             {
-                autocompletes.Add(node.Value);
+                words.Add(node.Value);
             }
 
             foreach (var childNode in node.children)
             {
-                GetAllChildren(childNode.Value);
+                GetAllChildren(childNode.Value, words);
             }
+        }
+
+        private TrieNode GetValueNode(string word)
+        {
+            var node = root;
+            foreach (char character in word)
+            {
+                node = node.children[character];
+            }
+
+            return node;
         }
     }
 }
