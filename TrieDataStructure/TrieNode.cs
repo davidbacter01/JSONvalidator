@@ -16,26 +16,17 @@ namespace TrieDataStructure
         public IEnumerable<string> GetAllChildren()
         {
             var words = new List<string>();
-            if (Value == null)
+            if (Value != null)
             {
-                return words;
+                words.Add(Value);
             }
 
-            PopulateList(this, words);
+            foreach (var child in Children)
+            {
+                words.AddRange(child.Value.GetAllChildren());
+            }
+
             return words;
-        }
-
-        private void PopulateList(TrieNode node, List<string> words)
-        {
-            if (node.Value != null)
-            {
-                words.Add(node.Value);
-            }
-
-            foreach (var childNode in node.Children)
-            {
-                PopulateList(childNode.Value, words);
-            }
         }
     }
 }
