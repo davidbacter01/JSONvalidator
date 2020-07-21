@@ -6,7 +6,7 @@ namespace TrieDataStructure
 {
     public class TrieNode
     {
-        public Dictionary<char, TrieNode> children;
+        public readonly Dictionary<char, TrieNode> children;
 
         public TrieNode()
         {
