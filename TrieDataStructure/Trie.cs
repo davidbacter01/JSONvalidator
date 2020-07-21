@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TrieDataStructure
 {
@@ -15,41 +16,19 @@ namespace TrieDataStructure
         public void AddWord(string word)
         {
             ExceptNullOrEmpty(word);
-
-            var node = root;
-            foreach (char letter in word)
-            {
-                if (!node.Children.ContainsKey(letter))
-                {
-                    node.Children[letter] = new TrieNode();
-                }
-
-                node = node.Children[letter];
-            }
-
-            if (node.Value == null)
-            {
-                node.Value = word;
-            }
+            root.AddChild(word);
         }
 
         public bool Contains(string word)
         {
             ExceptNullOrEmpty(word);
-
-            if (!TryGetValueNode(word, out var node))
-            {
-                return false;
-            }
-
-            return node.Value == word;
+            return root.GetAllChildren().Contains(word);
         }
 
         public IEnumerable<string> Autocomplete(string word)
         {
             ExceptNullOrEmpty(word);
-
-            if (!TryGetValueNode(word, out var node))
+            if (!root.TryGetChild(word, out var node))
             {
                 return new List<string>();
             }
@@ -60,8 +39,7 @@ namespace TrieDataStructure
         public void Delete(string word)
         {
             ExceptNullOrEmpty(word);
-
-            if (TryGetValueNode(word, out TrieNode node))
+            if (root.TryGetChild(word, out TrieNode node))
             {
                 node.Value = null;
             }
@@ -70,22 +48,6 @@ namespace TrieDataStructure
         public void Clear()
         {
             this.root = new TrieNode();
-        }
-
-        private bool TryGetValueNode(string word, out TrieNode node)
-        {
-            node = root;
-            foreach (char character in word)
-            {
-                if (!node.Children.ContainsKey(character))
-                {
-                    return false;
-                }
-
-                node = node.Children[character];
-            }
-
-            return true;
         }
 
         private void ExceptNullOrEmpty(string word)

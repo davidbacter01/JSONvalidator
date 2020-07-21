@@ -11,8 +11,44 @@ namespace TrieDataStructure
             Children = new Dictionary<char, TrieNode>();
         }
 
-        public Dictionary<char, TrieNode> Children { get; }
+        private Dictionary<char, TrieNode> Children { get; }
         public string Value { get; set; } = null;
+        
+        public void AddChild(string word)
+        {
+            TrieNode node = this;
+            foreach (char letter in word)
+            {
+                if (!node.Children.ContainsKey(letter))
+                {
+                    node.Children[letter] = new TrieNode();
+                }
+
+                node = node.Children[letter];
+            }
+
+            if (node.Value == null)
+            {
+                node.Value = word;
+            }
+        }
+
+        public bool TryGetChild(string word, out TrieNode node)
+        {
+            node = this;
+            foreach (char character in word)
+            {
+                if (!node.Children.ContainsKey(character))
+                {
+                    return false;
+                }
+
+                node = node.Children[character];
+            }
+
+            return true;
+        }
+
         public IEnumerable<string> GetAllChildren()
         {
             var words = new List<string>();
