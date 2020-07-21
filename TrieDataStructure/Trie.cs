@@ -58,14 +58,12 @@ namespace TrieDataStructure
                 throw new ArgumentNullException();
             }
 
-            var words = new List<string>();
             if (!TryGetValueNode(word, out var node))
             {
-                return words;
+                return new List<string>();
             }
 
-            GetAllChildren(node, words);
-            return words;
+            return node.GetAllChildren();
         }
 
         public void Delete(string word)
@@ -75,7 +73,7 @@ namespace TrieDataStructure
                 throw new ArgumentNullException();
             }
 
-            if (TryGetValueNode(word, out var node))
+            if (TryGetValueNode(word, out TrieNode node))
             {
                 node.Value = null;
             }
@@ -84,19 +82,6 @@ namespace TrieDataStructure
         public void Clear()
         {
             this.root = new TrieNode();
-        }
-
-        private void GetAllChildren(TrieNode node, List<string> words)
-        {
-            if (node.Value != null)
-            {
-                words.Add(node.Value);
-            }
-
-            foreach (var childNode in node.children)
-            {
-                GetAllChildren(childNode.Value, words);
-            }
         }
 
         private bool TryGetValueNode(string word, out TrieNode node)

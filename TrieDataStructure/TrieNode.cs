@@ -14,5 +14,29 @@ namespace TrieDataStructure
         }
 
         public string Value { get; set; } = null;
+        public IEnumerable<string> GetAllChildren()
+        {
+            var words = new List<string>();
+            if (Value == null)
+            {
+                return words;
+            }
+
+            PopulateList(this, words);
+            return words;
+        }
+
+        private void PopulateList(TrieNode node, List<string> words)
+        {
+            if (node.Value != null)
+            {
+                words.Add(node.Value);
+            }
+
+            foreach (var childNode in node.children)
+            {
+                PopulateList(childNode.Value, words);
+            }
+        }
     }
 }
