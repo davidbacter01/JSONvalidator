@@ -14,20 +14,17 @@ namespace TrieDataStructure
 
         public void AddWord(string word)
         {
-            if (String.IsNullOrEmpty(word))
-            {
-                throw new ArgumentNullException();
-            }
+            ExceptNullOrEmpty(word);
 
             var node = root;
             foreach (char letter in word)
             {
-                if (!node.children.ContainsKey(letter))
+                if (!node.Children.ContainsKey(letter))
                 {
-                    node.children[letter] = new TrieNode();
+                    node.Children[letter] = new TrieNode();
                 }
 
-                node = node.children[letter];
+                node = node.Children[letter];
             }
 
             if (node.Value == null)
@@ -38,10 +35,7 @@ namespace TrieDataStructure
 
         public bool Contains(string word)
         {
-            if (String.IsNullOrEmpty(word))
-            {
-                throw new ArgumentNullException();
-            }
+            ExceptNullOrEmpty(word);
 
             if (!TryGetValueNode(word, out var node))
             {
@@ -53,10 +47,7 @@ namespace TrieDataStructure
 
         public IEnumerable<string> Autocomplete(string word)
         {
-            if (String.IsNullOrEmpty(word))
-            {
-                throw new ArgumentNullException();
-            }
+            ExceptNullOrEmpty(word);
 
             if (!TryGetValueNode(word, out var node))
             {
@@ -68,10 +59,7 @@ namespace TrieDataStructure
 
         public void Delete(string word)
         {
-            if (String.IsNullOrEmpty(word))
-            {
-                throw new ArgumentNullException();
-            }
+            ExceptNullOrEmpty(word);
 
             if (TryGetValueNode(word, out TrieNode node))
             {
@@ -89,15 +77,23 @@ namespace TrieDataStructure
             node = root;
             foreach (char character in word)
             {
-                if (!node.children.ContainsKey(character))
+                if (!node.Children.ContainsKey(character))
                 {
                     return false;
                 }
 
-                node = node.children[character];
+                node = node.Children[character];
             }
 
             return true;
+        }
+
+        private void ExceptNullOrEmpty(string word)
+        {
+            if (String.IsNullOrEmpty(word))
+            {
+                throw new ArgumentNullException();
+            }
         }
     }
 }

@@ -6,13 +6,12 @@ namespace TrieDataStructure
 {
     public class TrieNode
     {
-        public readonly Dictionary<char, TrieNode> children;
-
         public TrieNode()
         {
-            children = new Dictionary<char, TrieNode>();
+            Children = new Dictionary<char, TrieNode>();
         }
 
+        public Dictionary<char, TrieNode> Children { get; }
         public string Value { get; set; } = null;
         public IEnumerable<string> GetAllChildren()
         {
@@ -33,7 +32,7 @@ namespace TrieDataStructure
                 words.Add(node.Value);
             }
 
-            foreach (var childNode in node.children)
+            foreach (var childNode in node.Children)
             {
                 PopulateList(childNode.Value, words);
             }
