@@ -22,7 +22,7 @@ namespace TrieDataStructure
         public bool Contains(string word)
         {
             ExceptNullOrEmpty(word);
-            return root.GetAllChildren().Contains(word);
+            return root.TryGetChild(word, out _);
         }
 
         public IEnumerable<string> Autocomplete(string word)
