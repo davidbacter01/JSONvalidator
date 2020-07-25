@@ -33,5 +33,29 @@ namespace LinqExtensions.Tests
             Assert.Equal(4, ints.First(e => e > 3));
             Assert.Throws<InvalidOperationException>(() => ints.First(e => e > 7));
         }
+
+        [Fact]
+        public void SelectReturnsAnEnumerableWithElementsInNewForm()
+        {
+            IEnumerable<int> ints = new List<int>() { 2, 3, 4, 5, 6 };
+            IEnumerable<int> result = new List<int>() { 3, 4, 5, 6, 7 };
+            Assert.Equal(result ,ints.Select(e => e + 1));
+        }
+
+        [Fact]
+        public void SelectManyReturnsEnumerableOfManyElementsResultedFromSelector()
+        {
+
+            Dictionary<int, int> ints = new Dictionary<int, int>
+            {
+                { 1, 1 },
+                { 2, 2 }
+            };
+
+            // Query using SelectMany().
+            IEnumerable<char> query1 = ints.SelectMany(i=>i.Value.ToString());
+            IEnumerable<char> expected = new List<char>() { '1', '2' };
+            Assert.Equal(expected, query1);
+        }
     }
 }

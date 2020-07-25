@@ -48,6 +48,27 @@ namespace LinqExtensions
             throw new InvalidOperationException();
         }
 
+        public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        {
+            ManageExceptions(source);
+            foreach (TSource el in source)
+            {
+                yield return selector(el);
+            }
+        }
+
+        public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
+        {
+            ManageExceptions(source);
+            foreach (TSource el in source)
+            {
+                foreach (TResult res in selector(el))
+                {
+                    yield return res;
+                }
+            }
+        }
+
         private static void ManageExceptions(object first, object second)
         {
             if (first == null || second == null)
