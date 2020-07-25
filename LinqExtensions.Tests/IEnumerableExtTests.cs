@@ -66,5 +66,28 @@ namespace LinqExtensions.Tests
             IEnumerable<string> expected = new List<string>() { "apple", "mango", "grape" };
             Assert.Equal(expected, query);
         }
+
+        [Fact]
+        public void ReturnsDictionaryContainingKeysAndValueExtractedByCallbacks()
+        {
+            IEnumerable<List<int>> arr = new List<List<int>>
+            {
+                new List<int>() { 10, 20 },
+                new List<int>() { 11, 22 },
+                new List<int>() { 12, 23 },
+                new List<int>() { 13, 25 }
+            };
+
+            Dictionary<int, int> expected = new Dictionary<int, int>()
+            {
+                { 10, 20},
+                { 11, 22 },
+                { 12, 23 },
+                { 13, 25 }
+            };
+
+            Dictionary<int,int> actual = arr.ToDictionary(k => k[0], v => v[1]);
+            Assert.Equal(expected, actual);
+        }
     }
 }

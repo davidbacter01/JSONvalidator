@@ -81,6 +81,22 @@ namespace LinqExtensions
             }
         }
 
+        public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            Func<TSource, TElement> elementSelector)
+        {
+            ManageExceptions(source);
+            var result = new Dictionary<TKey, TElement>();
+            foreach (TSource el in source)
+            {
+                result.Add(keySelector(el), elementSelector(el));
+            }
+
+            return result;
+        }
+
+
         private static void ManageExceptions(object first, object second)
         {
             if (first == null || second == null)
