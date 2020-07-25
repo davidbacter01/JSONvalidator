@@ -69,6 +69,18 @@ namespace LinqExtensions
             }
         }
 
+        public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            ManageExceptions(source, predicate);
+            foreach (TSource el in source)
+            {
+                if (predicate(el))
+                {
+                    yield return el;
+                }
+            }
+        }
+
         private static void ManageExceptions(object first, object second)
         {
             if (first == null || second == null)

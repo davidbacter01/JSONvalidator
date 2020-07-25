@@ -51,11 +51,20 @@ namespace LinqExtensions.Tests
                 { 1, 1 },
                 { 2, 2 }
             };
-
-            // Query using SelectMany().
-            IEnumerable<char> query1 = ints.SelectMany(i=>i.Value.ToString());
+            IEnumerable<char> query1 = ints.SelectMany(i => i.Value.ToString());
             IEnumerable<char> expected = new List<char>() { '1', '2' };
             Assert.Equal(expected, query1);
+        }
+
+        [Fact]
+        public void ReturnsEnumerableOfElementsThatFullfillCondition()
+        {
+            List<string> fruits = new List<string> { "apple", "passionFruit", "banana", "mango",
+                    "orange", "blueberry", "grape", "strawberry" };
+
+            IEnumerable<string> query = fruits.Where(fruit => fruit.Length < 6);
+            IEnumerable<string> expected = new List<string>() { "apple", "mango", "grape" };
+            Assert.Equal(expected, query);
         }
     }
 }
