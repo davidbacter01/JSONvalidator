@@ -20,6 +20,20 @@ namespace LinqExtensions
             return true;
         }
 
+        public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            ManageExceptions(source);
+            foreach (TSource el in source)
+            {
+                if (predicate(el))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private static void ManageExceptions(object first, object second)
         {
             if (first == null || second == null)

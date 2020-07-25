@@ -12,6 +12,18 @@ namespace LinqExtensions.Tests
             IEnumerable<int> ints = new List<int>() { 2, 3, 4, 5, 6 };
             Assert.True(ints.All(e => e > 1));
             Assert.False(ints.All(e => e < 3));
+            ints = null;
+            Assert.Throws<ArgumentNullException>(() => ints.All(e => e > 3));
+        }
+
+        [Fact]
+        public void AnyReturnsTrueIfElementFulfillsCallbackAndFalseIfNoneFulfills()
+        {
+            IEnumerable<int> ints = new List<int>() { 2, 3, 4, 5, 6 };
+            Assert.True(ints.Any(e => e == 3));
+            Assert.False(ints.Any(e => e > 6));
+            ints = null;
+            Assert.Throws<ArgumentNullException>(() => ints.Any(e => e > 3));
         }
     }
 }
