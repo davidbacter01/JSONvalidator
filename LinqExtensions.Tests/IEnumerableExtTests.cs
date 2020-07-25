@@ -25,5 +25,13 @@ namespace LinqExtensions.Tests
             ints = null;
             Assert.Throws<ArgumentNullException>(() => ints.Any(e => e > 3));
         }
+
+        [Fact]
+        public void FirstReturnsFirstElementFulfillingCondition()
+        {
+            IEnumerable<int> ints = new List<int>() { 2, 3, 4, 5, 6 };
+            Assert.Equal(4, ints.First(e => e > 3));
+            Assert.Throws<InvalidOperationException>(() => ints.First(e => e > 7));
+        }
     }
 }

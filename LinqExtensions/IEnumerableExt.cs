@@ -34,6 +34,20 @@ namespace LinqExtensions
             return false;
         }
 
+        public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            ManageExceptions(source);
+            foreach (TSource el in source)
+            {
+                if (predicate(el))
+                {
+                    return el;
+                }
+            }
+
+            throw new InvalidOperationException();
+        }
+
         private static void ManageExceptions(object first, object second)
         {
             if (first == null || second == null)
