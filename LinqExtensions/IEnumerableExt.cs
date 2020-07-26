@@ -110,6 +110,20 @@ namespace LinqExtensions
             }
         }
 
+        public static TAccumulate Aggregate<TSource, TAccumulate>(
+            this IEnumerable<TSource> source,
+            TAccumulate seed,
+            Func<TAccumulate, TSource, TAccumulate> func)
+        {
+            ManageExceptions(source, seed);
+            foreach(var el in source)
+            {
+                seed = func(seed, el);
+            }
+
+            return seed;
+        }
+
         private static void ManageExceptions(object first, object second)
         {
             if (first == null || second == null)

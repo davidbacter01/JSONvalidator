@@ -99,5 +99,13 @@ namespace LinqExtensions.Tests
             IEnumerable<int> expected = new List<int>() { 5, 5, 5, 5 };
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void AggregatesElementsFromSourceToSeed()
+        {
+            IEnumerable<int> ints = new List<int>() { 1, 2, 3, 4, 5 };
+            int seed = 0;
+            Assert.Equal(15, ints.Aggregate(seed, (e, s) => e + s));
+        }
     }
 }
