@@ -96,6 +96,19 @@ namespace LinqExtensions
             return result;
         }
 
+        public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(
+            this IEnumerable<TFirst> first,
+            IEnumerable<TSecond> second,
+            Func<TFirst, TSecond, TResult> resultSelector)
+        {
+            ManageExceptions(first, second);
+            IEnumerator<TFirst> firstEnumerator = first.GetEnumerator();
+            IEnumerator<TSecond> secondEnumerator = second.GetEnumerator();
+            while (firstEnumerator.MoveNext() && secondEnumerator.MoveNext())
+            {
+                yield return resultSelector(firstEnumerator.Current, secondEnumerator.Current);
+            }
+        }
 
         private static void ManageExceptions(object first, object second)
         {

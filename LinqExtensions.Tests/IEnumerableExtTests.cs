@@ -89,5 +89,15 @@ namespace LinqExtensions.Tests
             Dictionary<int,int> actual = arr.ToDictionary(k => k[0], v => v[1]);
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void ReturnsEnumerableOfZipedElementsBySelector()
+        {
+            IEnumerable<int> ints1 = new List<int>() { 1, 2, 3, 4, 5 };
+            IEnumerable<int> ints2 = new List<int>() { 4, 3, 2, 1 };
+            IEnumerable<int> actual = ints1.Zip(ints2, (a, b) => a + b);
+            IEnumerable<int> expected = new List<int>() { 5, 5, 5, 5 };
+            Assert.Equal(expected, actual);
+        }
     }
 }
