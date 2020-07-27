@@ -144,6 +144,45 @@ namespace LinqExtensions
             }
         }
 
+        public static IEnumerable<TSource> Distinct<TSource>(
+            this IEnumerable<TSource> source,
+            IEqualityComparer<TSource> comparer)
+        {
+            TestArgumentNullExceptions(source);
+            var uniques = new HashSet<TSource>(comparer);
+            foreach(var el in source)
+            {
+                if (uniques.Add(el))
+                {
+                    yield return el;
+                }
+            }
+        }
+
+        public static IEnumerable<TSource> Union<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer)
+        {
+            TestArgumentNullExceptions(first, second);
+            var uniques = new HashSet<TSource>(comparer);
+            foreach(var el in first)
+            {
+                if (uniques.Add(el))
+                {
+                    yield return el;
+                }
+            }
+
+            foreach (var el in second)
+            {
+                if (uniques.Add(el))
+                {
+                    yield return el;
+                }
+            }
+        }
+
         private static void TestArgumentNullExceptions(object first, object second)
         {
             if (first == null || second == null)

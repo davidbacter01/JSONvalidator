@@ -120,5 +120,22 @@ namespace LinqExtensions.Tests
             IEnumerable<string> expected = new List<string>() { "5:tiger", "3:bee", "3:cat", "3:dog", "7:giraffe" };
             Assert.Equal(expected,actual);
         }
+
+        [Fact]
+        public void ReturnsEnumerableOfDistinctElements()
+        {
+            string[] words = { "asd", "asd", "asn", "dsa", "asn" };
+            string[] expected = { "asd", "asn", "dsa" };
+            Assert.Equal(expected, words.Distinct(EqualityComparer<string>.Default));
+        }
+
+        [Fact]
+        public void ReturnsAUnionOfTwoEnumerablesWithUniqueElements()
+        {
+            string[] words = { "asd", "dsa", "dsa", "word" };
+            string[] otherWords = { "asd", "words", "dsa" };
+            string[] expected = { "asd", "dsa", "word", "words" };
+            Assert.Equal(expected, words.Union(otherWords, EqualityComparer<string>.Default));
+        }
     }
 }
