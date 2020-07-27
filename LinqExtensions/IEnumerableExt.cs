@@ -7,7 +7,7 @@ namespace LinqExtensions
     {
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            ManageExceptions(source);
+            TestArgumentNullExceptions(source);
 
             foreach (TSource el in source)
             {
@@ -22,7 +22,7 @@ namespace LinqExtensions
 
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            ManageExceptions(source);
+            TestArgumentNullExceptions(source);
             foreach (TSource el in source)
             {
                 if (predicate(el))
@@ -36,7 +36,7 @@ namespace LinqExtensions
 
         public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            ManageExceptions(source);
+            TestArgumentNullExceptions(source);
             foreach (TSource el in source)
             {
                 if (predicate(el))
@@ -50,7 +50,7 @@ namespace LinqExtensions
 
         public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            ManageExceptions(source);
+            TestArgumentNullExceptions(source);
             foreach (TSource el in source)
             {
                 yield return selector(el);
@@ -59,7 +59,7 @@ namespace LinqExtensions
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
         {
-            ManageExceptions(source);
+            TestArgumentNullExceptions(source);
             foreach (TSource el in source)
             {
                 foreach (TResult res in selector(el))
@@ -71,7 +71,7 @@ namespace LinqExtensions
 
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            ManageExceptions(source, predicate);
+            TestArgumentNullExceptions(source, predicate);
             foreach (TSource el in source)
             {
                 if (predicate(el))
@@ -86,7 +86,7 @@ namespace LinqExtensions
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector)
         {
-            ManageExceptions(source);
+            TestArgumentNullExceptions(source);
             var result = new Dictionary<TKey, TElement>();
             foreach (TSource el in source)
             {
@@ -101,7 +101,7 @@ namespace LinqExtensions
             IEnumerable<TSecond> second,
             Func<TFirst, TSecond, TResult> resultSelector)
         {
-            ManageExceptions(first, second);
+            TestArgumentNullExceptions(first, second);
             IEnumerator<TFirst> firstEnumerator = first.GetEnumerator();
             IEnumerator<TSecond> secondEnumerator = second.GetEnumerator();
             while (firstEnumerator.MoveNext() && secondEnumerator.MoveNext())
@@ -115,7 +115,7 @@ namespace LinqExtensions
             TAccumulate seed,
             Func<TAccumulate, TSource, TAccumulate> func)
         {
-            ManageExceptions(source, seed);
+            TestArgumentNullExceptions(source, seed);
             foreach(var el in source)
             {
                 seed = func(seed, el);
@@ -124,7 +124,27 @@ namespace LinqExtensions
             return seed;
         }
 
-        private static void ManageExceptions(object first, object second)
+        public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
+            this IEnumerable<TOuter> outer,
+            IEnumerable<TInner> inner,
+            Func<TOuter, TKey> outerKeySelector,
+            Func<TInner, TKey> innerKeySelector,
+            Func<TOuter, TInner, TResult> resultSelector)
+        {
+            TestArgumentNullExceptions(inner, outer);
+            foreach(var outerEl in outer)
+            {
+                foreach(var innerEl in inner)
+                {
+                    if (outerKeySelector(outerEl).Equals(innerKeySelector(innerEl)))
+                    {
+                        yield return resultSelector(outerEl, innerEl);
+                    }
+                }
+            }
+        }
+
+        private static void TestArgumentNullExceptions(object first, object second)
         {
             if (first == null || second == null)
             {
@@ -132,7 +152,7 @@ namespace LinqExtensions
             }
         }
 
-        private static void ManageExceptions(object first)
+        private static void TestArgumentNullExceptions(object first)
         {
             if (first == null)
             {

@@ -107,5 +107,18 @@ namespace LinqExtensions.Tests
             int seed = 0;
             Assert.Equal(15, ints.Aggregate(seed, (e, s) => e + s));
         }
+
+        [Fact]
+        public void ReturnsAJoinedListOfTwoSourcesByComparingKeys()
+        {
+            IEnumerable<int> outer = new List<int>(){ 5, 3, 7 };
+            IEnumerable<string> inner = new List<string>(){ "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
+            var actual = outer.Join(inner,
+                                   outerElement => outerElement,
+                                   innerElement => innerElement.Length,
+                                   (outerElement, innerElement) => outerElement + ":" + innerElement);
+            IEnumerable<string> expected = new List<string>() { "5:tiger", "3:bee", "3:cat", "3:dog", "7:giraffe" };
+            Assert.Equal(expected,actual);
+        }
     }
 }
