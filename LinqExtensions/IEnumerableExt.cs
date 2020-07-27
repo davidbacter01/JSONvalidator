@@ -183,6 +183,21 @@ namespace LinqExtensions
             }
         }
 
+        public static IEnumerable<TSource> Intersect<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer)
+        {
+            HashSet<TSource> secondUniques = new HashSet<TSource>(second, comparer);
+            foreach (TSource item in first)
+            {
+                if (secondUniques.Remove(item))
+                {
+                    yield return item;
+                }
+            }
+        }
+
         private static void TestArgumentNullExceptions(object first, object second)
         {
             if (first == null || second == null)
