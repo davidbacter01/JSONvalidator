@@ -198,6 +198,21 @@ namespace LinqExtensions
             }
         }
 
+        public static IEnumerable<TSource> Except<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer)
+        {
+            HashSet<TSource> commonElements = new HashSet<TSource>(second, comparer);
+            foreach (TSource item in first)
+            {
+                if (commonElements.Add(item))
+                {
+                    yield return item;
+                }
+            }
+        }
+
         private static void TestArgumentNullExceptions(object first, object second)
         {
             if (first == null || second == null)

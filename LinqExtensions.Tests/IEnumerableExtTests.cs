@@ -146,5 +146,14 @@ namespace LinqExtensions.Tests
             string[] expected = { "asd", "dsa" };
             Assert.Equal(expected, words.Intersect(otherWords, EqualityComparer<string>.Default));
         }
+
+        [Fact]
+        public void ReturnsEnumerableOfElementsFromFirstThatDontAppearInSecondEnumerable()
+        {
+            string[] words = { "asd", "dsa", "dsa", "word" };
+            string[] otherWords = { "asd", "words", "dsa" };
+            string[] expected = { "word" };
+            Assert.Equal(expected, words.Except(otherWords, EqualityComparer<string>.Default));
+        }
     }
 }
