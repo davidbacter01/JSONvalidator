@@ -155,5 +155,17 @@ namespace LinqExtensions.Tests
             string[] expected = { "word" };
             Assert.Equal(expected, words.Except(otherWords, EqualityComparer<string>.Default));
         }
+
+        [Fact]
+        public void ReturnsEnumerableOfGroupedElementsBySelectorUsingComparer()
+        {
+            string[] source = { "abc", "hello", "def", "there", "four" };
+            IEnumerable<string> groups = source.GroupBy(x => x.Length,
+                                        x => x,
+                                        (key, values) => key + ":" + string.Join(";", values),
+                                        EqualityComparer<int>.Default);
+            IEnumerable<string> expected = new List<string>() { "3:abc;def", "5:hello;there", "4:four" };
+            Assert.Equal(expected, groups);
+        }
     }
 }

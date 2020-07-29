@@ -116,7 +116,7 @@ namespace LinqExtensions
             Func<TAccumulate, TSource, TAccumulate> func)
         {
             TestArgumentNullExceptions(source, seed);
-            foreach(var el in source)
+            foreach (var el in source)
             {
                 seed = func(seed, el);
             }
@@ -132,9 +132,9 @@ namespace LinqExtensions
             Func<TOuter, TInner, TResult> resultSelector)
         {
             TestArgumentNullExceptions(inner, outer);
-            foreach(var outerEl in outer)
+            foreach (var outerEl in outer)
             {
-                foreach(var innerEl in inner)
+                foreach (var innerEl in inner)
                 {
                     if (outerKeySelector(outerEl).Equals(innerKeySelector(innerEl)))
                     {
@@ -150,7 +150,7 @@ namespace LinqExtensions
         {
             TestArgumentNullExceptions(source);
             var uniques = new HashSet<TSource>(comparer);
-            foreach(var el in source)
+            foreach (var el in source)
             {
                 if (uniques.Add(el))
                 {
@@ -166,7 +166,7 @@ namespace LinqExtensions
         {
             TestArgumentNullExceptions(first, second);
             var uniques = new HashSet<TSource>(comparer);
-            foreach(var el in first)
+            foreach (var el in first)
             {
                 if (uniques.Add(el))
                 {
@@ -213,6 +213,42 @@ namespace LinqExtensions
             }
         }
 
+        public static IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            Func<TSource, TElement> elementSelector,
+            Func<TKey, IEnumerable<TElement>, TResult> resultSelector,
+            IEqualityComparer<TKey> comparer)
+        {
+            TestArgumentNullExceptions(source, keySelector);
+            TestArgumentNullExceptions(elementSelector, resultSelector);
+            var result = new Dictionary<TKey, List<TElement>>(comparer);
+            foreach (var element in source)
+            {
+                var key = keySelector(element);
+                if (result.ContainsKey(key))
+                {
+                    result[key].Add(elementSelector(element));
+                }
+                else
+                {
+                    result.Add(key, new List<TElement>() { elementSelector(element) });
+                }
+            }
+
+            foreach (var keyEnum in result)
+            {
+                yield return resultSelector(keyEnum.Key, keyEnum.Value);
+            }
+        }
+
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            IComparer<TKey> comparer)
+        {
+
+        }
         private static void TestArgumentNullExceptions(object first, object second)
         {
             if (first == null || second == null)
