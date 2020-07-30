@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace LinqExtensions
 {
@@ -247,8 +249,19 @@ namespace LinqExtensions
             Func<TSource, TKey> keySelector,
             IComparer<TKey> comparer)
         {
-
+            TestArgumentNullExceptions(source, keySelector);
+            return new OrderedEnumerable<TSource, TKey>(source, comparer, keySelector);
         }
+
+        public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
+            this IOrderedEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            IComparer<TKey> comparer)
+        {
+            TestArgumentNullExceptions(source, keySelector);
+            return source.CreateOrderedEnumerable(keySelector, comparer, false);
+        }
+
         private static void TestArgumentNullExceptions(object first, object second)
         {
             if (first == null || second == null)

@@ -167,5 +167,21 @@ namespace LinqExtensions.Tests
             IEnumerable<string> expected = new List<string>() { "3:abc;def", "5:hello;there", "4:four" };
             Assert.Equal(expected, groups);
         }
+
+        [Fact]
+        public void SortsElementsBySpecifiedKeyAndComparer()
+        {
+            List<int> numbers = new List<int>() { 1, 7, 2, 61, 14 };
+            IEnumerable<int> expected =new List<int> { 1, 2, 7, 14, 61 };
+            Assert.Equal(expected, numbers.OrderBy(n => n, Comparer<int>.Default));
+        }
+
+        [Fact]
+        public void SortsElementsBySpecifiedKeyAndComparerAndAgainByNewKeyAndComparer()
+        {
+            List<string> names = new List<string>() { "asd", "bars","lip","abs" };
+            var expected = new List<string>() { "abs", "asd", "lip", "bars" };
+            Assert.Equal(expected, names.OrderBy(x => x, Comparer<string>.Default).ThenBy(x => x.Length, Comparer<int>.Default));
+        }
     }
 }
