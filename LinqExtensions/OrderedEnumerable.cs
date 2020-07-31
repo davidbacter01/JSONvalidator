@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 
 namespace LinqExtensions
 {
@@ -15,7 +13,6 @@ namespace LinqExtensions
         {
             this.source = source.ToArray();
             comparer = singleOrderComparer;
-            Array.Sort(this.source, comparer);
         }
         public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey1>(Func<TSource, TKey1> keySelector, IComparer<TKey1> comparer, bool descending)
         {
@@ -31,6 +28,7 @@ namespace LinqExtensions
 
         public IEnumerator<TSource> GetEnumerator()
         {
+            Array.Sort(source, comparer);
             foreach (var el in source)
             {
                 yield return el;
@@ -40,19 +38,6 @@ namespace LinqExtensions
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        private TKey[] GetKeys(TSource[] source, Func<TSource, TKey> keySelector)
-        {
-            TKey[] keys = new TKey[source.Length];
-            int i = 0;
-            foreach (var el in source)
-            {
-                keys[i] = keySelector(el);
-                i++;
-            }
-
-            return keys;
         }
     }
 }
