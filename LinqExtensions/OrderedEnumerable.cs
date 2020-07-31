@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -9,11 +10,12 @@ namespace LinqExtensions
     public class OrderedEnumerable<TSource, TKey> : IOrderedEnumerable<TSource>
     {
         private readonly TSource[] source;
-
-        public OrderedEnumerable(IEnumerable<TSource> source,IComparer<TKey> comparer,Func<TSource,TKey> keySelector)
+        private readonly IComparer<TSource> comparer;
+        public OrderedEnumerable(IEnumerable<TSource> source,IComparer<TSource> singleOrderComparer)
         {
             this.source = source.ToArray();
-            Array.Sort(GetKeys(this.source, keySelector), this.source, comparer);
+            comparer = singleOrderComparer;
+            Array.Sort(this.source, comparer);
         }
         public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey1>(Func<TSource, TKey1> keySelector, IComparer<TKey1> comparer, bool descending)
         {
@@ -22,7 +24,9 @@ namespace LinqExtensions
                 throw new ArgumentNullException();
             }
 
-            return new OrderedEnumerable<TSource, TKey1>(source, comparer, keySelector);
+            IComparer<TSource> secondaryComparer = new SingleOrderComparer<TSource, TKey1>(keySelector, comparer);
+            IComparer<TSource> finalComparer = new FinalComparer<TSource>(this.comparer, secondaryComparer);
+            return new OrderedEnumerable<TSource, TKey1>(source, finalComparer);
         }
 
         public IEnumerator<TSource> GetEnumerator()

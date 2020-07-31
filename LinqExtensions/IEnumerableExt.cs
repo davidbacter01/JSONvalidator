@@ -151,13 +151,10 @@ namespace LinqExtensions
             IEqualityComparer<TSource> comparer)
         {
             TestArgumentNullExceptions(source);
-            var uniques = new HashSet<TSource>(comparer);
-            foreach (var el in source)
+            var uniques = new HashSet<TSource>(source, comparer);
+            foreach (var el in uniques)
             {
-                if (uniques.Add(el))
-                {
-                    yield return el;
-                }
+                yield return el;
             }
         }
 
@@ -250,7 +247,7 @@ namespace LinqExtensions
             IComparer<TKey> comparer)
         {
             TestArgumentNullExceptions(source, keySelector);
-            return new OrderedEnumerable<TSource, TKey>(source, comparer, keySelector);
+            return new OrderedEnumerable<TSource, TKey>(source, new SingleOrderComparer<TSource,TKey>(keySelector,comparer));
         }
 
         public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(

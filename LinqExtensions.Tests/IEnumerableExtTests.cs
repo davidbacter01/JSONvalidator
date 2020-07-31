@@ -180,8 +180,29 @@ namespace LinqExtensions.Tests
         public void SortsElementsBySpecifiedKeyAndComparerAndAgainByNewKeyAndComparer()
         {
             List<string> names = new List<string>() { "asd", "bars","lip","abs" };
-            var expected = new List<string>() { "abs", "asd", "lip", "bars" };
+            var expected = new List<string>() { "abs", "asd", "bars", "lip" };
             Assert.Equal(expected, names.OrderBy(x => x, Comparer<string>.Default).ThenBy(x => x.Length, Comparer<int>.Default));
+        }
+
+        [Fact]
+        public void SortsElementsByMultipleCriterias()
+        {
+            //("a", laptop, 4000), ("b", telefon, 3500), ("c", laptop, 2000)
+            var products = new[] 
+            {
+                new { name = "a", product = "laptop", price = 4000 },
+                new { name = "b", product = "phone", price = 3500 },
+                new { name = "c", product = "laptop", price = 2000 }
+            };
+
+            var expected = new[]
+            {
+                new { name = "c", product = "laptop", price = 2000 },
+                new { name = "a", product = "laptop", price = 4000 },
+                new { name = "b", product = "phone", price = 3500 }                
+            };
+
+            Assert.Equal(expected, products.OrderBy(x => x.product, Comparer<string>.Default).ThenBy(x => x.price, Comparer<int>.Default));
         }
     }
 }
