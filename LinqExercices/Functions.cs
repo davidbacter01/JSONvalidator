@@ -31,5 +31,10 @@ namespace LinqExercices
             result = -1;
             return false;
         }
+
+        public static char GetMaximumOccurencesChar(string text)
+        {
+            return text.GroupBy(x => x).OrderByDescending(x => x.Count()).First().Key;
+        }
     }
 }

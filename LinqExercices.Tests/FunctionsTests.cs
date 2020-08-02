@@ -28,5 +28,11 @@ namespace LinqExercices.Tests
             Assert.Equal(1234, result);
             Assert.Equal(97861, second);
         }
+
+        [Fact]
+        public void GetsTheCharWithMostOccurrences()
+        {
+            Assert.Equal('x', Functions.GetMaximumOccurencesChar("asdfxasxxghjjuxxx"));
+        }
     }
 }
