@@ -13,5 +13,11 @@ namespace LinqExercices.Tests
             var expected = new Dictionary<string, int>() { { "vowels", 3 }, { "consonants", 3 } };
             Assert.Equal(expected, Functions.CountConsonantsAndVowels("aeivbn"));
         }
+
+        [Fact]
+        public void GetsFirstCharThatIsNotRepeatedInAString()
+        {
+            Assert.Equal('b', Functions.GetFirstNonRepetedChar("abacus"));
+        }
     }
 }

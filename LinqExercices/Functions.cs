@@ -14,5 +14,10 @@ namespace LinqExercices
             result["consonants"] = text.Count(x => !"aeiou".Contains(x));
             return result;
         }
+
+        public static char GetFirstNonRepetedChar(string text)
+        {
+            return text.FirstOrDefault(c => text.IndexOf(c) == text.LastIndexOf(c));
+        }
     }
 }
