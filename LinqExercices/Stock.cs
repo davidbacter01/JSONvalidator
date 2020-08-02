@@ -33,7 +33,7 @@ namespace LinqExercices
 
         public void RemoveProduct(Product prod)
         {
-            throw new NotImplementedException();
+            inventory.Remove(prod.Name);
         }
 
         public void SellProduct(Product prod, int quantity)

@@ -19,5 +19,14 @@ namespace LinqExercices.Tests
         {
             Assert.Equal('b', Functions.GetFirstNonRepetedChar("abacus"));
         }
+
+        [Fact]
+        public void ConvertsStringToInt()
+        {
+            Functions.TryStringToInt("1234", out int result);
+            Functions.TryStringToInt("97861", out int second);
+            Assert.Equal(1234, result);
+            Assert.Equal(97861, second);
+        }
     }
 }
