@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LinqExercices
 {
@@ -35,6 +36,15 @@ namespace LinqExercices
         public static char GetMaximumOccurencesChar(string text)
         {
             return text.GroupBy(x => x).OrderByDescending(x => x.Count()).First().Key;
+        }
+
+        public static IEnumerable<string> GetPalindromes(string text)
+        {
+            var substrings = from x in Enumerable.Range(0, text.Length)
+                            from y in Enumerable.Range(0, text.Length - x + 1)
+                            where y >= 1
+                            select text.Substring(x, y);
+            return substrings.Where(x => x.SequenceEqual(x.Reverse()));
         }
     }
 }

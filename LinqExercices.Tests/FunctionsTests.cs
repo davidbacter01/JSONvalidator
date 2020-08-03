@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -33,6 +34,13 @@ namespace LinqExercices.Tests
         public void GetsTheCharWithMostOccurrences()
         {
             Assert.Equal('x', Functions.GetMaximumOccurencesChar("asdfxasxxghjjuxxx"));
+        }
+
+        [Fact]
+        public void ReturnsAllPalindromesFromAString()
+        {
+            IEnumerable<string> expected = new List<string>() { "a", "aa", "aabaa", "a", "aba", "a","a", "b", "aa", "c" };
+            Assert.Equal(expected.OrderBy(x=>x), Functions.GetPalindromes("aabaac").OrderBy(x=>x));
         }
     }
 }
