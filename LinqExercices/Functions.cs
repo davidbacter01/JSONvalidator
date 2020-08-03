@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections.Immutable;
 
 namespace LinqExercices
 {
@@ -23,7 +24,7 @@ namespace LinqExercices
 
         public static bool TryStringToInt(string number,out int result)
         {
-            if (number.All(x => x <= '9'))
+            if (number.All(x => x <= '9' && x >= '0'))
             {
                 result = number.Aggregate(0, (x, y) => x * 10 + y - 48);
                 return true;
@@ -45,6 +46,15 @@ namespace LinqExercices
                             where y >= 1
                             select text.Substring(x, y);
             return substrings.Where(x => x.SequenceEqual(x.Reverse()));
+        }
+
+        public static IEnumerable<IEnumerable<int>> GetValuesWithSum(IEnumerable<int> numbers, int sum)
+        {
+            var pairs = from x in Enumerable.Range(0, numbers.Count())
+                        from y in Enumerable.Range(0, numbers.Count() - x + 1)
+                        where y >= 1
+                        select numbers.Skip(x).Take(y);
+            return pairs.Where(x => x.Sum() <= sum);
         }
     }
 }

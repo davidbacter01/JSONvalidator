@@ -42,5 +42,19 @@ namespace LinqExercices.Tests
             IEnumerable<string> expected = new List<string>() { "a", "aa", "aabaa", "a", "aba", "a","a", "b", "aa", "c" };
             Assert.Equal(expected.OrderBy(x=>x), Functions.GetPalindromes("aabaac").OrderBy(x=>x));
         }
+
+        [Fact]
+        public void ReturnsAllSequencesOfNumbersWithSumLessThenGivenInt()
+        {
+            var nums =new int[] { 1, 2, 3, 4 };
+            var expected = new List<List<int>>()
+            {
+                new List<int>(){ 1 },
+                new List<int>(){ 1, 2 },
+                new List<int>(){ 2 },
+                new List<int>(){ 3 }
+            };
+            Assert.Equal(expected, Functions.GetValuesWithSum(nums, 3));
+        }
     }
 }
