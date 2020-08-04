@@ -17,8 +17,8 @@ namespace LinqExercices
             }
 
             var result = new Dictionary<string, int>() { { "vowels", 0 }, { "consonants", 0 } };
-            result["vowels"] = text.Count(x => "aeiou".Contains(x));
-            result["consonants"] = text.Count(x => !"aeiou".Contains(x));
+            result["vowels"] = text.Count(x => "aeiouAEIOU".Contains(x));
+            result["consonants"] = text.Count(x => !"aeiouAEIOU".Contains(x));
             return result;
         }
 
