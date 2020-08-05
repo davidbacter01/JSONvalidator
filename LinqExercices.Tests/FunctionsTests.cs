@@ -56,5 +56,12 @@ namespace LinqExercices.Tests
             };
             Assert.Equal(expected, Functions.GetValuesWithSum(nums, 3));
         }
+
+        [Fact]
+        public void ReturnsAllSequencesOfNumbersThatEvaluateToResult()
+        {
+            var expected = new[] { "+1-2+3-4+5=3", "-1+2+3+4-5=3", "-1-2-3+4+5=3" };
+            Assert.Equal(expected, Functions.GetValidSequenceOfSigns(5, 3));
+        }
     }
 }

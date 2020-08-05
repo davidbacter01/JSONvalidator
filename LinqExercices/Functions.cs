@@ -67,9 +67,9 @@ namespace LinqExercices
             }
 
             var substrings = from x in Enumerable.Range(0, text.Length)
-                            from y in Enumerable.Range(0, text.Length - x + 1)
-                            where y >= 1
-                            select text.Substring(x, y);
+                             from y in Enumerable.Range(0, text.Length - x + 1)
+                             where y >= 1
+                             select text.Substring(x, y);
             return substrings.Where(x => x.SequenceEqual(x.Reverse()));
         }
 
@@ -85,6 +85,43 @@ namespace LinqExercices
                         where y >= 1
                         select numbers.Skip(x).Take(y);
             return pairs.Where(x => x.Sum() <= sum);
+        }
+
+        public static IEnumerable<string> GetValidSequenceOfSigns(int n, int k)
+        {
+            var signs = new List<string>() { "+","-"};
+            return GetPermutations(signs, n).Where(permutations =>
+            {
+                int i = 1;
+                int result = 0;
+                foreach (var sign in permutations)
+                {
+                    result += sign == "+" ? i : 0 - i;
+                    i++;
+                }
+
+                return result == k;
+            }).Select(x=> 
+            {
+                var result = "";
+                int i = 1;
+                foreach (var sign in x)
+                {
+                    result += sign + i.ToString();
+                    i++;
+                }
+
+                result += $"={k}";
+                return result;
+            });
+        }
+
+        private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
+        {
+            if (length == 1) return list.Select(t => new T[] { t });
+            return GetPermutations(list, length - 1)
+                .SelectMany(t => list,
+                    (t1, t2) => t1.Concat(new T[] { t2 }));
         }
     }
 }
