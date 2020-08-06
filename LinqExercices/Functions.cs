@@ -116,6 +116,14 @@ namespace LinqExercices
             });
         }
 
+        public static IEnumerable<IEnumerable<int>> GetTriplets(int[] numbers)
+        {
+            return GetPermutations(numbers, 3).Where(triplet => 
+            {
+                var res = triplet.ToArray();
+                return res[0] * res[0] + res[1] * res[1] == res[2] * res[2];
+            });
+        }
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
         {
             if (length == 1) return list.Select(t => new T[] { t });

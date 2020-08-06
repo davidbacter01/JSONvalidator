@@ -63,5 +63,20 @@ namespace LinqExercices.Tests
             var expected = new[] { "+1-2+3-4+5=3", "-1+2+3+4-5=3", "-1-2-3+4+5=3" };
             Assert.Equal(expected, Functions.GetValidSequenceOfSigns(5, 3));
         }
+
+        [Fact]
+        public void ReturnsAllTripletsInAnArray()
+        {
+            var expected = new[]
+            {
+                new[] { 6, 8, 10 },
+                new[] { 8, 6, 10 },
+                new[] { 3, 4, 5 },
+                new[] { 4, 3, 5 },
+                new[] { 5, 12, 13 },
+                new[] { 12, 5, 13 }
+            };
+            Assert.Equal(expected, Functions.GetTriplets(new[] { 6, 8, 10, 3, 4, 5, 12, 13, 1 }));
+        }
     }
 }
