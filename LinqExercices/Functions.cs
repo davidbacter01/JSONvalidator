@@ -118,12 +118,32 @@ namespace LinqExercices
 
         public static IEnumerable<IEnumerable<int>> GetTriplets(int[] numbers)
         {
+            if (numbers == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             return GetPermutations(numbers, 3).Where(triplet => 
             {
                 var res = triplet.ToArray();
                 return res[0] * res[0] + res[1] * res[1] == res[2] * res[2];
             });
         }
+
+        public static IEnumerable<ProductQ> GetWithMinimumOneFeature(IEnumerable<ProductQ> products,ICollection<Feature> features)
+        {
+            if (products == null || features == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return products.Where(product => product
+            .Features.Select(feat=>feat.Id)
+            .Intersect(
+                features.Select(feat=>feat.Id))
+            .Count() >= 1);
+        }
+
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
         {
             if (length == 1) return list.Select(t => new T[] { t });
@@ -131,5 +151,18 @@ namespace LinqExercices
                 .SelectMany(t => list,
                     (t1, t2) => t1.Concat(new T[] { t2 }));
         }
+
+        
+    }
+
+    public class ProductQ
+    {
+        public string Name { get; set; }
+        public ICollection<Feature> Features { get; set; }
+    }
+
+    public class Feature
+    {
+        public int Id { get; set; }
     }
 }

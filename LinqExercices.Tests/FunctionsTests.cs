@@ -8,6 +8,26 @@ namespace LinqExercices.Tests
 {
     public class FunctionsTests
     {
+        ICollection<Feature> features = new Feature[] { new Feature() { Id = 1 }, new Feature() { Id = 2 }, new Feature() { Id = 3 } };
+        IEnumerable<ProductQ> products = new ProductQ[]
+        {
+                new ProductQ()
+                {
+                    Name="prod1",
+                    Features=new Feature[]{new Feature() { Id = 12},new Feature() { Id = 2} }
+                },
+                new ProductQ()
+                {
+                    Name="prod2",
+                    Features=new Feature[]{new Feature() { Id = 1},new Feature() { Id = 2}, new Feature() { Id = 3} }
+                },
+                new ProductQ()
+                {
+                    Name="prod3",
+                    Features=new Feature[]{new Feature() { Id = 12 },new Feature() { Id = 1122} }
+                },
+        };
+
         [Fact]
         public void CountsVowelsAndConsonantsInAString()
         {
@@ -77,6 +97,31 @@ namespace LinqExercices.Tests
                 new[] { 12, 5, 13 }
             };
             Assert.Equal(expected, Functions.GetTriplets(new[] { 6, 8, 10, 3, 4, 5, 12, 13, 1 }));
+        }
+
+        [Fact]
+        public void ReturnsListOfAllProductsThatHaveAtLeastOneFeatureFromGivenList()
+        {
+            var expected = new ProductQ[]
+            {
+                new ProductQ()
+                {
+                    Name="prod1",
+                    Features=new Feature[]{new Feature() { Id = 12},new Feature() { Id = 2} }
+                },
+                new ProductQ()
+                {
+                    Name="prod2",
+                    Features=new Feature[]{new Feature() { Id = 1},new Feature() { Id = 2}, new Feature() { Id = 3} }
+                }
+            };
+
+            Assert.Equal(
+                expected.OrderByDescending(ob=>ob.Name)
+                .Select(prod=>prod.Name), 
+                Functions.GetWithMinimumOneFeature(products, features)
+                .OrderByDescending(ob => ob.Name)
+                .Select(prod => prod.Name));
         }
     }
 }
