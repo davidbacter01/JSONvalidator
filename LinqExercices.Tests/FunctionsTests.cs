@@ -143,5 +143,25 @@ namespace LinqExercices.Tests
                 .OrderByDescending(ob => ob.Name)
                 .Select(prod => prod.Name));
         }
+
+        [Fact]
+        public void ReturnsListOfAllProductsThatHaveNoFeaturesFromGivenList()
+        {
+            var expected = new ProductQ[]
+            {
+                new ProductQ()
+                {
+                    Name="prod3",
+                    Features=new Feature[]{new Feature() { Id = 12},new Feature() { Id = 1122}}
+                }
+            };
+
+            Assert.Equal(
+                expected.OrderByDescending(ob => ob.Name)
+                .Select(prod => prod.Name),
+                Functions.GetWithNoFeatures(products, features)
+                .OrderByDescending(ob => ob.Name)
+                .Select(prod => prod.Name));
+        }
     }
 }

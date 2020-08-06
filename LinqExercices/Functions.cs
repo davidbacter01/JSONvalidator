@@ -158,6 +158,20 @@ namespace LinqExercices
             .Count() ==features.Count());
         }
 
+        public static IEnumerable<ProductQ> GetWithNoFeatures(IEnumerable<ProductQ> products, ICollection<Feature> features)
+        {
+            if (products == null || features == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return products.Where(product => product
+            .Features.Select(feat => feat.Id)
+            .Intersect(
+                features.Select(feat => feat.Id))
+            .Count() == 0);
+        }
+
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
         {
             if (length == 1) return list.Select(t => new T[] { t });
