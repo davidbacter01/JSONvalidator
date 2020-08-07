@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace LinqExercices.Tests
@@ -59,14 +57,14 @@ namespace LinqExercices.Tests
         [Fact]
         public void ReturnsAllPalindromesFromAString()
         {
-            IEnumerable<string> expected = new List<string>() { "a", "aa", "aabaa", "a", "aba", "a","a", "b", "aa", "c" };
-            Assert.Equal(expected.OrderBy(x=>x), Functions.GetPalindromes("aabaac").OrderBy(x=>x));
+            IEnumerable<string> expected = new List<string>() { "a", "aa", "aabaa", "a", "aba", "a", "a", "b", "aa", "c" };
+            Assert.Equal(expected.OrderBy(x => x), Functions.GetPalindromes("aabaac").OrderBy(x => x));
         }
 
         [Fact]
         public void ReturnsAllSequencesOfNumbersWithSumLessThenGivenInt()
         {
-            var nums =new int[] { 1, 2, 3, 4 };
+            var nums = new int[] { 1, 2, 3, 4 };
             var expected = new List<List<int>>()
             {
                 new List<int>(){ 1 },
@@ -117,8 +115,8 @@ namespace LinqExercices.Tests
             };
 
             Assert.Equal(
-                expected.OrderByDescending(ob=>ob.Name)
-                .Select(prod=>prod.Name), 
+                expected.OrderByDescending(ob => ob.Name)
+                .Select(prod => prod.Name),
                 Functions.GetWithMinimumOneFeature(products, features)
                 .OrderByDescending(ob => ob.Name)
                 .Select(prod => prod.Name));
@@ -162,6 +160,28 @@ namespace LinqExercices.Tests
                 Functions.GetWithNoFeatures(products, features)
                 .OrderByDescending(ob => ob.Name)
                 .Select(prod => prod.Name));
+        }
+
+        [Fact]
+        public void ReturnsListOfProductsWithNoDuplicatesAndTotalQuantityFromTwoGivenLists()
+        {
+            var p1 = new ProductS() { Name = "laptop", Quantity = 2 };
+            var p2 = new ProductS() { Name = "laptop", Quantity = 23 };
+            var p3 = new ProductS() { Name = "phone", Quantity = 3 };
+            var p4 = new ProductS() { Name = "phone", Quantity = 10 };
+            var p5 = new ProductS() { Name = "headset", Quantity = 23 };
+            var p6 = new ProductS() { Name = "mouse", Quantity = 19 };
+            var first = new List<ProductS>() { p1, p3, p5 };
+            var second = new List<ProductS>() { p2, p4, p6 };
+            var expected = new List<ProductS>()
+            {
+                new ProductS() { Name = "laptop", Quantity = 25},
+                new ProductS() { Name = "phone", Quantity = 13},
+                new ProductS() { Name = "headset", Quantity = 23},
+                new ProductS() { Name = "mouse", Quantity = 19 }
+            };
+            Assert.Equal(expected.Select(x => x.Name), Functions.MergeLists(first, second).Select(x => x.Name));
+            Assert.Equal(expected.Select(x => x.Quantity), Functions.MergeLists(first, second).Select(x => x.Quantity));
         }
     }
 }

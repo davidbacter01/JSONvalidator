@@ -172,6 +172,20 @@ namespace LinqExercices
             .Count() == 0);
         }
 
+        public static IEnumerable<ProductS> MergeLists(IEnumerable<ProductS> first, IEnumerable<ProductS> second)
+        {
+            var grouped = first.Concat(second);
+            return grouped.GroupJoin(
+                grouped,
+                prod => prod.Name,
+                prod => prod.Name,
+                (prod, prodList) => new ProductS()
+                {
+                    Name = prod.Name,
+                    Quantity = prodList.Select(p => p.Quantity).Sum()
+                }).Distinct();
+        }
+
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
         {
             if (length == 1) return list.Select(t => new T[] { t });
@@ -179,8 +193,12 @@ namespace LinqExercices
                 .SelectMany(t => list,
                     (t1, t2) => t1.Concat(new T[] { t2 }));
         }
+    }
 
-        
+    public struct ProductS
+    {
+        public string Name;
+        public int Quantity;
     }
 
     public class ProductQ
