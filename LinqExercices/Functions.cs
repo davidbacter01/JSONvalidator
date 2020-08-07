@@ -186,6 +186,19 @@ namespace LinqExercices
                 }).Distinct();
         }
 
+        public static IEnumerable<TestResults> RemoveLowerScores(IEnumerable<TestResults> tests)
+        {
+            return tests.GroupJoin(
+                tests,
+                result => result.FamilyId,
+                result => result.FamilyId,
+                (result, resultList) =>
+                    resultList.Where(
+                        res=>res.Score == resultList.Select(
+                            res => res.Score).Max()).First()
+                ).Distinct();
+        }
+
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
         {
             if (length == 1) return list.Select(t => new T[] { t });
@@ -210,5 +223,12 @@ namespace LinqExercices
     public class Feature
     {
         public int Id { get; set; }
+    }
+
+    public class TestResults
+    {
+        public string Id { get; set; }
+        public string FamilyId { get; set; }
+        public int Score { get; set; }
     }
 }

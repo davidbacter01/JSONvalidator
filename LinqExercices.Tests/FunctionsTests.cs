@@ -183,5 +183,33 @@ namespace LinqExercices.Tests
             Assert.Equal(expected.Select(x => x.Name), Functions.MergeLists(first, second).Select(x => x.Name));
             Assert.Equal(expected.Select(x => x.Quantity), Functions.MergeLists(first, second).Select(x => x.Quantity));
         }
+
+        [Fact]
+        public void ReturnsListOfTestResultsContainingMaxmimumScoresAndNoDuplicates()
+        {
+            var scores = new List<TestResults>()
+            {
+                new TestResults() { Id = "test1", FamilyId = "family1", Score = 50 },
+                new TestResults() { Id = "test2", FamilyId = "family1", Score = 56 },
+                new TestResults() { Id = "test3", FamilyId = "family1", Score = 100 },
+                new TestResults() { Id = "test1", FamilyId = "family2", Score = 34 },
+                new TestResults() { Id = "test2", FamilyId = "family2", Score = 74 },
+                new TestResults() { Id = "test1", FamilyId = "family3", Score = 98 },
+                new TestResults() { Id = "test1", FamilyId = "family4", Score = 78 }
+            };
+
+            var expected = new List<TestResults>()
+            {
+                new TestResults() { Id = "test3", FamilyId = "family1", Score = 100},
+                new TestResults() { Id = "test2", FamilyId = "family2", Score = 74},
+                new TestResults() { Id = "test1", FamilyId = "family3", Score = 98},
+                new TestResults() { Id = "test1", FamilyId = "family4", Score = 78}
+            };
+
+            var actual = Functions.RemoveLowerScores(scores);
+            Assert.Equal(expected.Select(x => x.Id), actual.Select(x => x.Id));
+            Assert.Equal(expected.Select(x => x.FamilyId), actual.Select(x => x.FamilyId));
+            Assert.Equal(expected.Select(x => x.Score), actual.Select(x => x.Score));
+        }
     }
 }
