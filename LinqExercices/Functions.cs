@@ -199,6 +199,20 @@ namespace LinqExercices
                 ).Distinct();
         }
 
+        public static IEnumerable<string> GetMostUsedWords(string text)
+        {
+            var words = text.Split(new char[] { ' ', '.', ',', '!', '?', ';', ':', '\n', '\0' }, StringSplitOptions.RemoveEmptyEntries);
+            return words.GroupJoin(
+                words,
+                word => word,
+                word => word,
+                (word, wordList) =>
+                new { Word = word, wordCount = wordList.Count() })
+                .Distinct()
+                .OrderByDescending(x => x.wordCount)
+                .Select(x => $"{x.Word} : {x.wordCount}");                
+        }
+
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
         {
             if (length == 1) return list.Select(t => new T[] { t });

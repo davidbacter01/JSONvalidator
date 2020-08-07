@@ -211,5 +211,13 @@ namespace LinqExercices.Tests
             Assert.Equal(expected.Select(x => x.FamilyId), actual.Select(x => x.FamilyId));
             Assert.Equal(expected.Select(x => x.Score), actual.Select(x => x.Score));
         }
+
+        [Fact]
+        public void ReturnsListWithTopOfMostUsedWordsFromAText()
+        {
+            string text = "a,.b,c a,a!b c,a.b";
+            var expected = new[] { "a : 4", "b : 3", "c : 2" };
+            Assert.Equal(expected, Functions.GetMostUsedWords(text));
+        }
     }
 }
