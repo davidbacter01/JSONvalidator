@@ -252,5 +252,13 @@ namespace LinqExercices.Tests
             Assert.False(Functions.IsValidSudoku(invalidBoard));
             Assert.True(Functions.IsValidSudoku(validBoard));
         }
+
+        [Fact]
+        public void GetsResultOfPolishReverseNotationEquation()
+        {
+            Assert.Equal(5, Functions.PostfixCalculator("2 3 +"));
+            Assert.Equal(1, Functions.PostfixCalculator("12 6 6 + /"));
+            Assert.Equal(3, Functions.PostfixCalculator("12 6 + 6 /"));
+        }
     }
 }

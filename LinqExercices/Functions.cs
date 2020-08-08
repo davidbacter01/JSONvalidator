@@ -238,7 +238,50 @@ namespace LinqExercices
                 groups.All(IsValidGroup);
         }
 
-        static bool IsValidGroup(IEnumerable<int> group)
+        public static double PostfixCalculator(string equation)
+        {
+            var extended = equation.Split(' ');
+            if (equation == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return extended.Aggregate(new Stack<double>(), GetStackState).Pop();
+        }
+
+        private static Stack<double> GetStackState(Stack<double> operands, string eqOperator)
+        {
+            if (!double.TryParse(eqOperator, out double number)&&
+                !new[] { "+", "-", "*", "/" }.Contains(eqOperator))
+            {
+                throw new ArgumentException("Equation format is unkown!");
+            }
+            else
+            {
+                switch (eqOperator)
+                {
+                    case "+":
+                        operands.Push(operands.Pop() + operands.Pop());
+                        break;
+                    case "-":
+                        operands.Push(operands.Pop() - operands.Pop());
+                        break;
+                    case "*":
+                        operands.Push(operands.Pop() * operands.Pop());
+                        break;
+                    case "/":
+                        double divider = operands.Pop();
+                        operands.Push(operands.Pop() / divider);
+                        break;
+                    default:
+                        operands.Push(number);
+                        break;
+                }
+            }
+
+            return operands;
+        }
+        private static bool IsValidGroup(IEnumerable<int> group)
         {
             return group.Distinct().Count() == group.Count()&&
                    group.All(x => x <= 9 && x > 0)&&
