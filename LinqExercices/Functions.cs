@@ -213,6 +213,37 @@ namespace LinqExercices
                 .Select(x => $"{x.Word} : {x.wordCount}");                
         }
 
+        public static bool IsValidSudoku(IEnumerable<IEnumerable<int>> sudokuBoard)
+        {
+            if (sudokuBoard == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var columns = Enumerable.Range(0, 9)
+                .Select(lineCount => Enumerable.Range(0,9)
+                .Select(columnCount=>sudokuBoard
+                    .ElementAt(columnCount)
+                    .ElementAt(lineCount)
+                    ));
+            var groups = Enumerable.Range(0, 3).SelectMany(gy =>
+             Enumerable.Range(0, 3).Select(gx =>
+                 sudokuBoard.Skip(gy * 3).Take(3).Select(row =>
+                     row.Skip(gx * 3).Take(3)
+                 )
+             )).Select(group => group.SelectMany(n => n));
+
+            return columns.All(IsValidGroup) &&
+                sudokuBoard.All(IsValidGroup) &&
+                groups.All(IsValidGroup);
+        }
+
+        static bool IsValidGroup(IEnumerable<int> group)
+        {
+            return group.Distinct().Count() == group.Count()&&
+                   group.All(x => x <= 9 && x > 0)&&
+                   group.Count() == 9;
+        }
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
         {
             if (length == 1) return list.Select(t => new T[] { t });

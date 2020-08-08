@@ -219,5 +219,38 @@ namespace LinqExercices.Tests
             var expected = new[] { "a : 4", "b : 3", "c : 2" };
             Assert.Equal(expected, Functions.GetMostUsedWords(text));
         }
+
+        [Fact]
+        public void ReturnsTrueIfSudokuBoardIsValidAndFalseOtherwise()
+        {
+            var invalidBoard = new List<IEnumerable<int>>()
+            {
+                new [] {1,2,3,4,5,6,7,8,9},
+                new [] {2,3,4,5,6,7,8,9,1},
+                new [] {3,4,5,6,7,8,9,1,2},
+                new [] {4,5,6,7,8,9,1,2,3},
+                new [] {5,6,7,8,9,1,2,3,4},
+                new [] {6,7,8,9,1,2,3,4,5},
+                new [] {7,8,9,1,2,3,4,5,6},
+                new [] {8,9,1,2,3,4,5,6,7},
+                new [] {9,1,2,3,4,5,6,7,8}
+            };
+
+            var validBoard = new[]
+            {
+                new[] { 7, 2, 6, 4, 9, 3, 8, 1, 5 },
+                new[] { 3, 1, 5, 7, 2, 8, 9, 4, 6 },
+                new[] { 4, 8, 9, 6, 5, 1, 2, 3, 7 },
+                new[] { 8, 5, 2, 1, 4, 7, 6, 9, 3 },
+                new[] { 6, 7, 3, 9, 8, 5, 1, 2, 4 },
+                new[] { 9, 4, 1, 3, 6, 2, 7, 5, 8 },
+                new[] { 1, 9, 4, 8, 3, 6, 5, 7, 2 },
+                new[] { 5, 6, 7, 2, 1, 4, 3, 8, 9 },
+                new[] { 2, 3, 8, 5, 7, 9, 4, 6, 1 },
+            };
+
+            Assert.False(Functions.IsValidSudoku(invalidBoard));
+            Assert.True(Functions.IsValidSudoku(validBoard));
+        }
     }
 }
