@@ -29,6 +29,7 @@ namespace LinqExercices
                 throw new InvalidOperationException();
             }
 
+
             return text.FirstOrDefault(c => text.IndexOf(c) == text.LastIndexOf(c));
         }
 
@@ -89,31 +90,12 @@ namespace LinqExercices
 
         public static IEnumerable<string> GetValidSequenceOfSigns(int n, int k)
         {
-            var signs = new List<string>() { "+","-"};
-            return GetPermutations(signs, n).Where(permutations =>
-            {
-                int i = 1;
-                int result = 0;
-                foreach (var sign in permutations)
-                {
-                    result += sign == "+" ? i : 0 - i;
-                    i++;
-                }
-
-                return result == k;
-            }).Select(x=> 
-            {
-                var result = "";
-                int i = 1;
-                foreach (var sign in x)
-                {
-                    result += sign + i.ToString();
-                    i++;
-                }
-
-                result += $"={k}";
-                return result;
-            });
+            string[] signs = { "+","-"};
+            return GetPermutations(signs, n).Where(perm =>
+            Enumerable.Range(1, n).Aggregate(0, (seed, en) =>
+              seed += perm.ElementAt(en - 1) == "+" ? en : 0 - en) == k)
+            .Select(x => Enumerable.Range(1, n)
+            .Aggregate("", (seed, num) => seed + x.ElementAt(num - 1) + num) + $"={k}");
         }
 
         public static IEnumerable<IEnumerable<int>> GetTriplets(int[] numbers)
@@ -240,13 +222,13 @@ namespace LinqExercices
 
         public static double PostfixCalculator(string equation)
         {
-            var extended = equation.Split(' ');
+            var extendedEquation = equation.Split(' ');
             if (equation == null)
             {
                 throw new ArgumentNullException();
             }
 
-            return extended.Aggregate(new Stack<double>(), GetStackState).Pop();
+            return extendedEquation.Aggregate(new Stack<double>(), GetStackState).Pop();
         }
 
         private static Stack<double> GetStackState(Stack<double> operands, string eqOperator)
@@ -264,7 +246,8 @@ namespace LinqExercices
                         operands.Push(operands.Pop() + operands.Pop());
                         break;
                     case "-":
-                        operands.Push(operands.Pop() - operands.Pop());
+                        double toSubtract = operands.Pop();
+                        operands.Push(operands.Pop() - toSubtract);
                         break;
                     case "*":
                         operands.Push(operands.Pop() * operands.Pop());
