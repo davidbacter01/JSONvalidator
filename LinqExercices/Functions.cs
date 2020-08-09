@@ -90,7 +90,7 @@ namespace LinqExercices
 
         public static IEnumerable<string> GetValidSequenceOfSigns(int n, int k)
         {
-            string[] signs = { "+","-"};
+            string[] signs = { "+", "-" };
             return GetPermutations(signs, n).Where(perm =>
             Enumerable.Range(1, n).Aggregate(0, (seed, en) =>
               seed += perm.ElementAt(en - 1) == "+" ? en : 0 - en) == k)
@@ -105,11 +105,11 @@ namespace LinqExercices
                 throw new ArgumentNullException();
             }
 
-            return GetPermutations(numbers, 3).Where(triplet => 
-            {
-                var res = triplet.ToArray();
-                return res[0] * res[0] + res[1] * res[1] == res[2] * res[2];
-            });
+            return GetPermutations(numbers, 3).Where(res =>
+                res.ElementAt(0) * res.ElementAt(0) 
+                + res.ElementAt(1) * res.ElementAt(1) 
+                == res.ElementAt(2) * res.ElementAt(2)
+            );
         }
 
         public static IEnumerable<ProductQ> GetWithMinimumOneFeature(IEnumerable<ProductQ> products,ICollection<Feature> features)
