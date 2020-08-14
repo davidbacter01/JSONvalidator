@@ -29,7 +29,7 @@ namespace LinqExercices.Tests
         [Fact]
         public void CountsVowelsAndConsonantsInAString()
         {
-            var expected = new Dictionary<string, int>() { { "vowels", 3 }, { "consonants", 3 } };
+            var expected =(3,3);
             Assert.Equal(expected, Functions.CountConsonantsAndVowels("aeivbn"));
         }
 

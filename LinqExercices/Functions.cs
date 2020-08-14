@@ -9,17 +9,17 @@ namespace LinqExercices
 {
     public static class Functions
     {
-        public static Dictionary<string,int> CountConsonantsAndVowels(string text)
+        public static (int, int) CountConsonantsAndVowels(string text)
         {
             if (text == null)
             {
                 throw new InvalidOperationException();
             }
 
-            var result = new Dictionary<string, int>() { { "vowels", 0 }, { "consonants", 0 } };
-            result["vowels"] = text.Count(x => "aeiouAEIOU".Contains(x));
-            result["consonants"] = text.Count(x => !"aeiouAEIOU".Contains(x));
-            return result;
+            (int Vowels, int Consonants) count = (0, 0);
+            count.Vowels = text.Count(x => "aeiouAEIOU".Contains(x));
+            count.Consonants = text.Count(x => !"aeiouAEIOU".Contains(x));
+            return count;
         }
 
         public static char GetFirstNonRepetedChar(string text)
