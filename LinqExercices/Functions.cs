@@ -81,11 +81,10 @@ namespace LinqExercices
                 throw new InvalidOperationException();
             }
 
-            var pairs = from x in Enumerable.Range(0, numbers.Count())
-                        from y in Enumerable.Range(0, numbers.Count() - x + 1)
-                        where y >= 1
-                        select numbers.Skip(x).Take(y);
-            return pairs.Where(x => x.Sum() <= sum);
+            return Enumerable.Range(1, numbers.Count())
+                .SelectMany(x => Enumerable.Range(0, numbers.Count() - x + 1)
+                    .Select(y => numbers.Skip(y).Take(x)))
+                .Where(x => x.Sum() <= sum);
         }
 
         public static IEnumerable<string> GetValidSequenceOfSigns(int n, int k)

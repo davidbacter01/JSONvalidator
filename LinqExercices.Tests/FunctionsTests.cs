@@ -68,9 +68,9 @@ namespace LinqExercices.Tests
             var expected = new List<List<int>>()
             {
                 new List<int>(){ 1 },
-                new List<int>(){ 1, 2 },
                 new List<int>(){ 2 },
-                new List<int>(){ 3 }
+                new List<int>(){ 3 },
+                new List<int>(){ 1,2 }
             };
             Assert.Equal(expected, Functions.GetValuesWithSum(nums, 3));
         }
