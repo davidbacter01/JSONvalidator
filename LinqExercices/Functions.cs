@@ -31,8 +31,8 @@ namespace LinqExercices
                 throw new InvalidOperationException();
             }
 
-
-            return text.FirstOrDefault(c => text.IndexOf(c) == text.LastIndexOf(c));
+            return text.FirstOrDefault(c => text.Count(x => x == c) == 1);
+            //return text.FirstOrDefault(c => text.IndexOf(c) == text.LastIndexOf(c));
         }
 
         public static bool TryStringToInt(string number,out int result)
