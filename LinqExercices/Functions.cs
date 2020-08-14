@@ -24,7 +24,7 @@ namespace LinqExercices
             });
         }
 
-        public static char GetFirstNonRepeatedChar(string text)
+        public static char GetFirstNonRepetedChar(string text)
         {
             if (text == null)
             {
@@ -68,11 +68,10 @@ namespace LinqExercices
                 throw new InvalidOperationException();
             }
 
-            var substrings = from x in Enumerable.Range(0, text.Length)
-                             from y in Enumerable.Range(0, text.Length - x + 1)
-                             where y >= 1
-                             select text.Substring(x, y);
-            return substrings.Where(x => x.SequenceEqual(x.Reverse()));
+            return Enumerable.Range(1, text.Length)
+                .SelectMany(x => Enumerable.Range(0, text.Length - x + 1)
+                    .Select(y => text.Substring(y, x)))
+                .Where(partition => partition.SequenceEqual(partition.Reverse())).ToList();
         }
 
         public static IEnumerable<IEnumerable<int>> GetValuesWithSum(IEnumerable<int> numbers, int sum)
