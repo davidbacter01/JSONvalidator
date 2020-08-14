@@ -24,7 +24,7 @@ namespace LinqExercices
             });
         }
 
-        public static char GetFirstNonRepetedChar(string text)
+        public static char GetFirstNonRepeatedChar(string text)
         {
             if (text == null)
             {
@@ -32,7 +32,6 @@ namespace LinqExercices
             }
 
             return text.FirstOrDefault(c => text.Count(x => x == c) == 1);
-            //return text.FirstOrDefault(c => text.IndexOf(c) == text.LastIndexOf(c));
         }
 
         public static bool TryStringToInt(string number,out int result)
@@ -44,7 +43,7 @@ namespace LinqExercices
 
             if (number.All(x => x <= '9' && x >= '0'))
             {
-                result = number.Aggregate(0, (x, y) => x * 10 + y - 48);
+                result = number.Aggregate(0, (x, y) => x * 10 + y - '0');
                 return true;
             }
 
