@@ -17,9 +17,11 @@ namespace LinqExercices
             }
 
             (int Vowels, int Consonants) count = (0, 0);
-            count.Vowels = text.Count(x => "aeiouAEIOU".Contains(x));
-            count.Consonants = text.Count(x => !"aeiouAEIOU".Contains(x));
-            return count;
+            return text.Aggregate(count, (count, x) =>
+            {
+                _ = "aeiouAEIOU".Contains(x) ? count.Vowels++ : count.Consonants++;
+                return count;
+            });
         }
 
         public static char GetFirstNonRepetedChar(string text)
