@@ -6,12 +6,12 @@ namespace LinqExercices
 {
     public class Stock
     {
-        private readonly Dictionary<string, Product> inventory;
-        private Action<Product, int> alertProductStock;
+        private readonly Dictionary<string, Product> _inventory;
+        private readonly Action<Product, int> _alertProductStock;
         public Stock(Action<Product,int> alertProductStock)
         {
-            this.alertProductStock = alertProductStock;
-            inventory = new Dictionary<string, Product>();
+            _alertProductStock = alertProductStock;
+            _inventory = new Dictionary<string, Product>();
         }
 
         public void AddProduct(Product prod)
@@ -21,30 +21,40 @@ namespace LinqExercices
                 throw new ArgumentNullException();
             }
 
-            if (!inventory.ContainsKey(prod.Name))
+            if (!_inventory.ContainsKey(prod.Name))
             {
-                inventory.Add(prod.Name, prod);
+                _inventory.Add(prod.Name, prod);
             }
             else
             {
-                inventory[prod.Name].Quantity += prod.Quantity;
+                _inventory[prod.Name].Quantity += prod.Quantity;
             }
         }
 
         public void RemoveProduct(Product prod)
         {
-            inventory.Remove(prod.Name);
+            _inventory.Remove(prod.Name);
         }
 
         public void SellProduct(Product prod, int quantity)
         {
             ValidateProduct(prod);
             ValidateProductQuantity(prod, quantity);
-            inventory[prod.Name].Quantity -= quantity;
-            if (inventory[prod.Name].Quantity < 10)
+            var threshold = prod.Quantity - quantity;
+            if (prod.Quantity >= 10 && threshold >= 5 && threshold < 10)
             {
-                alertProductStock(prod, inventory[prod.Name].Quantity);
+                _alertProductStock(prod, threshold);
             }
+            else if (prod.Quantity >= 5 && threshold >= 2 && threshold < 5)
+            {
+                _alertProductStock(prod, threshold);
+            }
+            else if (prod.Quantity >= 2 && threshold >= 0 && threshold < 2)
+            {
+                _alertProductStock(prod, threshold);
+            }
+
+            _inventory[prod.Name].Quantity = threshold;
         }
 
         private void ValidateProductQuantity(Product prod, int quantity)
@@ -55,15 +65,15 @@ namespace LinqExercices
             }
 
 
-            if (quantity > inventory[prod.Name].Quantity)
+            if (quantity > _inventory[prod.Name].Quantity)
             {
-                throw new ArgumentException($"{prod.Name} stock is insufficient ({inventory[prod.Name].Quantity} pcs available)");
+                throw new ArgumentException($"{prod.Name} stock is insufficient ({_inventory[prod.Name].Quantity} pcs available)");
             }
         }
 
         private void ValidateProduct(Product prod)
         {
-            if (!inventory.ContainsKey(prod.Name))
+            if (!_inventory.ContainsKey(prod.Name))
             {
                 throw new ArgumentException("Product doesn't exist");
             }

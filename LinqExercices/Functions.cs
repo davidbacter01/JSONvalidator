@@ -106,7 +106,7 @@ namespace LinqExercices
             }
 
             return GetPermutations(numbers, 3).Where(res =>
-                res.ElementAt(0) * res.ElementAt(0) 
+                res.ElementAt(0) * res.ElementAt(0)
                 + res.ElementAt(1) * res.ElementAt(1) 
                 == res.ElementAt(2) * res.ElementAt(2)
             );
