@@ -149,16 +149,14 @@ namespace LinqExercices
 
         public static IEnumerable<ProductS> MergeLists(IEnumerable<ProductS> first, IEnumerable<ProductS> second)
         {
-            var grouped = first.Concat(second);
-            return grouped.GroupJoin(
-                grouped,
-                prod => prod.Name,
-                prod => prod.Name,
-                (prod, prodList) => new ProductS()
-                {
-                    Name = prod.Name,
-                    Quantity = prodList.Select(p => p.Quantity).Sum()
-                }).Distinct();
+            return first.Concat(second)
+                .GroupBy(x => x.Name)
+                .Select(p =>
+                    new ProductS
+                    { 
+                        Name = p.First().Name,
+                        Quantity = p.Aggregate(0, (quant, prod) => quant + prod.Quantity)
+                    });
         }
 
         public static IEnumerable<TestResults> RemoveLowerScores(IEnumerable<TestResults> tests)
