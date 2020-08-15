@@ -118,11 +118,9 @@ namespace LinqExercices
                 throw new ArgumentNullException();
             }
 
-            return products.Where(product => product
-            .Features.Select(feat=>feat.Id)
-            .Intersect(
-                features.Select(feat=>feat.Id))
-            .Count() >= 1);
+            return products.Where(p => p.Features
+                .Select(f => f.Id)
+                .Any(id => features.Select(e => e.Id).Contains(id)));
         }
 
         public static IEnumerable<ProductQ> GetWithAllFeatures(IEnumerable<ProductQ> products, ICollection<Feature> features)
