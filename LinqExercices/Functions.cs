@@ -166,10 +166,9 @@ namespace LinqExercices
                 result => result.FamilyId,
                 result => result.FamilyId,
                 (result, resultList) =>
-                    resultList.Where(
-                        res=>res.Score == resultList.Select(
-                            res => res.Score).Max()).First()
-                ).Distinct();
+                    resultList.First(res => res.Score == resultList.Select(
+                        res => res.Score).Aggregate(0,(seed,score)=>seed=score>seed?score:seed))
+            ).Distinct();
         }
 
         public static IEnumerable<string> GetMostUsedWords(string text)
