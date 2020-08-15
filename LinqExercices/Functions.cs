@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Collections.Immutable;
+using System.Linq;
 
 namespace LinqExercices
 {
@@ -34,7 +32,7 @@ namespace LinqExercices
             return text.FirstOrDefault(c => text.Count(x => x == c) == 1);
         }
 
-        public static bool TryStringToInt(string number,out int result)
+        public static bool TryStringToInt(string number, out int result)
         {
             if (number == null)
             {
@@ -106,12 +104,12 @@ namespace LinqExercices
 
             return GetPermutations(numbers, 3).Where(res =>
                 res.ElementAt(0) * res.ElementAt(0)
-                + res.ElementAt(1) * res.ElementAt(1) 
+                + res.ElementAt(1) * res.ElementAt(1)
                 == res.ElementAt(2) * res.ElementAt(2)
             );
         }
 
-        public static IEnumerable<ProductQ> GetWithMinimumOneFeature(IEnumerable<ProductQ> products,ICollection<Feature> features)
+        public static IEnumerable<ProductQ> GetWithMinimumOneFeature(IEnumerable<ProductQ> products, ICollection<Feature> features)
         {
             if (products == null || features == null)
             {
@@ -153,7 +151,7 @@ namespace LinqExercices
                 .GroupBy(x => x.Name)
                 .Select(p =>
                     new ProductS
-                    { 
+                    {
                         Name = p.First().Name,
                         Quantity = p.Aggregate(0, (quant, prod) => quant + prod.Quantity)
                     });
@@ -167,7 +165,7 @@ namespace LinqExercices
                 result => result.FamilyId,
                 (result, resultList) =>
                     resultList.First(res => res.Score == resultList.Select(
-                        res => res.Score).Aggregate(0,(seed,score)=>seed=score>seed?score:seed))
+                        res => res.Score).Aggregate(0, (seed, score) => seed = score > seed ? score : seed))
             ).Distinct();
         }
 
@@ -182,7 +180,7 @@ namespace LinqExercices
                 new { Word = word, wordCount = wordList.Count() })
                 .Distinct()
                 .OrderByDescending(x => x.wordCount)
-                .Select(x => $"{x.Word} : {x.wordCount}");                
+                .Select(x => $"{x.Word} : {x.wordCount}");
         }
 
         public static bool IsValidSudoku(IEnumerable<IEnumerable<int>> sudokuBoard)
@@ -193,8 +191,8 @@ namespace LinqExercices
             }
 
             var columns = Enumerable.Range(0, 9)
-                .Select(lineCount => Enumerable.Range(0,9)
-                .Select(columnCount=>sudokuBoard
+                .Select(lineCount => Enumerable.Range(0, 9)
+                .Select(columnCount => sudokuBoard
                     .ElementAt(columnCount)
                     .ElementAt(lineCount)
                     ));
@@ -212,52 +210,38 @@ namespace LinqExercices
 
         public static double PostfixCalculator(string equation)
         {
-            var extendedEquation = equation.Split(' ');
             if (equation == null)
             {
                 throw new ArgumentNullException();
             }
 
-            return extendedEquation.Aggregate(new Stack<double>(), GetStackState).Pop();
+            IEnumerable<double> operands = new double[]{};
+            return equation.Split(' ')
+                .Aggregate(operands,
+                    (seed, element) =>
+                        double.TryParse(element, out var num)
+                            ? seed.Append(num)
+                            : seed.SkipLast(2).Append(GetEquationResult(seed.TakeLast(2), element))
+                ).First();
         }
 
-        private static Stack<double> GetStackState(Stack<double> operands, string eqOperator)
+        private static double GetEquationResult(IEnumerable<double> operands, string eqOperator)
         {
-            if (!double.TryParse(eqOperator, out double number)&&
-                !new[] { "+", "-", "*", "/" }.Contains(eqOperator))
+            var first = operands.ElementAt(0);
+            var second = operands.ElementAt(1);
+            return eqOperator switch
             {
-                throw new ArgumentException("Equation format is unkown!");
-            }
-            else
-            {
-                switch (eqOperator)
-                {
-                    case "+":
-                        operands.Push(operands.Pop() + operands.Pop());
-                        break;
-                    case "-":
-                        double toSubtract = operands.Pop();
-                        operands.Push(operands.Pop() - toSubtract);
-                        break;
-                    case "*":
-                        operands.Push(operands.Pop() * operands.Pop());
-                        break;
-                    case "/":
-                        double divider = operands.Pop();
-                        operands.Push(operands.Pop() / divider);
-                        break;
-                    default:
-                        operands.Push(number);
-                        break;
-                }
-            }
-
-            return operands;
+                "+" => first + second,
+                "-" => first - second,
+                "*" => first * second,
+                "/" => first / second,
+                _ => throw new InvalidOperationException()
+            };
         }
         private static bool IsValidGroup(IEnumerable<int> group)
         {
-            return group.Distinct().Count() == group.Count()&&
-                   group.All(x => x <= 9 && x > 0)&&
+            return group.Distinct().Count() == group.Count() &&
+                   group.All(x => x <= 9 && x > 0) &&
                    group.Count() == 9;
         }
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
