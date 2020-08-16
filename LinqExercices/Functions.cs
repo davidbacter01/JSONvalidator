@@ -29,7 +29,8 @@ namespace LinqExercices
                 throw new InvalidOperationException();
             }
 
-            return text.FirstOrDefault(c => text.Count(x => x == c) == 1);
+            return text.GroupBy(x => x).First(group => group.Count() == 1).Key;
+            //return text.FirstOrDefault(c => text.Count(x => x == c) == 1);
         }
 
         public static bool TryStringToInt(string number, out int result)
