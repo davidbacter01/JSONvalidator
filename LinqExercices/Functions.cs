@@ -168,15 +168,9 @@ namespace LinqExercices
         public static IEnumerable<string> GetMostUsedWords(string text)
         {
             var words = text.Split(new char[] { ' ', '.', ',', '!', '?', ';', ':', '\n', '\0' }, StringSplitOptions.RemoveEmptyEntries);
-            return words.GroupJoin(
-                words,
-                word => word,
-                word => word,
-                (word, wordList) =>
-                new { Word = word, wordCount = wordList.Count() })
-                .Distinct()
-                .OrderByDescending(x => x.wordCount)
-                .Select(x => $"{x.Word} : {x.wordCount}");
+            return words.GroupBy(word => word)
+                .OrderByDescending(g => g.Count())
+                .Select(gr => $"{gr.Key} : {gr.Count()}");
         }
 
         public static bool IsValidSudoku(IEnumerable<IEnumerable<int>> sudokuBoard)
