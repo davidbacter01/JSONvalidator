@@ -160,14 +160,9 @@ namespace LinqExercices
 
         public static IEnumerable<TestResults> RemoveLowerScores(IEnumerable<TestResults> tests)
         {
-            return tests.GroupJoin(
-                tests,
-                result => result.FamilyId,
-                result => result.FamilyId,
-                (result, resultList) =>
-                    resultList.First(res => res.Score == resultList.Select(
-                        res => res.Score).Aggregate(0, (seed, score) => seed = score > seed ? score : seed))
-            ).Distinct();
+            return tests.GroupBy(t => t.FamilyId)
+                .Select(group =>
+                    group.First(g => g.Score == group.Max(t => t.Score)));
         }
 
         public static IEnumerable<string> GetMostUsedWords(string text)
