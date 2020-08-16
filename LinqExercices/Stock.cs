@@ -8,7 +8,7 @@ namespace LinqExercices
     {
         private readonly Dictionary<string, Product> _inventory;
         private readonly Action<Product, int> _alertProductStock;
-        public Stock(Action<Product,int> alertProductStock)
+        public Stock(Action<Product, int> alertProductStock)
         {
             _alertProductStock = alertProductStock;
             _inventory = new Dictionary<string, Product>();
@@ -40,21 +40,24 @@ namespace LinqExercices
         {
             ValidateProduct(prod);
             ValidateProductQuantity(prod, quantity);
-            var threshold = prod.Quantity - quantity;
-            if (prod.Quantity >= 10 && threshold >= 5 && threshold < 10)
+            var remainingQuantity = prod.Quantity - quantity;
+            var alarmingSteps = new[] { 2, 5, 10 };
+            int threshold;
+            try
             {
-                _alertProductStock(prod, threshold);
+                threshold = alarmingSteps.First(s => s > remainingQuantity);
             }
-            else if (prod.Quantity >= 5 && threshold >= 2 && threshold < 5)
+            catch (InvalidOperationException)
             {
-                _alertProductStock(prod, threshold);
-            }
-            else if (prod.Quantity >= 2 && threshold >= 0 && threshold < 2)
-            {
-                _alertProductStock(prod, threshold);
+                threshold = prod.Quantity + 1;
             }
 
-            _inventory[prod.Name].Quantity = threshold;
+            if (prod.Quantity >= threshold)
+            {
+                _alertProductStock(prod, remainingQuantity);
+            }
+            
+            _inventory[prod.Name].Quantity = remainingQuantity;
         }
 
         private void ValidateProductQuantity(Product prod, int quantity)
