@@ -43,20 +43,13 @@ namespace LinqExercices
             var remainingQuantity = prod.Quantity - quantity;
             var alarmingSteps = new[] { 2, 5, 10 };
             int threshold;
-            try
-            {
-                threshold = alarmingSteps.First(s => s > remainingQuantity);
-            }
-            catch (InvalidOperationException)
-            {
-                threshold = prod.Quantity + 1;
-            }
+            threshold = alarmingSteps.FirstOrDefault(s => s > remainingQuantity);
 
             if (prod.Quantity >= threshold)
             {
                 _alertProductStock(prod, remainingQuantity);
             }
-            
+
             _inventory[prod.Name].Quantity = remainingQuantity;
         }
 
