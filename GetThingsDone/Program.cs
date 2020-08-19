@@ -17,12 +17,11 @@ namespace GetThingsDone
         private static void PrintTask(Task task)
         {
             Console.WriteLine("----------------------------------");
-            Console.WriteLine($"Title: {task.Title}");
-            Console.WriteLine($"Status: {task.Status}");
-            Console.WriteLine($"Task priority: {task.Importance}");
-            Console.WriteLine($"Description:\n {task.Description}");
+            Console.WriteLine($" Title: {task.Title}");
+            Console.WriteLine($" Status: {task.Status}");
+            Console.WriteLine($" Task priority: {task.Importance}");
+            Console.WriteLine($" Description:\n {task.Description}");
             Console.WriteLine("----------------------------------");
-            Console.Read();
         }
     }
 }

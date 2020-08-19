@@ -15,35 +15,51 @@ namespace GetThingsDone
         }
         public void CaptureTasks(string[] tasks)
         {
-            foreach (var task in tasks)
+            foreach (var taskTitle in tasks)
             {
-                var actualTask = new Task(task);
-                ClarifyTask(actualTask);
-                Tasks.Add(actualTask);
+                var task = new Task(taskTitle);
+                ClarifyTask(task);
+                if (IsActionableNow(task))
+                {
+                    continue;
+                }
+
+                Tasks.Add(task);
             }
         }
 
         private void ClarifyTask(Task task)
         {
-            GetTaskDescription(task);
-            Console.WriteLine($"Can task \"{task.Title}\" be acted in the next 2 minutes? Y/N");
+            GenerateTaskDescription(task);
+        }
+
+        private bool IsActionableNow(Task task)
+        {
+            Console.WriteLine($"Can task \"{task.Title}\" be completed in the next 2 minutes? Y/N");
             var answer = Console.ReadLine();
-            while (answer != null 
-                   && answer.ToLower() != "y" 
+            while (answer != null
+                   && answer.ToLower() != "y"
                    && answer.ToLower() != "n")
             {
                 Console.WriteLine("I don't understand your answer... Please answer with Y(yes) or N(no)!");
                 answer = Console.ReadLine();
             }
+
+            if (answer.ToLower() == "y")
+            {
+                Console.WriteLine("This is a task that you should start on right now! I wont add it to your tasks.");
+            }
+
+            return answer.ToLower() == "y";
         }
 
-        private void GetTaskDescription(Task task)
+        private void GenerateTaskDescription(Task task)
         {
             Console.WriteLine($"Please provide a description of how \"{task.Title}\" task can be completed!");
             task.Description = Console.ReadLine();
-            while (string.IsNullOrEmpty(task.Description))
+            while (string.IsNullOrEmpty(task.Description) && task.Description.Length < 100)
             {
-                Console.WriteLine("Please provide a valid description!");
+                Console.WriteLine("Please provide a valid description of at least 100 characters!");
                 task.Description = Console.ReadLine();
             }
         }
