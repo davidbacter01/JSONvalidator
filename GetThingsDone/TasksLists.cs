@@ -18,11 +18,13 @@ namespace GetThingsDone
             foreach (var taskTitle in tasks)
             {
                 var task = new Task(taskTitle);
-                ClarifyTask(task);
                 if (IsActionableNow(task))
                 {
                     continue;
                 }
+
+                ClarifyTask(task);
+                
 
                 Tasks.Add(task);
             }
@@ -31,19 +33,34 @@ namespace GetThingsDone
         private void ClarifyTask(Task task)
         {
             GenerateTaskDescription(task);
+            EstablishTaskViability(task);
         }
 
-        private bool IsActionableNow(Task task)
+        private void EnsureValidAnswer(string answer)
         {
-            Console.WriteLine($"Can task \"{task.Title}\" be completed in the next 2 minutes? Y/N");
-            var answer = Console.ReadLine();
-            while (answer != null
-                   && answer.ToLower() != "y"
+            while (answer == null
+                   || answer.ToLower() != "y"
                    && answer.ToLower() != "n")
             {
                 Console.WriteLine("I don't understand your answer... Please answer with Y(yes) or N(no)!");
                 answer = Console.ReadLine();
             }
+        }
+        private void EstablishTaskViability(Task task)
+        {
+            Console.WriteLine($"Is task {task.Description} possible to accomplish? Y/N?");
+            var answer = Console.ReadLine();
+            EnsureValidAnswer(answer);
+            if (answer.ToLower() == "n")
+            {
+                task.Tags.Add("#canbedone");
+            }
+        }
+        private bool IsActionableNow(Task task)
+        {
+            Console.WriteLine($"Can task \"{task.Title}\" be completed in the next 2 minutes? Y/N");
+            var answer = Console.ReadLine();
+            EnsureValidAnswer(answer);
 
             if (answer.ToLower() == "y")
             {

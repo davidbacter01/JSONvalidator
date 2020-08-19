@@ -19,6 +19,7 @@ namespace GetThingsDone
             High
         }
 
+        public List<string> Tags { get; }
         public string Title { get; set; }
         public string Description { get; set; }
         public State Status { get; set; } = State.Pending;
@@ -27,6 +28,7 @@ namespace GetThingsDone
         public Task(string title)
         {
             Title = title;
+            Tags = new List<string>();
         }
     }
 }
