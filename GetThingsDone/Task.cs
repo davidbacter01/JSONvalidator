@@ -23,7 +23,7 @@ namespace GetThingsDone
         public string Title { get; set; }
         public string Description { get; set; }
         public State Status { get; set; } = State.Pending;
-        public Priority Importance { get; set; }
+        public Priority Importance { get; set; } = Priority.Low;
 
         public Task(string title)
         {
