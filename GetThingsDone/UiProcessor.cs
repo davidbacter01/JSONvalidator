@@ -32,8 +32,14 @@ namespace GetThingsDone
                 case "-remove":
                     Console.WriteLine(Manager.Remove(command[1]) ? "task removed" : "task doesn't exist");
                     break;
+                case "-list":
+                    DisplayTasks(Manager.GetTasks());
+                    break;
                 case "-help":
                     DisplayCommands(Manager.GetCommands());
+                    break;
+                default:
+                    Console.WriteLine("Invalid command! type -help to see available options.");
                     break;
             }
         }
@@ -43,6 +49,16 @@ namespace GetThingsDone
             foreach (var command in commands)
             {
                 Console.WriteLine(command);
+            }
+        }
+
+        private static void DisplayTasks(IEnumerable<Task> tasks)
+        {
+            foreach (var task in tasks)
+            {
+                Console.WriteLine($" Task: {task.Title}" +
+                                  $"\n Priority: {task.Priority}\n" +
+                                  $" Description:\n{task.Description}");
             }
         }
     }

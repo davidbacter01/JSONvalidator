@@ -6,13 +6,7 @@ namespace GetThingsDone
 {
     public class Task
     {
-        public enum State
-        {
-            Pending,
-            Done
-        }
-
-        public enum Priority
+        public enum Importance
         {
             Low,
             Medium,
@@ -22,12 +16,10 @@ namespace GetThingsDone
         public List<string> Tags { get; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public State Status { get; set; } = State.Pending;
-        public Priority Importance { get; set; } = Priority.Low;
+        public Importance Priority { get; set; } = Importance.Low;
 
-        public Task(string title)
+        public Task()
         {
-            Title = title;
             Tags = new List<string>();
         }
     }
