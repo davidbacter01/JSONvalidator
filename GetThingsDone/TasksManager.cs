@@ -23,7 +23,7 @@ namespace GetThingsDone
                     Console.WriteLine(Add(command[1]) ? "task added" : "task already exists");
                     break;
                 case "-remove":
-                    Remove(command[1]);
+                    Console.WriteLine(Remove(command[1]) ? "task removed" : "task doesn't exist");
                     break;
             }
 
@@ -44,9 +44,17 @@ namespace GetThingsDone
             return true;
         }
 
-        private static void Remove(string title)
+        private static bool Remove(string title)
         {
-            throw new NotImplementedException();
+            var taskList = File.ReadAllLines(Path);
+            var updatedTasks = taskList.Where(t=>!t.Contains($"\"Title\":\"{title}\""));
+            if (taskList.Length == updatedTasks.Count())
+            {
+                return false;
+            }
+
+            File.WriteAllLines(Path, updatedTasks);
+            return true;
         }
     }
 }
