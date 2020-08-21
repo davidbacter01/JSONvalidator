@@ -1,36 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Linq;
 
 namespace GetThingsDone
 {
-    public static class TasksManager
+    public  class TasksManager
     {
-        private static readonly string[] Commands = {"-add", "-remove"};
+        private readonly Dictionary<string, string> _commands;
         private const string Path = "./Database/Tasks.txt";
 
-        public static bool ProcessCommand(string[] command)
+        public TasksManager()
         {
-            if (!Commands.Contains(command[0]))
+            _commands = new Dictionary<string, string>
             {
-                return false;
-            }
-
-            switch (command[0])
-            {
-                case "-add":
-                    Console.WriteLine(Add(command[1]) ? "task added" : "task already exists");
-                    break;
-                case "-remove":
-                    Console.WriteLine(Remove(command[1]) ? "task removed" : "task doesn't exist");
-                    break;
-            }
-
-            return true;
+                {"-add", "adds a task with the specified title to the database (ex: -add \"new task\")"},
+                {"-remove","removes the task with the specified title from the database (ex: -remove \"existing task\")"},
+                {"-help","see all available commands"}
+            };
         }
 
-        private static bool Add(string title)
+        public bool ContainsCommand(string command)
+        {
+            return _commands.ContainsKey(command);
+        }
+
+        public IEnumerable<string> GetCommands()
+        {
+            return _commands.Select(x => $"{x.Key}\n{x.Value}");
+        }
+
+        public bool Add(string title)
         {
             var task = new Task(title);
             var jsonTask = JsonSerializer.Serialize(task);
@@ -44,7 +45,7 @@ namespace GetThingsDone
             return true;
         }
 
-        private static bool Remove(string title)
+        public bool Remove(string title)
         {
             var taskList = File.ReadAllLines(Path);
             var updatedTasks = taskList.Where(t=>!t.Contains($"\"Title\":\"{title}\""));

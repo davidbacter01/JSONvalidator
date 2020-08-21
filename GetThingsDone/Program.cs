@@ -7,7 +7,7 @@ namespace GetThingsDone
     {
         static void Main(string[] args)
         {
-            TasksManager.ProcessCommand(args);
+            UiProcessor.ProcessCommand(args);
         }
     }
 }
