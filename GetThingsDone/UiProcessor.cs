@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GetThingsDone
 {
@@ -10,15 +9,7 @@ namespace GetThingsDone
 
         public static void ProcessCommand(string[] command)
         {
-            try
-            {
-                if (!Manager.ContainsCommand(command[0]))
-                {
-                    Console.WriteLine("Invalid command! Please type -help to see available options");
-                    return;
-                }
-            }
-            catch (IndexOutOfRangeException)
+            if (command.Length == 0)
             {
                 Console.WriteLine("Please type -help to see what this app can do!");
                 return;

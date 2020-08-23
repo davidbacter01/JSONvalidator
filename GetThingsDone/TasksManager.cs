@@ -27,11 +27,6 @@ namespace GetThingsDone
             return File.ReadAllLines(Path).Select(x => JsonSerializer.Deserialize<Task>(x));
         }
 
-        public bool ContainsCommand(string command)
-        {
-            return _commands.ContainsKey(command);
-        }
-
         public IEnumerable<string> GetCommands()
         {
             return _commands.Select(x => $"{x.Key}\n{x.Value}");
@@ -54,8 +49,8 @@ namespace GetThingsDone
         public bool Remove(string title)
         {
             var taskList = File.ReadAllLines(Path);
-            var updatedTasks = taskList.Where(t=>!t.Contains($"\"Title\":\"{title}\""));
-            if (taskList.Length == updatedTasks.Count())
+            var updatedTasks = taskList.Where(t => !t.Contains($"\"Title\":\"{title}\"")).ToArray();
+            if (taskList == updatedTasks)
             {
                 return false;
             }
