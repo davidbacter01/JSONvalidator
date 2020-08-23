@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GetThingsDone
 {
@@ -11,6 +12,8 @@ namespace GetThingsDone
             High
         }
 
+        public DateTime AddedDate { get; }
+        public DateTime DueDateTime { get; set; }
         public List<string> Tags { get; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -19,6 +22,7 @@ namespace GetThingsDone
         public Task()
         {
             Tags = new List<string>();
+            AddedDate = DateTime.Now;
         }
     }
 }

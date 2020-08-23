@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace GetThingsDone
 {
@@ -49,6 +50,8 @@ namespace GetThingsDone
             {
                 Console.WriteLine($" Task: {task.Title}" +
                                   $"\n Priority: {task.Priority}\n" +
+                                  $"Added: {task.AddedDate.ToString(CultureInfo.InvariantCulture)}\n"+
+                                  $"Due Date: {task.DueDateTime.ToString(CultureInfo.InvariantCulture)}"+
                                   $" Description:\n{task.Description}");
             }
         }
