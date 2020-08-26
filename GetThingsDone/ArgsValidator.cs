@@ -18,16 +18,14 @@ namespace GetThingsDone
 
         public bool AreArgumentsValid()
         {
-            if (!_primaryCommands.Contains(_arguments[0]))
-            {
-                return false;
-            }
-
-            return ValidateSecondaryArguments();
+            return _primaryCommands.Contains(_arguments[0]) && ValidateSecondaryArguments();
         }
 
         private bool ValidateSecondaryArguments()
         {
+            if (_arguments.Length != 2 || _arguments.Length % 2 != 0)
+                return false;
+
             for (int i = 2; i < _arguments.Length; i += 2)
             {
                 if (!_secondaryCommands.Contains(_arguments[i]))
