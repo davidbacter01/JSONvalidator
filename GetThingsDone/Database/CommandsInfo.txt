@@ -1,0 +1,55 @@
+﻿===============================================================
+PRIMARY COMMANDS:
+ ---------------------------------------------------------------
+| add                                                            |
+| -adds a task with the specified title to the database          |
+| -takes task_name as paramether (ex: -add "new task")           |
+| -can be combined with: "--description", "--due_date",          |
+|                         "--priority", "--complexity"           |
+ ---------------------------------------------------------------
+| remove                                                         |
+| -removes the task with the specified title from the database   |
+| -takes task_name as paramether (ex: remove "existing task")    |
+ ---------------------------------------------------------------
+| update                                                         |
+| -updates task with specified name                              |
+| -takes task_name as mandatory paramether                       |
+| -combines with:"--title", "--description", "--due_date",       |
+|                "--priority", "--complexity"                    |
+ ---------------------------------------------------------------
+| list                                                           |
+| -prints all saved tasks                                        |
+| -takes no paramethers                                          |
+ ---------------------------------------------------------------
+| help                                                           |
+| -see all available commands                                    |
+| -takes no paramethers                                          |
+ ---------------------------------------------------------------
+##
+SECONDARY COMMANDS:
+----------------------------------------------------------------
+ --title 
+ *takes a string paramether enclosed between double quotes
+ *sets Title atribute of a task to specified string
+ *is used in combination with "update"
+----------------------------------------------------------------
+ --description
+ *takes a string paramether enclosed between double quotes
+ *sets Description atribute of specified Task
+ *is used in combination with "add" or "update"
+----------------------------------------------------------------
+ --due_date
+ *specifies DueDateTime atribute of a task
+ *takes string as argument in format 
+ *used in combination with "add" and "update"
+----------------------------------------------------------------
+ --priority 
+ *specifies the Priority attribute of a Task
+ *takes int as paramether with values of 0,1 or 2
+ *used in combination with "add" and "update"
+----------------------------------------------------------------
+ --complexity
+ *specifies the ComplexityLevel attribute of a Task
+ *takes int as paramether with values of 0,1 or 2
+ *used in combination with "add" and "update"
+================================================================

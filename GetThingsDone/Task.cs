@@ -5,7 +5,7 @@ namespace GetThingsDone
 {
     public class Task
     {
-        public enum Importance
+        public enum Level
         {
             Low,
             Medium,
@@ -14,14 +14,12 @@ namespace GetThingsDone
 
         public DateTime AddedDate { get; }
         public DateTime DueDateTime { get; set; }
-        public List<string> Tags { get; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public Importance Priority { get; set; } = Importance.Low;
-
+        public Level Priority { get; set; } = Level.Low;
+        public Level ComplexityLevel { get; set; } = Level.Low;
         public Task()
         {
-            Tags = new List<string>();
             AddedDate = DateTime.Now;
         }
     }
