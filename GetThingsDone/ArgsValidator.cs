@@ -11,14 +11,21 @@ namespace GetThingsDone
 
         public ArgsValidator(string[] args)
         {
-            _arguments = args ?? throw new ArgumentNullException(nameof(args));
+            _arguments = args;
             _primaryCommands = new[] {"add", "remove", "update", "list", "help"};
             _secondaryCommands = new[] {"--title", "--description", "--due_date", "--priority", "--complexity"};
         }
 
         public bool AreArgumentsValid()
         {
-            return _primaryCommands.Contains(_arguments[0]) && ValidateSecondaryArguments();
+            try
+            {
+                return _primaryCommands.Contains(_arguments[0]) && ValidateSecondaryArguments();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private bool ValidateSecondaryArguments()

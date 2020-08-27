@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using GetThingsDone.Commands;
 
 namespace GetThingsDone
 {
@@ -8,18 +9,19 @@ namespace GetThingsDone
     {
         static void Main(string[] args)
         {
-            var argsValidator = new ArgsValidator(args);
-            if (argsValidator.AreArgumentsValid())
+            var parser = new ArgsParser(args);
+            try
             {
-                var organizer = new TaskOrganizer(
-                    "./Database/Tasks.txt",
-                    "./Database/Complex.txt",
-                    "./Database/Projects.txt");
-                organizer.ProcessCommands(args);
+                var commands = parser.Parse();
+                foreach (var command in commands)
+                {
+                    Console.WriteLine(command.ExecuteCommand() ? "executed command {0}" : "failed to execute {0}",
+                        command.Name);
+                }
             }
-            else
+            catch (ArgumentException)
             {
-                Console.WriteLine("Invalid command! Run help for commands list!");
+                Console.WriteLine("Argument format invalid! Type help for more info!");
             }
         }
     }
