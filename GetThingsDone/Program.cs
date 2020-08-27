@@ -8,30 +8,19 @@ namespace GetThingsDone
     {
         static void Main(string[] args)
         {
-            if (args[0] == "help")
+            var argsValidator = new ArgsValidator(args);
+            if (argsValidator.AreArgumentsValid())
             {
-                var menu = File.ReadAllLines("./Database/CommandsInfo.txt");
-                foreach (var line in menu)
-                {
-                    Console.WriteLine(line);
-                }
+                var organizer = new TaskOrganizer(
+                    "./Database/Tasks.txt",
+                    "./Database/Complex.txt",
+                    "./Database/Projects.txt");
+                organizer.ProcessCommands(args);
             }
-
-            try
+            else
             {
-                var validator = new ArgsValidator(args);
-                if (!validator.AreArgumentsValid())
-                {
-                    Console.WriteLine("Invalid input format!");
-                    Console.WriteLine("Type \"help\" to see available commands!");
-                }
+                Console.WriteLine("Invalid command! Run help for commands list!");
             }
-            catch (ArgumentNullException)
-            {
-                Console.WriteLine("Type \"help\" to see available commands!");
-            }
-
-            var manager = new TasksManager("./Database/Tasks.txt");
         }
     }
 }

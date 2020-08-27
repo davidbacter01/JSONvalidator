@@ -23,6 +23,9 @@ namespace GetThingsDone
 
         private bool ValidateSecondaryArguments()
         {
+            if (_arguments.Length == 1 && _arguments[0] == "help")
+                return true;
+
             if (_arguments.Length != 2 || _arguments.Length % 2 != 0)
                 return false;
 
