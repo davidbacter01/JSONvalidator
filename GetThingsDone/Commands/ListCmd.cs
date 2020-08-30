@@ -4,7 +4,12 @@ using System.Text;
 
 namespace GetThingsDone.Commands
 {
-    class ListCmd
+    class ListCmd : ICommand
     {
+        public string Name { get; }
+        public bool ExecuteCommand()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

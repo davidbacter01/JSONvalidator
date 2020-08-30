@@ -6,7 +6,7 @@ namespace GetThingsDone.Commands
 {
     class UpdateCmd : ICommand
     {
-        public string Name { get; }
+        public string Name { get; } = "update";
         public bool ExecuteCommand()
         {
             throw new NotImplementedException();

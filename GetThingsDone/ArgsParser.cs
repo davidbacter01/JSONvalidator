@@ -38,7 +38,7 @@ namespace GetThingsDone
         {
             if (_args.Dequeue() == "add")
             {
-                return new[] {new AddCommand(_args.Dequeue()),};
+                return new[] {new AddCmd(_args.Dequeue()),};
             }
 
             throw new NotImplementedException();
