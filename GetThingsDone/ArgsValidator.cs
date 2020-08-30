@@ -25,12 +25,7 @@ namespace GetThingsDone
                 return _arguments.Length == 1;
             }
 
-            if (_primaryCommands.Contains(_arguments[0]))
-            {
-                return ValidatePrimaryCommands();
-            }
-
-            return false;
+            return _primaryCommands.Contains(_arguments[0]) && ValidatePrimaryCommands();
         }
 
         private bool ValidatePrimaryCommands()
@@ -46,14 +41,23 @@ namespace GetThingsDone
 
         private bool ValidateUpdate()
         {
-            throw new NotImplementedException();
+            return HasTitle() &&
+                   ValidateSecondaryArguments() &&
+                   ArgumentsHaveParamethers();
         }
 
         private bool ValidateRemove()
         {
-            return _arguments[1] == "--title" &&
-                   _arguments[2] != null &&
-                   _arguments.Length == 3;
+            try
+            {
+                return _arguments[1] == "--title" &&
+                       _arguments[2] != null &&
+                       _arguments.Length == 3;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return false;
+            }
         }
 
         private bool ValidateAdd()
@@ -109,7 +113,7 @@ namespace GetThingsDone
                 return false;
             }
 
-            for (int i = 3; i < _arguments.Length; i++)
+            for (int i = 3; i < _arguments.Length; i += 2)
             {
                 if (string.IsNullOrEmpty(_arguments[i]))
                 {

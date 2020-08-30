@@ -44,7 +44,17 @@ namespace GetThingsDone.Tests
         {
             var v = new ArgsValidator(new[] {"remove", "--title", "this is title"});
             Assert.True(v.AreArgumentsValid());
+            v = new ArgsValidator(new[] {"remove", "--title"});
+            Assert.False(v.AreArgumentsValid());
+        }
 
+        [Fact]
+        public void ValidatesUpdate()
+        {
+            var v = new ArgsValidator(new[] {"update", "--title", "this title", "--description", "description"});
+            Assert.True(v.AreArgumentsValid());
+            v = new ArgsValidator(new[] {"update", "-title", "this title", "--description", "some description"});
+            Assert.False(v.AreArgumentsValid());
         }
     }
 }
