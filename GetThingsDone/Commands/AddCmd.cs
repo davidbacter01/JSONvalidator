@@ -5,12 +5,12 @@ using System.Text;
 
 namespace GetThingsDone.Commands
 {
-    public class AddCommand : ICommand
+    public class AddCmd : ICommand
     {
         private readonly Task _toAdd;
         private readonly Persistency _tasksPersistency;
         private readonly HashSet<Task> _tasks;
-        public AddCommand(string title)
+        public AddCmd(string title)
         {
             _toAdd = new Task() {Title = title, AddedDate = DateTime.Now};
             _tasksPersistency = new Persistency("./Database/Tasks.txt");
