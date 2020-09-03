@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 
 namespace GetThingsDone.Commands
 {
@@ -14,7 +15,14 @@ namespace GetThingsDone.Commands
         {
             _toAdd = new Task() {Title = title, AddedDate = DateTime.Now};
             _tasksPersistency = new Persistency("./Database/Tasks.txt");
-            _tasks = new HashSet<Task>(_tasksPersistency.RetrieveTasks());
+            try
+            {
+                _tasks = new HashSet<Task>(_tasksPersistency.RetrieveTasks());
+            }
+            catch (JsonException)
+            {
+                _tasks=new HashSet<Task>();
+            }
         }
 
         public string Name { get; } = "add";

@@ -18,13 +18,15 @@ namespace GetThingsDone
 
         public IEnumerable<Task> RetrieveTasks()
         {
-            var jsonTasks = File.ReadAllLines(_path);
-            if (jsonTasks == null)
+            try
+            {
+                var jsonTasks = File.ReadAllLines(_path);
+                return jsonTasks.Select(t => JsonSerializer.Deserialize<Task>(t));
+            }
+            catch (Exception)
             {
                 return new Task[] { };
             }
-
-            return jsonTasks.Select(t => JsonSerializer.Deserialize<Task>(t));
         }
 
         public void WriteTasksToFile(IEnumerable<Task> tasks)

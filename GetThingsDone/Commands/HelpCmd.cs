@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace GetThingsDone.Commands
@@ -9,7 +10,14 @@ namespace GetThingsDone.Commands
         public string Name { get; } = "help";
         public bool ExecuteCommand()
         {
-            throw new NotImplementedException();
+            var path = "./Database/CommandsInfo.txt";
+            var lines = File.ReadAllLines(path);
+            foreach (var line in lines)
+            {
+                Console.WriteLine(line);
+            }
+
+            return true;
         }
     }
 }
