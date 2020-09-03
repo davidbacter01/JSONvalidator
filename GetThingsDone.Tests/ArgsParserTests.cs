@@ -27,16 +27,18 @@ namespace GetThingsDone.Tests
             Assert.False(v.TryParse(out add));
             Assert.Null(add);
         }
-        /*
+
         [Fact]
         public void ValidatesListCommand()
         {
             var v = new ArgsParser(new[] {"list"});
-            Assert.True(v.ArgumentsAreValid());
+            Assert.True(v.TryParse(out var list));
+            Assert.Equal("list",list.Name);
             v = new ArgsParser(new[] {"list", "something"});
-            Assert.False(v.ArgumentsAreValid());
+            Assert.False(v.TryParse(out list));
+            Assert.Null(list);
         }
-
+        /*
         [Fact]
         public void ValidatesHelpCommand()
         {
