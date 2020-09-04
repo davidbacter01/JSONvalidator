@@ -151,7 +151,7 @@ namespace GetThingsDone
                 "add" => new AddCmd(_arguments[2]),
                 "update" => new UpdateCmd(),
                 "list" => new ListCmd(),
-                "remove" => new RemoveCmd(),
+                "remove" => new RemoveCmd(_arguments[2]),
                 _ => new HelpCmd()
             };
         }

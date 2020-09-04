@@ -38,32 +38,38 @@ namespace GetThingsDone.Tests
             Assert.False(v.TryParse(out list));
             Assert.Null(list);
         }
-        /*
+        
         [Fact]
         public void ValidatesHelpCommand()
         {
             var v = new ArgsParser(new [] {"help"});
-            Assert.True(v.ArgumentsAreValid());
+            Assert.True(v.TryParse(out var help));
+            Assert.Equal("help",help.Name);
             v = new ArgsParser(new[] {"help", "something"});
-            Assert.False(v.ArgumentsAreValid());
+            Assert.False(v.TryParse(out help));
+            Assert.Null(help);
         }
-
+        
         [Fact]
         public void ValidatesRemoveCommand()
         {
             var v = new ArgsParser(new[] {"remove", "--title", "this is title"});
-            Assert.True(v.ArgumentsAreValid());
+            Assert.True(v.TryParse(out var remove));
+            Assert.Equal("remove",remove.Name);
             v = new ArgsParser(new[] {"remove", "--title"});
-            Assert.False(v.ArgumentsAreValid());
+            Assert.False(v.TryParse(out remove));
+            Assert.Null(remove);
         }
 
         [Fact]
         public void ValidatesUpdate()
         {
             var v = new ArgsParser(new[] {"update", "--title", "this title", "--description", "description"});
-            Assert.True(v.ArgumentsAreValid());
+            Assert.True(v.TryParse(out var update));
+            Assert.Equal("update",update.Name);
             v = new ArgsParser(new[] {"update", "-title", "this title", "--description", "some description"});
-            Assert.False(v.ArgumentsAreValid());
-        }*/
+            Assert.False(v.TryParse(out update));
+            Assert.Null(update);
+        }
     }
 }
