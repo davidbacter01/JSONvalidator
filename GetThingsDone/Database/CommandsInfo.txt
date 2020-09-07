@@ -4,7 +4,7 @@ PRIMARY COMMANDS:
 | add                                                            |
 | -adds a task with the specified title to the database          |
 | -must mention task title (ex: add --title "new task")          |
-| -can be combined with: "--description", "--due_date",          |
+| -can be combined with: "--description", "--due",          |
 |                         "--priority", "--complexity"           |
  ---------------------------------------------------------------
 | remove                                                         |
@@ -15,7 +15,7 @@ PRIMARY COMMANDS:
 | update                                                         |
 | -updates task with specified name                              |
 | -must mention task title                                       |
-| -combines with:"--title", "--description", "--due_date",       |
+| -combines with:"--title", "--description", "--due",       |
 |                "--priority", "--complexity"                    |
 | ex: update --title "some existing task" --priority "low"       |
  ---------------------------------------------------------------
@@ -38,15 +38,15 @@ SECONDARY COMMANDS:
  *takes a string paramether enclosed between double quotes
  *specifies Description atribute of a task
 ----------------------------------------------------------------
- --due_date
- *specifies DueDateTime atribute of a task
- *takes string as argument in format 
+ --due
+ *specifies Due atribute of a task (when it is expected to be completed)
+ *takes string as argument in format dd/mm/yyyy
 ----------------------------------------------------------------
  --priority 
- *specifies the Priority attribute of a Task
+ *specifies the Priority attribute of a Task (how critical is to achieve it)
  *takes string as paramether with values of "low","medium" or "high"
 ----------------------------------------------------------------
  --complexity
- *specifies the ComplexityLevel attribute of a Task
+ *specifies the Complexity attribute of a Task (how difficult is to complete)
  *takes string as paramether with values of "low","medium" or "high"
 ================================================================

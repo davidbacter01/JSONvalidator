@@ -1,1 +1,2 @@
-{"AddedDate":"2020-09-03T17:19:59.8685881+03:00","DueDateTime":"0001-01-01T00:00:00","Title":"second task","Description":null,"Priority":0,"ComplexityLevel":0}
+{"AddedDate":"2020-09-06T15:17:30.0122012+03:00","Due":"2020-11-09T00:00:00","Title":"task in new format","Description":"first updated task","Priority":2,"Complexity":0,"Tags":[]}
+{"AddedDate":"2020-09-06T15:17:30.0122012+03:00","Due":"2020-11-09T00:00:00","Title":"updated title","Description":"first updated task","Priority":2,"Complexity":0,"Tags":[]}

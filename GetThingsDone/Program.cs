@@ -12,7 +12,7 @@ namespace GetThingsDone
             var parser = new ArgsParser(args);
             try
             {
-                if (parser.TryParse(out ICommand command))
+                if (parser.TryParse(out var command))
                 {
                     Console.WriteLine(
                         command.ExecuteCommand() ? "executed command {0}" : "failed to execute command {0}",

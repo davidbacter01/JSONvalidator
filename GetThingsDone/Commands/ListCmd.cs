@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GetThingsDone.Commands
 {
@@ -29,7 +27,7 @@ namespace GetThingsDone.Commands
         {
             Console.WriteLine($"Name: {task.Title}\n" +
                               $"Added: {task.AddedDate}\n" +
-                              $"Due: {task.DueDateTime}\n" +
+                              $"Due: {task.Due}\n" +
                               $"Description: {task.Description}\n" +
                               $"Priority: {task.Priority}");
             Console.WriteLine();

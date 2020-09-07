@@ -64,7 +64,7 @@ namespace GetThingsDone.Tests
         [Fact]
         public void ValidatesUpdate()
         {
-            var v = new ArgsParser(new[] {"update", "--title", "this title", "--description", "description"});
+            var v = new ArgsParser(new[] {"update", "--title", "1", "--description", "description"});
             Assert.True(v.TryParse(out var update));
             Assert.Equal("update",update.Name);
             v = new ArgsParser(new[] {"update", "-title", "this title", "--description", "some description"});

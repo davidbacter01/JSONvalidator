@@ -17,7 +17,7 @@ namespace GetThingsDone
             _arguments = args;
             _simpleCommands = new[] {"list", "help"};
             _primaryCommands = new[] {"add", "remove", "update"};
-            _secondaryCommands = new[] {"--title", "--description", "--due_date", "--priority", "--complexity"};
+            _secondaryCommands = new[] {"--title", "--description", "--due", "--priority", "--complexity"};
         }
 
         public bool TryParse(out ICommand command)
@@ -149,7 +149,7 @@ namespace GetThingsDone
             {
                 "help" => new HelpCmd(),
                 "add" => new AddCmd(_arguments[2]),
-                "update" => new UpdateCmd(),
+                "update" => new UpdateCmd(_arguments),
                 "list" => new ListCmd(),
                 "remove" => new RemoveCmd(_arguments[2]),
                 _ => new HelpCmd()
